@@ -10,7 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import Template from "./pages/Template";
 import Schedule from "./pages/Schedule";
 import Report from "./pages/Report";
-import Sessions from "./pages/Sessions";
+import Settings from "./pages/Settings";
 import CandidateDetail from "./pages/CandidateDetail";
 import NotFound from "./pages/NotFound";
 
