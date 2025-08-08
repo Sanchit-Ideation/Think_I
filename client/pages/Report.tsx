@@ -40,9 +40,10 @@ import {
 } from 'lucide-react';
 
 const reportTabs = [
-  { id: 'session', name: 'Session (Candidate Insights)', icon: Users },
-  { id: 'template', name: 'Template Insights', icon: FileText },
-  { id: 'interviewer', name: 'Interviewer Insights', icon: User }
+  { id: 'session', name: 'Session Report', icon: Users },
+  { id: 'candidate', name: 'Candidate Report', icon: User },
+  { id: 'interviewer', name: 'Interviewer Report', icon: Award },
+  { id: 'template', name: 'Template Report', icon: FileText }
 ];
 
 // Session/Candidate data
@@ -131,6 +132,7 @@ const interviewerSkillAnalysis = [
 export default function Report() {
   const [activeTab, setActiveTab] = useState('session');
   const [timeRange, setTimeRange] = useState('30d');
+  const [selectedCandidate, setSelectedCandidate] = useState<any>(null);
 
   const getVerdictColor = (verdict: string) => {
     switch (verdict) {
@@ -196,7 +198,7 @@ export default function Report() {
         })}
       </div>
 
-      {/* Session (Candidate Insights) Tab */}
+      {/* Session Report Tab - Default Candidate List View */}
       {activeTab === 'session' && (
         <div className="space-y-8">
           {/* Overview Cards */}
@@ -311,7 +313,7 @@ export default function Report() {
           {/* Candidate Performance Table */}
           <div className="bg-card border border-border rounded-xl p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-foreground">Candidates Overview</h3>
+              <h3 className="text-lg font-semibold text-foreground">Session Report - Candidates Overview</h3>
               <div className="flex items-center space-x-2">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
@@ -350,7 +352,14 @@ export default function Report() {
                 </thead>
                 <tbody>
                   {candidateOverview.map((candidate, index) => (
-                    <tr key={index} className="border-b border-border hover:bg-muted/50">
+                    <tr
+                      key={index}
+                      className="border-b border-border hover:bg-muted/50 cursor-pointer"
+                      onClick={() => {
+                        setSelectedCandidate(candidate);
+                        setActiveTab('candidate');
+                      }}
+                    >
                       <td className="py-2 px-2 text-xs text-foreground">{candidate.candidate_id}</td>
                       <td className="py-2 px-2">
                         <div className="flex items-center space-x-2">
@@ -434,7 +443,97 @@ export default function Report() {
         </div>
       )}
 
-      {/* Template Insights Tab */}
+      {/* Candidate Report Tab - Individual Candidate Analysis */}
+      {activeTab === 'candidate' && (
+        <div className="space-y-8">
+          {selectedCandidate ? (
+            <>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <button
+                    onClick={() => setActiveTab('session')}
+                    className="text-primary hover:text-primary/80 transition-colors"
+                  >
+                    ← Back to Session Report
+                  </button>
+                  <div>
+                    <h2 className="text-2xl font-bold text-foreground">{selectedCandidate.candidate_name}</h2>
+                    <p className="text-muted-foreground">{selectedCandidate.applied_role} - Interview Analysis</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Candidate Analysis Content - Reuse from existing CandidateDetail */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div className="bg-card border border-border rounded-xl p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground">AI Score</p>
+                      <p className="text-2xl font-bold text-foreground">{selectedCandidate.overall_score}</p>
+                    </div>
+                    <Brain className="w-8 h-8 text-purple-500" />
+                  </div>
+                </div>
+                <div className="bg-card border border-border rounded-xl p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground">Interviewer Score</p>
+                      <p className="text-2xl font-bold text-foreground">{selectedCandidate.overall_score - 3}</p>
+                    </div>
+                    <User className="w-8 h-8 text-blue-500" />
+                  </div>
+                </div>
+                <div className="bg-card border border-border rounded-xl p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground">Integrity Score</p>
+                      <p className="text-2xl font-bold text-foreground">{selectedCandidate.integrity_score}</p>
+                    </div>
+                    <Shield className="w-8 h-8 text-green-500" />
+                  </div>
+                </div>
+                <div className="bg-card border border-border rounded-xl p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground">Final Verdict</p>
+                      <p className="text-lg font-bold text-foreground">{selectedCandidate.suggestion}</p>
+                    </div>
+                    <Award className="w-8 h-8 text-yellow-500" />
+                  </div>
+                </div>
+              </div>
+
+              {/* UFM Timeline if any violations */}
+              {parseInt(selectedCandidate.ufm_count) > 0 && (
+                <div className="bg-card border border-border rounded-xl p-6">
+                  <h3 className="text-lg font-semibold text-foreground mb-4">Integrity Timeline</h3>
+                  <div className="space-y-3">
+                    {selectedCandidate.ufm_list.map((ufm: string, index: number) => (
+                      <div key={index} className="flex items-center space-x-3 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+                        <div className="w-2 h-2 bg-red-500 rounded-full" />
+                        <span className="text-red-700 text-sm">{ufm}</span>
+                        <span className="text-xs text-muted-foreground ml-auto">During interview</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">Please select a candidate from the Session Report to view detailed analysis.</p>
+              <button
+                onClick={() => setActiveTab('session')}
+                className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+              >
+                Go to Session Report
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Template Report Tab */}
       {activeTab === 'template' && (
         <div className="space-y-8">
           {/* Template Comparison */}
@@ -549,12 +648,12 @@ export default function Report() {
         </div>
       )}
 
-      {/* Interviewer Insights Tab */}
+      {/* Interviewer Report Tab */}
       {activeTab === 'interviewer' && (
         <div className="space-y-8">
           {/* Interviewer Performance Overview */}
           <div className="bg-card border border-border rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-foreground mb-4">Interviewer Performance & Improvement Areas</h3>
+            <h3 className="text-lg font-semibold text-foreground mb-4">Interviewer Report - Performance & Evaluation</h3>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
