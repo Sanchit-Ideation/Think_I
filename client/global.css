@@ -97,7 +97,4 @@
     @apply bg-background text-foreground min-h-screen;
   }
 
-  html {
-    @apply light;
-  }
 }
