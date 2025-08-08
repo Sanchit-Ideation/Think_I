@@ -1,30 +1,14 @@
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  PieChart,
-  Pie,
-  Cell
-} from 'recharts';
 import { 
   TrendingUp, 
   Users, 
   Clock, 
   Award, 
-  Brain, 
-  MessageSquare, 
-  Calendar,
   FileText,
   Settings,
-  Search
+  Search,
+  Calendar,
+  Brain
 } from 'lucide-react';
 
 const recentInterviews = [
@@ -35,38 +19,7 @@ const recentInterviews = [
   { id: 5, candidate: 'Anna Thompson', position: 'DevOps Engineer', score: 94, date: '2024-12-11', status: 'completed' }
 ];
 
-const performanceData = [
-  { week: 'Week 1', interviews: 12, avgScore: 78 },
-  { week: 'Week 2', interviews: 15, avgScore: 82 },
-  { week: 'Week 3', interviews: 18, avgScore: 85 },
-  { week: 'Week 4', interviews: 21, avgScore: 88 },
-];
-
-const skillsDistribution = [
-  { name: 'Technical', value: 35, color: '#8b5cf6' },
-  { name: 'Communication', value: 25, color: '#06b6d4' },
-  { name: 'Problem Solving', value: 20, color: '#10b981' },
-  { name: 'Leadership', value: 12, color: '#f59e0b' },
-  { name: 'Other', value: 8, color: '#6b7280' }
-];
-
-const positionData = [
-  { position: 'Software Engineer', count: 25, avgScore: 84 },
-  { position: 'Product Manager', count: 18, avgScore: 87 },
-  { position: 'Designer', count: 12, avgScore: 82 },
-  { position: 'Data Scientist', count: 15, avgScore: 79 },
-  { position: 'DevOps', count: 8, avgScore: 91 }
-];
-
 export default function Index() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedTimeframe, setSelectedTimeframe] = useState('month');
-
-  const filteredInterviews = recentInterviews.filter(interview =>
-    interview.candidate.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    interview.position.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   const totalInterviews = recentInterviews.length;
   const avgScore = Math.round(recentInterviews.reduce((acc, interview) => acc + interview.score, 0) / totalInterviews);
   const completedInterviews = recentInterviews.filter(i => i.status === 'completed').length;
@@ -95,8 +48,6 @@ export default function Index() {
                 <input
                   type="text"
                   placeholder="Search interviews..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10 pr-4 py-2 bg-muted border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
@@ -164,136 +115,51 @@ export default function Index() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-          {/* Performance Trend */}
-          <div className="lg:col-span-2 bg-card border border-border rounded-xl p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-foreground">Performance Trends</h3>
-              <select 
-                value={selectedTimeframe}
-                onChange={(e) => setSelectedTimeframe(e.target.value)}
-                className="bg-muted border border-border rounded-lg px-3 py-1 text-sm"
-              >
-                <option value="week">This Week</option>
-                <option value="month">This Month</option>
-                <option value="quarter">This Quarter</option>
-              </select>
-            </div>
-            <div className="h-80">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={performanceData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis dataKey="week" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                  <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: 'hsl(var(--card))',
-                      border: '1px solid hsl(var(--border))',
-                      borderRadius: '8px'
-                    }}
-                  />
-                  <Bar dataKey="interviews" fill="hsl(var(--primary))" name="Interviews" />
-                  <Bar dataKey="avgScore" fill="hsl(var(--secondary))" name="Average Score" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
+        {/* Recent Interviews */}
+        <div className="bg-card border border-border rounded-xl p-6 mb-8">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-semibold text-foreground">Recent Interviews</h3>
+            <Link 
+              to="/report" 
+              className="text-sm text-primary hover:text-primary/80 transition-colors"
+            >
+              View detailed report →
+            </Link>
           </div>
-
-          {/* Skills Distribution */}
-          <div className="bg-card border border-border rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-foreground mb-6">Skills Assessment</h3>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={skillsDistribution}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={80}
-                    dataKey="value"
-                    label={({ name, value }) => `${name}: ${value}%`}
-                    labelLine={false}
-                  >
-                    {skillsDistribution.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Recent Interviews */}
-          <div className="bg-card border border-border rounded-xl p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-foreground">Recent Interviews</h3>
-              <Link 
-                to="/report" 
-                className="text-sm text-primary hover:text-primary/80 transition-colors"
-              >
-                View all reports →
-              </Link>
-            </div>
-            <div className="space-y-4">
-              {filteredInterviews.slice(0, 5).map((interview) => (
-                <div key={interview.id} className="flex items-center justify-between p-4 bg-muted rounded-lg">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
-                        <span className="text-sm font-semibold text-white">
-                          {interview.candidate.split(' ').map(n => n[0]).join('')}
-                        </span>
-                      </div>
-                      <div>
-                        <p className="font-medium text-foreground">{interview.candidate}</p>
-                        <p className="text-sm text-muted-foreground">{interview.position}</p>
-                      </div>
+          <div className="space-y-4">
+            {recentInterviews.map((interview) => (
+              <div key={interview.id} className="flex items-center justify-between p-4 bg-muted rounded-lg">
+                <div className="flex-1">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                      <span className="text-sm font-semibold text-white">
+                        {interview.candidate.split(' ').map(n => n[0]).join('')}
+                      </span>
                     </div>
-                  </div>
-                  <div className="text-right">
-                    <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                      interview.score >= 90 ? 'bg-green-500/10 text-green-500' :
-                      interview.score >= 80 ? 'bg-blue-500/10 text-blue-500' :
-                      interview.score >= 70 ? 'bg-yellow-500/10 text-yellow-500' :
-                      'bg-red-500/10 text-red-500'
-                    }`}>
-                      {interview.score}%
+                    <div>
+                      <p className="font-medium text-foreground">{interview.candidate}</p>
+                      <p className="text-sm text-muted-foreground">{interview.position}</p>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">{interview.date}</p>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Position Analysis */}
-          <div className="bg-card border border-border rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-foreground mb-6">Position Analysis</h3>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={positionData} layout="horizontal">
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis type="number" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                  <YAxis dataKey="position" type="category" stroke="hsl(var(--muted-foreground))" fontSize={12} width={100} />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: 'hsl(var(--card))', 
-                      border: '1px solid hsl(var(--border))',
-                      borderRadius: '8px'
-                    }} 
-                  />
-                  <Bar dataKey="count" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
+                <div className="text-right">
+                  <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                    interview.score >= 90 ? 'bg-green-500/10 text-green-500' :
+                    interview.score >= 80 ? 'bg-blue-500/10 text-blue-500' :
+                    interview.score >= 70 ? 'bg-yellow-500/10 text-yellow-500' :
+                    'bg-red-500/10 text-red-500'
+                  }`}>
+                    {interview.score}%
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">{interview.date}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
         {/* Quick Actions */}
-        <div className="mt-8 bg-card border border-border rounded-xl p-6">
+        <div className="bg-card border border-border rounded-xl p-6">
           <h3 className="text-lg font-semibold text-foreground mb-6">Quick Actions</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Link 
