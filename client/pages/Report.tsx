@@ -13,8 +13,11 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  ScatterChart,
-  Scatter,
+  RadarChart,
+  Radar,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
   ComposedChart,
   Area,
   AreaChart
@@ -32,73 +35,86 @@ import {
   Shield,
   Eye,
   FileText,
+  User,
   Search
 } from 'lucide-react';
 
-const reportTypes = [
-  { id: 'session', name: 'Session Analytics', icon: Clock },
-  { id: 'job', name: 'Job Role Analytics', icon: Target },
-  { id: 'interviewer', name: 'Interviewer Performance', icon: Users },
-  { id: 'candidate', name: 'Candidate Analytics', icon: Award }
+const reportTabs = [
+  { id: 'session', name: 'Session (Candidate Insights)', icon: Users },
+  { id: 'template', name: 'Template Insights', icon: FileText },
+  { id: 'interviewer', name: 'Interviewer Insights', icon: User }
 ];
 
-const sessionAnalytics = [
-  { date: '2024-12-01', sessions: 45, completion_rate: 87, avg_score: 78, duration: 52 },
-  { date: '2024-12-02', sessions: 52, completion_rate: 91, avg_score: 82, duration: 48 },
-  { date: '2024-12-03', sessions: 38, completion_rate: 85, avg_score: 79, duration: 55 },
-  { date: '2024-12-04', sessions: 61, completion_rate: 89, avg_score: 84, duration: 51 },
-  { date: '2024-12-05', sessions: 47, completion_rate: 93, avg_score: 86, duration: 49 },
-  { date: '2024-12-06', sessions: 54, completion_rate: 88, avg_score: 81, duration: 53 },
-  { date: '2024-12-07', sessions: 43, completion_rate: 92, avg_score: 83, duration: 50 }
+// Session/Candidate data
+const candidatePerformance = [
+  { name: 'Sarah Johnson', ai_score: 87, interviewer_score: 85, behavioral_score: 92, integrity: 'Clean', verdict: 'Highly Recommended' },
+  { name: 'Michael Chen', ai_score: 78, interviewer_score: 82, behavioral_score: 85, integrity: 'Clean', verdict: 'Consider' },
+  { name: 'Emily Rodriguez', ai_score: 92, interviewer_score: 89, behavioral_score: 88, integrity: 'Clean', verdict: 'Highly Recommended' },
+  { name: 'David Kim', ai_score: 65, interviewer_score: 70, behavioral_score: 72, integrity: 'Suspicious', verdict: 'Not Recommended' },
+  { name: 'Anna Thompson', ai_score: 89, interviewer_score: 91, behavioral_score: 94, integrity: 'Clean', verdict: 'Highly Recommended' }
 ];
 
-const jobRoleAnalytics = [
-  { role: 'Software Engineer', interviews: 847, hired: 89, pass_rate: 68, avg_score: 78, time_to_hire: 18 },
-  { role: 'Product Manager', interviews: 423, hired: 67, pass_rate: 72, avg_score: 82, time_to_hire: 22 },
-  { role: 'Data Scientist', interviews: 356, hired: 52, pass_rate: 65, avg_score: 76, time_to_hire: 25 },
-  { role: 'UX Designer', interviews: 298, hired: 78, pass_rate: 78, avg_score: 84, time_to_hire: 20 },
-  { role: 'DevOps Engineer', interviews: 167, hired: 34, pass_rate: 81, avg_score: 87, time_to_hire: 16 }
+const sessionTrends = [
+  { week: 'Week 1', total_sessions: 45, avg_ai_score: 78, avg_interviewer_score: 82, completion_rate: 87 },
+  { week: 'Week 2', total_sessions: 52, avg_ai_score: 81, avg_interviewer_score: 79, completion_rate: 91 },
+  { week: 'Week 3', total_sessions: 48, avg_ai_score: 84, avg_interviewer_score: 85, completion_rate: 89 },
+  { week: 'Week 4', total_sessions: 61, avg_ai_score: 86, avg_interviewer_score: 88, completion_rate: 93 }
 ];
 
-const interviewerPerformance = [
-  { name: 'John Smith', interviews: 234, avg_score: 82, consistency: 94, feedback_rating: 4.7, department: 'Engineering' },
-  { name: 'Emily Davis', interviews: 189, avg_score: 85, consistency: 91, feedback_rating: 4.8, department: 'Product' },
-  { name: 'Alex Wilson', interviews: 156, avg_score: 79, consistency: 88, feedback_rating: 4.5, department: 'Design' },
-  { name: 'Lisa Brown', interviews: 198, avg_score: 87, consistency: 96, feedback_rating: 4.9, department: 'Engineering' },
-  { name: 'Mark Johnson', interviews: 167, avg_score: 81, consistency: 89, feedback_rating: 4.6, department: 'Product' }
+// Template insights data
+const templateComparison = [
+  { template: 'Software Engineer V1', candidates: 234, hired: 89, success_rate: 68, avg_score: 78, time_to_hire: 18 },
+  { template: 'Software Engineer V2', candidates: 189, hired: 142, success_rate: 85, avg_score: 84, time_to_hire: 14 },
+  { template: 'Product Manager V1', candidates: 156, hired: 89, success_rate: 72, avg_score: 82, time_to_hire: 22 },
+  { template: 'Product Manager V2', candidates: 123, hired: 98, success_rate: 79, avg_score: 86, time_to_hire: 19 }
 ];
 
-const candidateInsights = [
-  { score_range: '90-100', count: 89, hire_rate: 95, avg_experience: 8.2 },
-  { score_range: '80-89', count: 234, hire_rate: 78, avg_experience: 6.8 },
-  { score_range: '70-79', count: 456, hire_rate: 52, avg_experience: 5.4 },
-  { score_range: '60-69', count: 298, hire_rate: 23, avg_experience: 4.1 },
-  { score_range: '50-59', count: 167, hire_rate: 8, avg_experience: 3.2 }
+const templateFeatureImpact = [
+  { feature: 'Technical Assessment', impact_score: 92, usage_rate: 98 },
+  { feature: 'Behavioral Questions', impact_score: 87, usage_rate: 95 },
+  { feature: 'System Design', impact_score: 89, usage_rate: 78 },
+  { feature: 'Code Review', impact_score: 94, usage_rate: 89 },
+  { feature: 'Cultural Fit', impact_score: 85, usage_rate: 92 },
+  { feature: 'Portfolio Review', impact_score: 91, usage_rate: 67 }
 ];
 
-const skillsAnalysis = [
-  { skill: 'Technical Skills', avg_score: 78, difficulty: 'High', success_rate: 65 },
-  { skill: 'Communication', avg_score: 85, difficulty: 'Medium', success_rate: 82 },
-  { skill: 'Problem Solving', avg_score: 76, difficulty: 'High', success_rate: 68 },
-  { skill: 'Leadership', avg_score: 71, difficulty: 'Medium', success_rate: 59 },
-  { skill: 'Cultural Fit', avg_score: 88, difficulty: 'Low', success_rate: 91 },
-  { skill: 'Innovation', avg_score: 74, difficulty: 'High', success_rate: 62 }
+// Interviewer insights data
+const interviewerMetrics = [
+  { name: 'John Smith', interviews: 234, avg_score: 82, consistency: 94, candidate_feedback: 4.7, improvement_areas: ['Time Management', 'Technical Depth'] },
+  { name: 'Emily Davis', interviews: 189, avg_score: 85, consistency: 91, candidate_feedback: 4.8, improvement_areas: ['Question Variety'] },
+  { name: 'Alex Wilson', interviews: 156, avg_score: 79, consistency: 88, candidate_feedback: 4.5, improvement_areas: ['Communication Clarity', 'Follow-up Questions'] },
+  { name: 'Lisa Brown', interviews: 198, avg_score: 87, consistency: 96, candidate_feedback: 4.9, improvement_areas: ['None - Excellent Performance'] },
+  { name: 'Mark Johnson', interviews: 167, avg_score: 81, consistency: 89, candidate_feedback: 4.6, improvement_areas: ['Bias Awareness', 'Note Taking'] }
 ];
 
-const integrityMetrics = [
-  { month: 'Aug', authentic: 92, suspicious: 6, flagged: 2 },
-  { month: 'Sep', authentic: 89, suspicious: 8, flagged: 3 },
-  { month: 'Oct', authentic: 94, suspicious: 4, flagged: 2 },
-  { month: 'Nov', authentic: 91, suspicious: 7, flagged: 2 },
-  { month: 'Dec', authentic: 96, suspicious: 3, flagged: 1 }
+const interviewerSkillAnalysis = [
+  { skill: 'Question Quality', avg_score: 82, top_performer: 'Lisa Brown', improvement_needed: 3 },
+  { skill: 'Candidate Engagement', avg_score: 85, top_performer: 'Emily Davis', improvement_needed: 2 },
+  { skill: 'Technical Assessment', avg_score: 79, top_performer: 'John Smith', improvement_needed: 4 },
+  { skill: 'Time Management', avg_score: 77, top_performer: 'Lisa Brown', improvement_needed: 5 },
+  { skill: 'Bias Mitigation', avg_score: 74, top_performer: 'Emily Davis', improvement_needed: 6 }
 ];
 
 export default function Report() {
-  const [activeReport, setActiveReport] = useState('session');
-  const [timeRange, setTimeRange] = useState('7d');
-  const [selectedDepartment, setSelectedDepartment] = useState('all');
+  const [activeTab, setActiveTab] = useState('session');
+  const [timeRange, setTimeRange] = useState('30d');
 
-  const departments = ['all', 'Engineering', 'Product', 'Design', 'Marketing', 'Sales'];
+  const getVerdictColor = (verdict: string) => {
+    switch (verdict) {
+      case 'Highly Recommended': return 'bg-green-500/10 text-green-500';
+      case 'Consider': return 'bg-yellow-500/10 text-yellow-500';
+      case 'Not Recommended': return 'bg-red-500/10 text-red-500';
+      default: return 'bg-gray-500/10 text-gray-500';
+    }
+  };
+
+  const getIntegrityColor = (status: string) => {
+    switch (status) {
+      case 'Clean': return 'bg-green-500/10 text-green-500';
+      case 'Suspicious': return 'bg-red-500/10 text-red-500';
+      default: return 'bg-gray-500/10 text-gray-500';
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -119,17 +135,6 @@ export default function Report() {
             <option value="90d">Last 90 days</option>
             <option value="1y">Last year</option>
           </select>
-          <select
-            value={selectedDepartment}
-            onChange={(e) => setSelectedDepartment(e.target.value)}
-            className="bg-card border border-border rounded-lg px-3 py-2 text-sm"
-          >
-            {departments.map(dept => (
-              <option key={dept} value={dept}>
-                {dept === 'all' ? 'All Departments' : dept}
-              </option>
-            ))}
-          </select>
           <button className="flex items-center space-x-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
             <Download className="w-4 h-4" />
             <span>Export Report</span>
@@ -137,39 +142,83 @@ export default function Report() {
         </div>
       </div>
 
-      {/* Report Type Selector */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        {reportTypes.map((type) => {
-          const IconComponent = type.icon;
+      {/* Tab Navigation */}
+      <div className="flex space-x-1 bg-muted p-1 rounded-lg">
+        {reportTabs.map((tab) => {
+          const IconComponent = tab.icon;
           return (
             <button
-              key={type.id}
-              onClick={() => setActiveReport(type.id)}
-              className={`flex items-center space-x-3 p-4 rounded-xl border transition-all ${
-                activeReport === type.id
-                  ? 'bg-primary text-primary-foreground border-primary'
-                  : 'bg-card border-border hover:bg-muted'
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 text-sm font-medium rounded-md transition-colors ${
+                activeTab === tab.id
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              <IconComponent className="w-5 h-5" />
-              <span className="font-medium">{type.name}</span>
+              <IconComponent className="w-4 h-4" />
+              <span>{tab.name}</span>
             </button>
           );
         })}
       </div>
 
-      {/* Session Analytics */}
-      {activeReport === 'session' && (
+      {/* Session (Candidate Insights) Tab */}
+      {activeTab === 'session' && (
         <div className="space-y-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Session Trends */}
+          {/* Overview Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div className="bg-card border border-border rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Session Trends</h3>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Total Sessions</p>
+                  <p className="text-2xl font-bold text-foreground">206</p>
+                  <p className="text-xs text-green-500 mt-1">+12% from last period</p>
+                </div>
+                <Users className="w-8 h-8 text-blue-500" />
+              </div>
+            </div>
+            <div className="bg-card border border-border rounded-xl p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Avg AI Score</p>
+                  <p className="text-2xl font-bold text-foreground">83</p>
+                  <p className="text-xs text-green-500 mt-1">+5% improvement</p>
+                </div>
+                <Brain className="w-8 h-8 text-purple-500" />
+              </div>
+            </div>
+            <div className="bg-card border border-border rounded-xl p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Integrity Rate</p>
+                  <p className="text-2xl font-bold text-foreground">94%</p>
+                  <p className="text-xs text-green-500 mt-1">Clean sessions</p>
+                </div>
+                <Shield className="w-8 h-8 text-green-500" />
+              </div>
+            </div>
+            <div className="bg-card border border-border rounded-xl p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Highly Recommended</p>
+                  <p className="text-2xl font-bold text-foreground">127</p>
+                  <p className="text-xs text-blue-500 mt-1">62% of candidates</p>
+                </div>
+                <Award className="w-8 h-8 text-yellow-500" />
+              </div>
+            </div>
+          </div>
+
+          {/* Performance Trends */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="bg-card border border-border rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-foreground mb-4">AI vs Interviewer Score Trends</h3>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
-                  <ComposedChart data={sessionAnalytics}>
+                  <LineChart data={sessionTrends}>
                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                    <XAxis dataKey="week" stroke="hsl(var(--muted-foreground))" fontSize={12} />
                     <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
                     <Tooltip
                       contentStyle={{
@@ -178,11 +227,45 @@ export default function Report() {
                         borderRadius: '8px'
                       }}
                     />
-                    <Bar dataKey="sessions" fill="hsl(var(--primary))" name="Sessions" />
+                    <Line
+                      type="monotone"
+                      dataKey="avg_ai_score"
+                      stroke="hsl(var(--primary))"
+                      strokeWidth={2}
+                      name="AI Score"
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="avg_interviewer_score"
+                      stroke="#22c55e"
+                      strokeWidth={2}
+                      name="Interviewer Score"
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            <div className="bg-card border border-border rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-foreground mb-4">Session Volume & Completion</h3>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <ComposedChart data={sessionTrends}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis dataKey="week" stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                    <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: 'hsl(var(--card))',
+                        border: '1px solid hsl(var(--border))',
+                        borderRadius: '8px'
+                      }}
+                    />
+                    <Bar dataKey="total_sessions" fill="hsl(var(--primary))" name="Sessions" />
                     <Line
                       type="monotone"
                       dataKey="completion_rate"
-                      stroke="#22c55e"
+                      stroke="#f59e0b"
                       strokeWidth={2}
                       name="Completion Rate"
                     />
@@ -190,154 +273,99 @@ export default function Report() {
                 </ResponsiveContainer>
               </div>
             </div>
-
-            {/* Score Distribution */}
-            <div className="bg-card border border-border rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Average Scores vs Duration</h3>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <ScatterChart data={sessionAnalytics}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis dataKey="duration" stroke="hsl(var(--muted-foreground))" fontSize={12} name="Duration (min)" />
-                    <YAxis dataKey="avg_score" stroke="hsl(var(--muted-foreground))" fontSize={12} name="Avg Score" />
-                    <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-                    <Scatter dataKey="avg_score" fill="hsl(var(--primary))" />
-                  </ScatterChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
           </div>
 
-          {/* Skills Performance */}
+          {/* Candidate Performance Table */}
           <div className="bg-card border border-border rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-foreground mb-4">Skills Performance Analysis</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {skillsAnalysis.map((skill, index) => (
-                <div key={index} className="p-4 bg-muted rounded-lg">
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-medium text-foreground">{skill.skill}</h4>
-                    <span className={`px-2 py-1 rounded-full text-xs ${
-                      skill.difficulty === 'High' ? 'bg-red-500/10 text-red-500' :
-                      skill.difficulty === 'Medium' ? 'bg-yellow-500/10 text-yellow-500' :
-                      'bg-green-500/10 text-green-500'
-                    }`}>
-                      {skill.difficulty}
-                    </span>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Avg Score</span>
-                      <span className="text-foreground">{skill.avg_score}%</span>
-                    </div>
-                    <div className="bg-background rounded-full h-2">
-                      <div
-                        className="bg-primary h-2 rounded-full"
-                        style={{ width: `${skill.avg_score}%` }}
-                      />
-                    </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Success Rate</span>
-                      <span className="text-foreground">{skill.success_rate}%</span>
-                    </div>
-                  </div>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-foreground">Recent Candidate Performance</h3>
+              <div className="flex items-center space-x-2">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                  <input
+                    type="text"
+                    placeholder="Search candidates..."
+                    className="pl-10 pr-4 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                  />
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Job Role Analytics */}
-      {activeReport === 'job' && (
-        <div className="space-y-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Hiring Efficiency */}
-            <div className="bg-card border border-border rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Hiring Efficiency by Role</h3>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={jobRoleAnalytics} layout="horizontal">
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis type="number" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                    <YAxis dataKey="role" type="category" stroke="hsl(var(--muted-foreground))" fontSize={10} width={100} />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: 'hsl(var(--card))',
-                        border: '1px solid hsl(var(--border))',
-                        borderRadius: '8px'
-                      }}
-                    />
-                    <Bar dataKey="pass_rate" fill="hsl(var(--primary))" name="Pass Rate %" />
-                  </BarChart>
-                </ResponsiveContainer>
+                <button className="flex items-center space-x-2 px-3 py-2 text-sm bg-secondary hover:bg-secondary/80 rounded-lg transition-colors">
+                  <Filter className="w-4 h-4" />
+                  <span>Filter</span>
+                </button>
               </div>
             </div>
-
-            {/* Time to Hire */}
-            <div className="bg-card border border-border rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Time to Hire Analysis</h3>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={jobRoleAnalytics}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis dataKey="role" stroke="hsl(var(--muted-foreground))" fontSize={10} angle={-45} textAnchor="end" height={80} />
-                    <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: 'hsl(var(--card))',
-                        border: '1px solid hsl(var(--border))',
-                        borderRadius: '8px'
-                      }}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="time_to_hire"
-                      stroke="#f59e0b"
-                      strokeWidth={3}
-                      dot={{ fill: '#f59e0b', strokeWidth: 2, r: 6 }}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          </div>
-
-          {/* Job Role Performance Table */}
-          <div className="bg-card border border-border rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-foreground mb-4">Detailed Job Role Performance</h3>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-border">
-                    <th className="text-left py-3 px-4 font-medium text-foreground">Role</th>
-                    <th className="text-left py-3 px-4 font-medium text-foreground">Interviews</th>
-                    <th className="text-left py-3 px-4 font-medium text-foreground">Hired</th>
-                    <th className="text-left py-3 px-4 font-medium text-foreground">Pass Rate</th>
-                    <th className="text-left py-3 px-4 font-medium text-foreground">Avg Score</th>
-                    <th className="text-left py-3 px-4 font-medium text-foreground">Time to Hire</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Candidate</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">AI Score</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Interviewer Score</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Behavioral Score</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Integrity</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Final Verdict</th>
                     <th className="text-left py-3 px-4 font-medium text-foreground">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {jobRoleAnalytics.map((role, index) => (
+                  {candidatePerformance.map((candidate, index) => (
                     <tr key={index} className="border-b border-border hover:bg-muted/50">
-                      <td className="py-3 px-4 font-medium text-foreground">{role.role}</td>
-                      <td className="py-3 px-4 text-muted-foreground">{role.interviews}</td>
-                      <td className="py-3 px-4 text-muted-foreground">{role.hired}</td>
                       <td className="py-3 px-4">
-                        <span className={`px-2 py-1 rounded-full text-xs ${
-                          role.pass_rate >= 75 ? 'bg-green-500/10 text-green-500' :
-                          role.pass_rate >= 60 ? 'bg-yellow-500/10 text-yellow-500' :
-                          'bg-red-500/10 text-red-500'
-                        }`}>
-                          {role.pass_rate}%
+                        <div className="flex items-center space-x-3">
+                          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                            <span className="text-white text-xs font-semibold">
+                              {candidate.name.split(' ').map(n => n[0]).join('')}
+                            </span>
+                          </div>
+                          <span className="font-medium text-foreground">{candidate.name}</span>
+                        </div>
+                      </td>
+                      <td className="py-3 px-4">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-12 bg-muted rounded-full h-2">
+                            <div
+                              className="bg-primary h-2 rounded-full"
+                              style={{ width: `${candidate.ai_score}%` }}
+                            />
+                          </div>
+                          <span className="text-foreground text-sm">{candidate.ai_score}</span>
+                        </div>
+                      </td>
+                      <td className="py-3 px-4">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-12 bg-muted rounded-full h-2">
+                            <div
+                              className="bg-green-500 h-2 rounded-full"
+                              style={{ width: `${candidate.interviewer_score}%` }}
+                            />
+                          </div>
+                          <span className="text-foreground text-sm">{candidate.interviewer_score}</span>
+                        </div>
+                      </td>
+                      <td className="py-3 px-4">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-12 bg-muted rounded-full h-2">
+                            <div
+                              className="bg-purple-500 h-2 rounded-full"
+                              style={{ width: `${candidate.behavioral_score}%` }}
+                            />
+                          </div>
+                          <span className="text-foreground text-sm">{candidate.behavioral_score}</span>
+                        </div>
+                      </td>
+                      <td className="py-3 px-4">
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getIntegrityColor(candidate.integrity)}`}>
+                          {candidate.integrity}
                         </span>
                       </td>
-                      <td className="py-3 px-4 text-muted-foreground">{role.avg_score}</td>
-                      <td className="py-3 px-4 text-muted-foreground">{role.time_to_hire} days</td>
+                      <td className="py-3 px-4">
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getVerdictColor(candidate.verdict)}`}>
+                          {candidate.verdict}
+                        </span>
+                      </td>
                       <td className="py-3 px-4">
                         <Link
-                          to={`/sessions?role=${encodeURIComponent(role.role)}`}
+                          to={`/candidate/${index + 1}`}
                           className="text-primary hover:text-primary/80 text-sm"
                         >
                           View Details
@@ -352,205 +380,52 @@ export default function Report() {
         </div>
       )}
 
-      {/* Interviewer Performance */}
-      {activeReport === 'interviewer' && (
+      {/* Template Insights Tab */}
+      {activeTab === 'template' && (
         <div className="space-y-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Interviewer Consistency */}
-            <div className="bg-card border border-border rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Interviewer Consistency</h3>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <ScatterChart data={interviewerPerformance}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis dataKey="consistency" stroke="hsl(var(--muted-foreground))" fontSize={12} name="Consistency %" />
-                    <YAxis dataKey="avg_score" stroke="hsl(var(--muted-foreground))" fontSize={12} name="Avg Score" />
-                    <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-                    <Scatter dataKey="avg_score" fill="hsl(var(--primary))" />
-                  </ScatterChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-
-            {/* Feedback Ratings */}
-            <div className="bg-card border border-border rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Interviewer Feedback Ratings</h3>
-              <div className="space-y-4">
-                {interviewerPerformance.map((interviewer, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                    <div>
-                      <div className="font-medium text-foreground">{interviewer.name}</div>
-                      <div className="text-sm text-muted-foreground">{interviewer.department}</div>
-                    </div>
-                    <div className="flex items-center space-x-4">
-                      <div className="text-center">
-                        <div className="text-sm font-medium text-foreground">{interviewer.interviews}</div>
-                        <div className="text-xs text-muted-foreground">Interviews</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-sm font-medium text-foreground">{interviewer.feedback_rating}</div>
-                        <div className="text-xs text-muted-foreground">Rating</div>
-                      </div>
-                      <div className="flex">
-                        {Array.from({ length: 5 }, (_, i) => (
-                          <span
-                            key={i}
-                            className={`text-sm ${
-                              i < Math.floor(interviewer.feedback_rating) ? 'text-yellow-500' : 'text-muted'
-                            }`}
-                          >
-                            ★
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Performance Metrics */}
+          {/* Template Comparison */}
           <div className="bg-card border border-border rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-foreground mb-4">Performance Comparison</h3>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={interviewerPerformance}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" fontSize={10} angle={-45} textAnchor="end" height={80} />
-                  <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: 'hsl(var(--card))',
-                      border: '1px solid hsl(var(--border))',
-                      borderRadius: '8px'
-                    }}
-                  />
-                  <Bar dataKey="avg_score" fill="hsl(var(--primary))" name="Avg Score" />
-                  <Bar dataKey="consistency" fill="#22c55e" name="Consistency" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Candidate Analytics */}
-      {activeReport === 'candidate' && (
-        <div className="space-y-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Score Distribution */}
-            <div className="bg-card border border-border rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Score Distribution & Hire Rate</h3>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <ComposedChart data={candidateInsights}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis dataKey="score_range" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                    <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: 'hsl(var(--card))',
-                        border: '1px solid hsl(var(--border))',
-                        borderRadius: '8px'
-                      }}
-                    />
-                    <Bar dataKey="count" fill="hsl(var(--primary))" name="Candidates" />
-                    <Line
-                      type="monotone"
-                      dataKey="hire_rate"
-                      stroke="#22c55e"
-                      strokeWidth={3}
-                      name="Hire Rate %"
-                    />
-                  </ComposedChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-
-            {/* Integrity Trends */}
-            <div className="bg-card border border-border rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Integrity Trends</h3>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={integrityMetrics}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                    <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: 'hsl(var(--card))',
-                        border: '1px solid hsl(var(--border))',
-                        borderRadius: '8px'
-                      }}
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="authentic"
-                      stackId="1"
-                      stroke="#22c55e"
-                      fill="#22c55e"
-                      fillOpacity={0.6}
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="suspicious"
-                      stackId="1"
-                      stroke="#f59e0b"
-                      fill="#f59e0b"
-                      fillOpacity={0.6}
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="flagged"
-                      stackId="1"
-                      stroke="#ef4444"
-                      fill="#ef4444"
-                      fillOpacity={0.6}
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          </div>
-
-          {/* Candidate Insights Table */}
-          <div className="bg-card border border-border rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-foreground mb-4">Candidate Performance Insights</h3>
+            <h3 className="text-lg font-semibold text-foreground mb-4">Template Performance Comparison</h3>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-border">
-                    <th className="text-left py-3 px-4 font-medium text-foreground">Score Range</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Template</th>
                     <th className="text-left py-3 px-4 font-medium text-foreground">Candidates</th>
-                    <th className="text-left py-3 px-4 font-medium text-foreground">Hire Rate</th>
-                    <th className="text-left py-3 px-4 font-medium text-foreground">Avg Experience</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Hired</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Success Rate</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Avg Score</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Time to Hire</th>
                     <th className="text-left py-3 px-4 font-medium text-foreground">Recommendation</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {candidateInsights.map((insight, index) => (
+                  {templateComparison.map((template, index) => (
                     <tr key={index} className="border-b border-border hover:bg-muted/50">
-                      <td className="py-3 px-4 font-medium text-foreground">{insight.score_range}</td>
-                      <td className="py-3 px-4 text-muted-foreground">{insight.count}</td>
+                      <td className="py-3 px-4 font-medium text-foreground">{template.template}</td>
+                      <td className="py-3 px-4 text-muted-foreground">{template.candidates}</td>
+                      <td className="py-3 px-4 text-muted-foreground">{template.hired}</td>
                       <td className="py-3 px-4">
-                        <span className={`px-2 py-1 rounded-full text-xs ${
-                          insight.hire_rate >= 80 ? 'bg-green-500/10 text-green-500' :
-                          insight.hire_rate >= 50 ? 'bg-yellow-500/10 text-yellow-500' :
-                          'bg-red-500/10 text-red-500'
-                        }`}>
-                          {insight.hire_rate}%
-                        </span>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-16 bg-muted rounded-full h-2">
+                            <div
+                              className="bg-primary h-2 rounded-full"
+                              style={{ width: `${template.success_rate}%` }}
+                            />
+                          </div>
+                          <span className="text-foreground text-sm">{template.success_rate}%</span>
+                        </div>
                       </td>
-                      <td className="py-3 px-4 text-muted-foreground">{insight.avg_experience} years</td>
+                      <td className="py-3 px-4 text-muted-foreground">{template.avg_score}</td>
+                      <td className="py-3 px-4 text-muted-foreground">{template.time_to_hire} days</td>
                       <td className="py-3 px-4">
-                        <span className={`px-2 py-1 rounded-full text-xs ${
-                          insight.hire_rate >= 80 ? 'bg-green-500/10 text-green-500' :
-                          insight.hire_rate >= 50 ? 'bg-yellow-500/10 text-yellow-500' :
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          template.success_rate >= 80 ? 'bg-green-500/10 text-green-500' :
+                          template.success_rate >= 70 ? 'bg-yellow-500/10 text-yellow-500' :
                           'bg-red-500/10 text-red-500'
                         }`}>
-                          {insight.hire_rate >= 80 ? 'Strong Pool' :
-                           insight.hire_rate >= 50 ? 'Mixed Results' :
+                          {template.success_rate >= 80 ? 'Use This' :
+                           template.success_rate >= 70 ? 'Consider' :
                            'Needs Improvement'}
                         </span>
                       </td>
@@ -560,43 +435,223 @@ export default function Report() {
               </table>
             </div>
           </div>
+
+          {/* Feature Impact Analysis */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="bg-card border border-border rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-foreground mb-4">Feature Impact on Success</h3>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={templateFeatureImpact} layout="horizontal">
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis type="number" stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                    <YAxis dataKey="feature" type="category" stroke="hsl(var(--muted-foreground))" fontSize={10} width={120} />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: 'hsl(var(--card))',
+                        border: '1px solid hsl(var(--border))',
+                        borderRadius: '8px'
+                      }}
+                    />
+                    <Bar dataKey="impact_score" fill="hsl(var(--primary))" name="Impact Score" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            <div className="bg-card border border-border rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-foreground mb-4">Template Recommendations</h3>
+              <div className="space-y-4">
+                <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2" />
+                    <div>
+                      <div className="font-medium text-green-700 mb-1">High-Performing Features</div>
+                      <div className="text-sm text-green-600">Code Review (94% impact) and Technical Assessment (92% impact) show excellent results. Continue using these components.</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2" />
+                    <div>
+                      <div className="font-medium text-yellow-700 mb-1">Optimization Opportunity</div>
+                      <div className="text-sm text-yellow-600">Portfolio Review has high impact (91%) but low usage (67%). Consider making it mandatory for design roles.</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2" />
+                    <div>
+                      <div className="font-medium text-blue-700 mb-1">Template Versioning Insight</div>
+                      <div className="text-sm text-blue-600">V2 templates consistently outperform V1 by 15-20% in success rates. Migrate remaining roles to V2 format.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
-      {/* Export Options */}
-      <div className="bg-card border border-border rounded-xl p-6">
-        <h3 className="text-lg font-semibold text-foreground mb-4">Export & Share</h3>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <button className="flex items-center space-x-3 p-4 bg-muted hover:bg-muted/80 rounded-lg transition-colors">
-            <FileText className="w-5 h-5 text-primary" />
-            <div className="text-left">
-              <div className="font-medium text-foreground">PDF Report</div>
-              <div className="text-sm text-muted-foreground">Comprehensive analysis</div>
+      {/* Interviewer Insights Tab */}
+      {activeTab === 'interviewer' && (
+        <div className="space-y-8">
+          {/* Interviewer Performance Overview */}
+          <div className="bg-card border border-border rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-foreground mb-4">Interviewer Performance & Improvement Areas</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-border">
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Interviewer</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Interviews</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Avg Score</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Consistency</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Feedback</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Improvement Areas</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {interviewerMetrics.map((interviewer, index) => (
+                    <tr key={index} className="border-b border-border hover:bg-muted/50">
+                      <td className="py-3 px-4">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                            <span className="text-white text-xs font-semibold">
+                              {interviewer.name.split(' ').map(n => n[0]).join('')}
+                            </span>
+                          </div>
+                          <span className="font-medium text-foreground">{interviewer.name}</span>
+                        </div>
+                      </td>
+                      <td className="py-3 px-4 text-muted-foreground">{interviewer.interviews}</td>
+                      <td className="py-3 px-4">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-12 bg-muted rounded-full h-2">
+                            <div
+                              className="bg-primary h-2 rounded-full"
+                              style={{ width: `${interviewer.avg_score}%` }}
+                            />
+                          </div>
+                          <span className="text-foreground text-sm">{interviewer.avg_score}</span>
+                        </div>
+                      </td>
+                      <td className="py-3 px-4">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-12 bg-muted rounded-full h-2">
+                            <div
+                              className="bg-green-500 h-2 rounded-full"
+                              style={{ width: `${interviewer.consistency}%` }}
+                            />
+                          </div>
+                          <span className="text-foreground text-sm">{interviewer.consistency}%</span>
+                        </div>
+                      </td>
+                      <td className="py-3 px-4">
+                        <div className="flex items-center space-x-1">
+                          <span className="text-foreground text-sm">{interviewer.candidate_feedback}</span>
+                          <div className="flex">
+                            {Array.from({ length: 5 }, (_, i) => (
+                              <span
+                                key={i}
+                                className={`text-xs ${
+                                  i < Math.floor(interviewer.candidate_feedback) ? 'text-yellow-500' : 'text-muted'
+                                }`}
+                              >
+                                ★
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-3 px-4">
+                        <div className="flex flex-wrap gap-1">
+                          {interviewer.improvement_areas.map((area, areaIndex) => (
+                            <span key={areaIndex} className="px-2 py-1 bg-yellow-500/10 text-yellow-700 text-xs rounded-full">
+                              {area}
+                            </span>
+                          ))}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-          </button>
-          <button className="flex items-center space-x-3 p-4 bg-muted hover:bg-muted/80 rounded-lg transition-colors">
-            <FileText className="w-5 h-5 text-green-500" />
-            <div className="text-left">
-              <div className="font-medium text-foreground">Excel Export</div>
-              <div className="text-sm text-muted-foreground">Raw data & charts</div>
+          </div>
+
+          {/* Skill Analysis */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="bg-card border border-border rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-foreground mb-4">Interview Skills Analysis</h3>
+              <div className="space-y-4">
+                {interviewerSkillAnalysis.map((skill, index) => (
+                  <div key={index} className="p-4 bg-muted rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-medium text-foreground">{skill.skill}</span>
+                      <span className="text-sm text-muted-foreground">Avg: {skill.avg_score}%</span>
+                    </div>
+                    <div className="bg-background rounded-full h-2 mb-2">
+                      <div
+                        className="bg-primary h-2 rounded-full"
+                        style={{ width: `${skill.avg_score}%` }}
+                      />
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-green-600">Top: {skill.top_performer}</span>
+                      <span className="text-red-600">{skill.improvement_needed} need training</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </button>
-          <button className="flex items-center space-x-3 p-4 bg-muted hover:bg-muted/80 rounded-lg transition-colors">
-            <Eye className="w-5 h-5 text-blue-500" />
-            <div className="text-left">
-              <div className="font-medium text-foreground">Dashboard Link</div>
-              <div className="text-sm text-muted-foreground">Shareable URL</div>
+
+            <div className="bg-card border border-border rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-foreground mb-4">Training Recommendations</h3>
+              <div className="space-y-4">
+                <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-red-500 rounded-full mt-2" />
+                    <div>
+                      <div className="font-medium text-red-700 mb-1">Priority Training Needed</div>
+                      <div className="text-sm text-red-600">6 interviewers need bias mitigation training. Schedule unconscious bias workshops.</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2" />
+                    <div>
+                      <div className="font-medium text-yellow-700 mb-1">Time Management Issues</div>
+                      <div className="text-sm text-yellow-600">5 interviewers struggle with time management. Provide interview structure templates.</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2" />
+                    <div>
+                      <div className="font-medium text-green-700 mb-1">High Performers</div>
+                      <div className="text-sm text-green-600">Lisa Brown and Emily Davis show excellent performance. Consider them as mentors for training programs.</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2" />
+                    <div>
+                      <div className="font-medium text-blue-700 mb-1">Technical Assessment</div>
+                      <div className="text-sm text-blue-600">4 interviewers need technical assessment training. Organize domain-specific workshops.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </button>
-          <button className="flex items-center space-x-3 p-4 bg-muted hover:bg-muted/80 rounded-lg transition-colors">
-            <Calendar className="w-5 h-5 text-orange-500" />
-            <div className="text-left">
-              <div className="font-medium text-foreground">Schedule Report</div>
-              <div className="text-sm text-muted-foreground">Automated delivery</div>
-            </div>
-          </button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
