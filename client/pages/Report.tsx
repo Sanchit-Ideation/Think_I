@@ -74,7 +74,8 @@ const candidateOverview = [
     ufm_list: ['Suspicious browser activity'],
     integrity_score: 90,
     overall_score: 95,
-    suggestion: 'Consider'
+    suggestion: 'Consider',
+    recommendation: 'Strong technical skills but minor integrity concerns need review'
   },
   {
     candidate_id: '2345',
@@ -90,10 +91,111 @@ const candidateOverview = [
     duration: '1.5',
     connect_disconnect: '0',
     ufm_count: '3',
-    ufm_list: ['Code copied from external source', 'Tab switching detected', 'Unauthorized help'],
+    ufm_list: ['Code copied from external source', 'Tab switching detected', 'Unauthorized help', 'Multiple face detection', 'Background noise interference'],
     integrity_score: 75,
     overall_score: 89,
-    suggestion: 'Recommended'
+    suggestion: 'Recommended',
+    recommendation: 'Excellent potential despite integrity violations - recommend with monitoring'
+  },
+  {
+    candidate_id: '3456',
+    candidate_name: 'Priya Singh',
+    email: 'priya3456@yahoo.com',
+    current_role: 'UI/UX Designer',
+    company: 'Wipro',
+    experience: '5',
+    applied_role: 'Sr. UI Designer',
+    interviewer_id: '23',
+    interviewer: 'Vikram Mehta',
+    interview_date: '28/07/2025 10:30:15',
+    duration: '1.2',
+    connect_disconnect: '1',
+    ufm_count: '0',
+    ufm_list: [],
+    integrity_score: 98,
+    overall_score: 92,
+    suggestion: 'Highly Recommended',
+    recommendation: 'Outstanding candidate with perfect integrity and strong design skills'
+  },
+  {
+    candidate_id: '4567',
+    candidate_name: 'Rohit Kumar',
+    email: 'rohit4567@gmail.com',
+    current_role: 'Data Analyst',
+    company: 'Infosys',
+    experience: '2',
+    applied_role: 'Sr. Data Analyst',
+    interviewer_id: '15',
+    interviewer: 'Sneha Patel',
+    interview_date: '27/07/2025 15:45:30',
+    duration: '0.8',
+    connect_disconnect: '5',
+    ufm_count: '2',
+    ufm_list: ['Audio issues detected', 'Camera turned off for 3 minutes'],
+    integrity_score: 82,
+    overall_score: 78,
+    suggestion: 'Consider',
+    recommendation: 'Good analytical skills but technical setup issues affected performance'
+  },
+  {
+    candidate_id: '5678',
+    candidate_name: 'Anita Reddy',
+    email: 'anita5678@outlook.com',
+    current_role: 'Marketing Manager',
+    company: 'HCL',
+    experience: '4',
+    applied_role: 'Sr. Marketing Manager',
+    interviewer_id: '88',
+    interviewer: 'Rajesh Khanna',
+    interview_date: '26/07/2025 09:15:45',
+    duration: '1.3',
+    connect_disconnect: '2',
+    ufm_count: '1',
+    ufm_list: ['Phone notification interruption'],
+    integrity_score: 88,
+    overall_score: 85,
+    suggestion: 'Recommended',
+    recommendation: 'Strong marketing background with excellent communication skills'
+  },
+  {
+    candidate_id: '6789',
+    candidate_name: 'Deepak Joshi',
+    email: 'deepak6789@hotmail.com',
+    current_role: 'QA Engineer',
+    company: 'Tech Mahindra',
+    experience: '6',
+    applied_role: 'QA Lead',
+    interviewer_id: '67',
+    interviewer: 'Meera Sharma',
+    interview_date: '25/07/2025 16:20:10',
+    duration: '1.1',
+    connect_disconnect: '1',
+    ufm_count: '4',
+    ufm_list: ['Screen sharing issues', 'Multiple browser tabs open', 'External help suspected', 'Copy-paste detected'],
+    integrity_score: 65,
+    overall_score: 72,
+    suggestion: 'Not Recommended',
+    recommendation: 'Multiple integrity violations overshadow technical competency'
+  },
+  {
+    candidate_id: '7890',
+    candidate_name: 'Kavya Nair',
+    email: 'kavya7890@gmail.com',
+    current_role: 'Business Analyst',
+    company: 'Accenture',
+    experience: '7',
+    applied_role: 'Sr. Business Analyst',
+    interviewer_id: '34',
+    interviewer: 'Arjun Gupta',
+    interview_date: '24/07/2025 11:30:20',
+    duration: '1.4',
+    connect_disconnect: '0',
+    ufm_count: '0',
+    ufm_list: [],
+    integrity_score: 100,
+    overall_score: 96,
+    suggestion: 'Highly Recommended',
+    recommendation: 'Exceptional candidate with perfect integrity and outstanding analytical skills'
   }
 ];
 
@@ -144,6 +246,44 @@ export default function Report() {
   const [selectedCandidate, setSelectedCandidate] = useState<any>(null);
   const [candidateReportTab, setCandidateReportTab] = useState('summary');
   const [showCandidateDetail, setShowCandidateDetail] = useState(false);
+  const [selectedInterviewer, setSelectedInterviewer] = useState<any>(null);
+  const [showInterviewerDetail, setShowInterviewerDetail] = useState(false);
+  const [topFilter, setTopFilter] = useState('all');
+  const [sortBy, setSortBy] = useState('score');
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // Filter and sort candidates
+  const getFilteredCandidates = () => {
+    let filtered = candidateOverview.filter(candidate =>
+      candidate.candidate_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      candidate.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      candidate.applied_role.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    // Sort candidates
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case 'score':
+          return b.overall_score - a.overall_score;
+        case 'date':
+          return new Date(b.interview_date).getTime() - new Date(a.interview_date).getTime();
+        case 'integrity':
+          return b.integrity_score - a.integrity_score;
+        case 'experience':
+          return parseInt(b.experience) - parseInt(a.experience);
+        default:
+          return b.overall_score - a.overall_score;
+      }
+    });
+
+    // Apply top filter
+    if (topFilter !== 'all') {
+      const limit = parseInt(topFilter);
+      filtered = filtered.slice(0, limit);
+    }
+
+    return filtered;
+  };
 
   const getVerdictColor = (verdict: string) => {
     switch (verdict) {
@@ -331,13 +471,33 @@ export default function Report() {
                   <input
                     type="text"
                     placeholder="Search candidates..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                     className="pl-10 pr-4 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
-                <button className="flex items-center space-x-2 px-3 py-2 text-sm bg-secondary hover:bg-secondary/80 rounded-lg transition-colors">
-                  <Filter className="w-4 h-4" />
-                  <span>Filter</span>
-                </button>
+                <select
+                  value={topFilter}
+                  onChange={(e) => setTopFilter(e.target.value)}
+                  className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  <option value="all">All Candidates</option>
+                  <option value="3">Top 3</option>
+                  <option value="5">Top 5</option>
+                  <option value="10">Top 10</option>
+                  <option value="50">Top 50</option>
+                  <option value="100">Top 100</option>
+                </select>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  <option value="score">Sort by Score</option>
+                  <option value="date">Sort by Date</option>
+                  <option value="integrity">Sort by Integrity</option>
+                  <option value="experience">Sort by Experience</option>
+                </select>
               </div>
             </div>
             <div className="overflow-x-auto">
@@ -362,7 +522,7 @@ export default function Report() {
                   </tr>
                 </thead>
                 <tbody>
-                  {candidateOverview.map((candidate, index) => (
+                  {getFilteredCandidates().map((candidate, index) => (
                     <tr 
                       key={index} 
                       className="border-b border-border hover:bg-muted/50 cursor-pointer"
@@ -489,7 +649,7 @@ export default function Report() {
                 <p className="text-sm text-muted-foreground mb-1">Interview Details</p>
                 <p className="font-semibold text-foreground">{selectedCandidate.interview_date}</p>
                 <p className="text-sm text-muted-foreground">Role: {selectedCandidate.applied_role}</p>
-                <p className="text-sm text-muted-foreground">Interviewer: {selectedCandidate.interviewer}</p>
+                <p className="text-sm text-muted-foreground">Interviewer: {selectedCandidate.interviewer} (ID: {selectedCandidate.interviewer_id})</p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground mb-1">Status</p>
@@ -499,7 +659,7 @@ export default function Report() {
             </div>
             
             {/* Key Scores */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-4 text-center">
                 <Brain className="w-6 h-6 text-purple-500 mx-auto mb-2" />
                 <p className="text-sm text-muted-foreground">AI Score</p>
@@ -519,6 +679,32 @@ export default function Report() {
                 <Shield className="w-6 h-6 text-green-500 mx-auto mb-2" />
                 <p className="text-sm text-muted-foreground">Integrity Score</p>
                 <p className="text-2xl font-bold text-foreground">{selectedCandidate.integrity_score}</p>
+              </div>
+              {/* Final Status Card */}
+              <div className={`border-2 rounded-lg p-4 text-center ${
+                selectedCandidate.suggestion === 'Highly Recommended' ? 'bg-green-500/10 border-green-500/30' :
+                selectedCandidate.suggestion === 'Recommended' ? 'bg-blue-500/10 border-blue-500/30' :
+                selectedCandidate.suggestion === 'Consider' ? 'bg-yellow-500/10 border-yellow-500/30' :
+                'bg-red-500/10 border-red-500/30'
+              }`}>
+                <Award className={`w-6 h-6 mx-auto mb-2 ${
+                  selectedCandidate.suggestion === 'Highly Recommended' ? 'text-green-600' :
+                  selectedCandidate.suggestion === 'Recommended' ? 'text-blue-600' :
+                  selectedCandidate.suggestion === 'Consider' ? 'text-yellow-600' :
+                  'text-red-600'
+                }`} />
+                <p className="text-xs text-muted-foreground mb-1">Final Status</p>
+                <p className={`text-sm font-bold mb-2 ${
+                  selectedCandidate.suggestion === 'Highly Recommended' ? 'text-green-700' :
+                  selectedCandidate.suggestion === 'Recommended' ? 'text-blue-700' :
+                  selectedCandidate.suggestion === 'Consider' ? 'text-yellow-700' :
+                  'text-red-700'
+                }`}>
+                  {selectedCandidate.suggestion}
+                </p>
+                <p className="text-xs text-muted-foreground leading-tight">
+                  {selectedCandidate.recommendation}
+                </p>
               </div>
             </div>
           </div>
@@ -680,21 +866,51 @@ export default function Report() {
                 {/* Competency Scores */}
                 <div className="space-y-4">
                   {[
-                    {name: 'Technical Skills', ai: 88, interviewer: 85, note: 'Strong programming fundamentals, good problem-solving approach'},
-                    {name: 'Communication', ai: 92, interviewer: 90, note: 'Clear explanations, good listening skills'},
-                    {name: 'Problem Solving', ai: 85, interviewer: 88, note: 'Systematic approach, creative solutions'},
-                    {name: 'Team Collaboration', ai: 78, interviewer: 82, note: 'Good interpersonal skills, open to feedback'},
-                    {name: 'Analytical Thinking', ai: 90, interviewer: 87, note: 'Strong logical approach, detail-oriented'}
+                    {
+                      name: 'Technical Skills',
+                      ai: 88,
+                      interviewer: 85,
+                      ai_comment: 'AI Analysis: Strong programming fundamentals, efficient problem-solving approach',
+                      interviewer_comment: 'Interviewer Feedback: Good technical depth but could improve code optimization'
+                    },
+                    {
+                      name: 'Communication',
+                      ai: 92,
+                      interviewer: 90,
+                      ai_comment: 'AI Analysis: Clear articulation, good pace and structure in explanations',
+                      interviewer_comment: 'Interviewer Feedback: Excellent listening skills and professional demeanor'
+                    },
+                    {
+                      name: 'Problem Solving',
+                      ai: 85,
+                      interviewer: 88,
+                      ai_comment: 'AI Analysis: Systematic approach to problem breakdown and solution design',
+                      interviewer_comment: 'Interviewer Feedback: Creative solutions and good alternative thinking'
+                    },
+                    {
+                      name: 'Team Collaboration',
+                      ai: 78,
+                      interviewer: 82,
+                      ai_comment: 'AI Analysis: Shows willingness to collaborate, asks relevant questions',
+                      interviewer_comment: 'Interviewer Feedback: Good interpersonal skills, open to feedback and suggestions'
+                    },
+                    {
+                      name: 'Analytical Thinking',
+                      ai: 90,
+                      interviewer: 87,
+                      ai_comment: 'AI Analysis: Strong logical reasoning and attention to detail',
+                      interviewer_comment: 'Interviewer Feedback: Methodical approach but sometimes over-analyzes simple problems'
+                    }
                   ].map((competency, index) => (
                     <div key={index} className="p-4 bg-muted rounded-lg">
-                      <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center justify-between mb-3">
                         <h4 className="font-medium text-foreground">{competency.name}</h4>
                         <div className="flex items-center space-x-4 text-sm">
                           <span className="text-purple-600">AI: {competency.ai}</span>
                           <span className="text-blue-600">Interviewer: {competency.interviewer}</span>
                         </div>
                       </div>
-                      <div className="grid grid-cols-2 gap-2 mb-2">
+                      <div className="grid grid-cols-2 gap-2 mb-3">
                         <div className="bg-background rounded h-2">
                           <div className="bg-purple-500 h-2 rounded" style={{width: `${competency.ai}%`}} />
                         </div>
@@ -702,7 +918,14 @@ export default function Report() {
                           <div className="bg-blue-500 h-2 rounded" style={{width: `${competency.interviewer}%`}} />
                         </div>
                       </div>
-                      <p className="text-sm text-muted-foreground">{competency.note}</p>
+                      <div className="space-y-2">
+                        <div className="p-2 bg-purple-500/5 border border-purple-500/20 rounded">
+                          <p className="text-xs text-purple-700">{competency.ai_comment}</p>
+                        </div>
+                        <div className="p-2 bg-blue-500/5 border border-blue-500/20 rounded">
+                          <p className="text-xs text-blue-700">{competency.interviewer_comment}</p>
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -755,15 +978,21 @@ export default function Report() {
                   <div>
                     <h4 className="font-medium text-foreground mb-4">Unfair Means Events</h4>
                     <div className="space-y-3">
-                      {selectedCandidate.ufm_list.map((ufm: string, index: number) => (
-                        <div key={index} className="flex items-center space-x-3 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
-                          <div className="w-2 h-2 bg-red-500 rounded-full" />
-                          <div className="flex-1">
-                            <span className="text-red-700 text-sm font-medium">{ufm}</span>
-                            <p className="text-xs text-red-600">Detected at 15:30 - Duration: 2 mins</p>
+                      {selectedCandidate.ufm_list.map((ufm: string, index: number) => {
+                        const timestamps = ['15:30', '22:45', '35:12', '48:20', '52:15'];
+                        const durations = ['2 mins', '1 min', '3 mins', '1.5 mins', '45 secs'];
+                        return (
+                          <div key={index} className="flex items-center space-x-3 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+                            <div className="w-2 h-2 bg-red-500 rounded-full" />
+                            <div className="flex-1">
+                              <span className="text-red-700 text-sm font-medium">{ufm}</span>
+                              <p className="text-xs text-red-600">
+                                Detected at {timestamps[index] || '15:30'} - Duration: {durations[index] || '2 mins'}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                 ) : (
