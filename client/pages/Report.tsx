@@ -48,9 +48,6 @@ const reportTabs = [
 const candidateReportTabs = [
   { id: 'summary', name: 'Summary & Stages', icon: FileText },
   { id: 'recording', name: 'Recording & Transcript', icon: Eye },
-  { id: 'competency', name: 'Competency Analysis', icon: Target },
-  { id: 'behavioral', name: 'Behavioral Traits', icon: Brain },
-  { id: 'integrity', name: 'Session Integrity', icon: Shield },
   { id: 'authentication', name: 'Authentication', icon: User },
   { id: 'chat', name: 'Chat & Notes', icon: FileText }
 ];
@@ -735,7 +732,7 @@ export default function Report() {
             {candidateReportTab === 'summary' && (
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold text-foreground">Summary & Stages</h3>
-                
+
                 {/* Interview Stages */}
                 <div className="space-y-4">
                   <h4 className="font-medium text-foreground">Interview Stages</h4>
@@ -758,7 +755,124 @@ export default function Report() {
                     </div>
                   </div>
                 </div>
-                
+
+                {/* Competency Analysis */}
+                <div className="space-y-4">
+                  <h4 className="font-medium text-foreground">Competency Analysis</h4>
+                  <div className="bg-muted rounded-lg p-6">
+                    <h5 className="font-medium text-foreground mb-4 text-center">Required vs Achieved</h5>
+                    <div className="h-80">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <RadarChart data={[
+                          { competency: 'Python', required: 8, achieved: 7, fullMark: 10 },
+                          { competency: 'SQL', required: 9, achieved: 8.5, fullMark: 10 },
+                          { competency: 'Data Visualization', required: 7, achieved: 8, fullMark: 10 },
+                          { competency: 'Problem Solving', required: 8, achieved: 7.5, fullMark: 10 },
+                          { competency: 'Communication', required: 6, achieved: 7.5, fullMark: 10 }
+                        ]}>
+                          <PolarGrid />
+                          <PolarAngleAxis dataKey="competency" tick={{ fontSize: 12, fill: 'hsl(var(--foreground))' }} />
+                          <PolarRadiusAxis
+                            angle={90}
+                            domain={[0, 10]}
+                            tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }}
+                            tickCount={6}
+                          />
+                          <Radar
+                            name="Required"
+                            dataKey="required"
+                            stroke="#22c55e"
+                            fill="#22c55e"
+                            fillOpacity={0.1}
+                            strokeWidth={3}
+                            strokeDasharray="5 5"
+                          />
+                          <Radar
+                            name="Candidate Avg"
+                            dataKey="achieved"
+                            stroke="#1f2937"
+                            fill="#1f2937"
+                            fillOpacity={0.3}
+                            strokeWidth={3}
+                          />
+                          <Tooltip
+                            contentStyle={{
+                              backgroundColor: 'hsl(var(--card))',
+                              border: '1px solid hsl(var(--border))',
+                              borderRadius: '8px',
+                              fontSize: '12px'
+                            }}
+                          />
+                        </RadarChart>
+                      </ResponsiveContainer>
+                    </div>
+                    <div className="flex justify-center space-x-8 mt-4">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-4 h-1 bg-green-500 border-2 border-green-500 border-dashed" />
+                        <span className="text-sm text-muted-foreground">Required</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-4 h-1 bg-gray-800" />
+                        <span className="text-sm text-muted-foreground">Candidate Avg</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Behavioral Traits */}
+                <div className="space-y-4">
+                  <h4 className="font-medium text-foreground">Behavioral Traits Analysis</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {[
+                      {trait: 'Decision-Making Ability', score: 85, rationale: 'Shows confidence in making choices, considers multiple options'},
+                      {trait: 'Emotional Awareness', score: 78, rationale: 'Good self-awareness, handles stress reasonably well'},
+                      {trait: 'Communication Clarity', score: 92, rationale: 'Excellent verbal communication, clear explanations'},
+                      {trait: 'Integrity & Authenticity', score: selectedCandidate.integrity_score, rationale: 'Honest responses, transparent about limitations'}
+                    ].map((trait, index) => (
+                      <div key={index} className="p-4 bg-muted rounded-lg">
+                        <div className="flex items-center justify-between mb-3">
+                          <h5 className="font-medium text-foreground text-sm">{trait.trait}</h5>
+                          <span className="text-lg font-bold text-primary">{trait.score}</span>
+                        </div>
+                        <div className="bg-background rounded-full h-2 mb-3">
+                          <div
+                            className="bg-primary h-2 rounded-full"
+                            style={{width: `${trait.score}%`}}
+                          />
+                        </div>
+                        <p className="text-xs text-muted-foreground">{trait.rationale}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Session Integrity */}
+                <div className="space-y-4">
+                  <h4 className="font-medium text-foreground">Session Integrity Overview</h4>
+                  <div className="bg-muted rounded-lg p-4 text-center">
+                    <Shield className="w-12 h-12 text-green-500 mx-auto mb-4" />
+                    <h5 className="text-2xl font-bold text-foreground mb-2">{selectedCandidate.integrity_score}/100</h5>
+                    <p className="text-muted-foreground mb-4">Overall Integrity Score</p>
+                    {parseInt(selectedCandidate.ufm_count) > 0 ? (
+                      <div className="text-left">
+                        <h6 className="font-medium text-foreground mb-2 text-center">Detected Issues</h6>
+                        <div className="space-y-2">
+                          {selectedCandidate.ufm_list.map((ufm: string, index: number) => (
+                            <div key={index} className="flex items-center space-x-3 p-2 bg-red-500/10 border border-red-500/20 rounded">
+                              <div className="w-2 h-2 bg-red-500 rounded-full" />
+                              <span className="text-red-700 text-sm">{ufm}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
+                        <p className="text-sm text-green-600">No integrity violations detected</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
                 {/* Performance Summary */}
                 <div className="space-y-4">
                   <h4 className="font-medium text-foreground">Performance Summary</h4>
@@ -780,7 +894,7 @@ export default function Report() {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Verdict Logic */}
                 <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
                   <h4 className="font-medium text-blue-700 mb-2">Verdict Logic</h4>
@@ -794,14 +908,69 @@ export default function Report() {
             {candidateReportTab === 'recording' && (
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold text-foreground">Recording & Transcript</h3>
-                
+
                 {/* Video Player Placeholder */}
                 <div className="bg-muted rounded-lg p-8 text-center">
                   <Eye className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
                   <p className="text-muted-foreground">Video recording would be embedded here</p>
                   <button className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-lg">Play Recording</button>
                 </div>
-                
+
+                {/* Admin Analysis Tags */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="font-medium text-foreground mb-4">Interviewer Behavioral Tags</h4>
+                    <div className="space-y-2">
+                      {[
+                        { tag: 'Stress Tolerance', score: 85, color: 'green' },
+                        { tag: 'Empathy', score: 92, color: 'blue' },
+                        { tag: 'Confidence', score: 78, color: 'purple' },
+                        { tag: 'Proactive Thinking', score: 88, color: 'indigo' }
+                      ].map((item, index) => (
+                        <div key={index} className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                          <span className="text-sm font-medium">{item.tag}</span>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-16 bg-background rounded-full h-2">
+                              <div
+                                className={`h-2 rounded-full bg-${item.color}-500`}
+                                style={{width: `${item.score}%`}}
+                              />
+                            </div>
+                            <span className="text-sm text-muted-foreground w-8">{item.score}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-medium text-foreground mb-4">Candidate Behavioral Tags</h4>
+                    <div className="space-y-2">
+                      {[
+                        { tag: 'Stress Tolerance', score: 72, color: 'green' },
+                        { tag: 'Integrity & Authenticity', score: selectedCandidate.integrity_score, color: 'green' },
+                        { tag: 'Empathy', score: 68, color: 'blue' },
+                        { tag: 'Risk-Taking', score: 45, color: 'orange' },
+                        { tag: 'Confidence', score: 82, color: 'purple' },
+                        { tag: 'Proactive Thinking', score: 75, color: 'indigo' }
+                      ].map((item, index) => (
+                        <div key={index} className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                          <span className="text-sm font-medium">{item.tag}</span>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-16 bg-background rounded-full h-2">
+                              <div
+                                className={`h-2 rounded-full bg-${item.color}-500`}
+                                style={{width: `${item.score}%`}}
+                              />
+                            </div>
+                            <span className="text-sm text-muted-foreground w-8">{item.score}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
                 {/* Speaking Time Analysis */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
@@ -827,7 +996,7 @@ export default function Report() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div>
                     <h4 className="font-medium text-foreground mb-4">Conversation Flow</h4>
                     <div className="text-sm text-muted-foreground space-y-1">
@@ -837,7 +1006,7 @@ export default function Report() {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Transcript */}
                 <div>
                   <h4 className="font-medium text-foreground mb-4">Transcript</h4>
