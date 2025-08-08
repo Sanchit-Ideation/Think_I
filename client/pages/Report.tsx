@@ -331,13 +331,21 @@ export default function Report() {
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-border">
-                    <th className="text-left py-3 px-4 font-medium text-foreground">Candidate</th>
-                    <th className="text-left py-3 px-4 font-medium text-foreground">AI Score</th>
-                    <th className="text-left py-3 px-4 font-medium text-foreground">Interviewer Score</th>
-                    <th className="text-left py-3 px-4 font-medium text-foreground">Behavioral Score</th>
-                    <th className="text-left py-3 px-4 font-medium text-foreground">Integrity</th>
-                    <th className="text-left py-3 px-4 font-medium text-foreground">Final Verdict</th>
-                    <th className="text-left py-3 px-4 font-medium text-foreground">Actions</th>
+                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">ID</th>
+                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Candidate</th>
+                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Email</th>
+                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Current Role</th>
+                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Company</th>
+                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Experience</th>
+                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Applied Role</th>
+                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Interviewer</th>
+                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Date & Time</th>
+                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Duration</th>
+                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Connect/Disconnect</th>
+                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">UFM Count</th>
+                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Integrity Score</th>
+                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Overall Score</th>
+                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Suggestion</th>
                   </tr>
                 </thead>
                 <tbody>
