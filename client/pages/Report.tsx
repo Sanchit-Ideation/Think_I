@@ -1,611 +1,601 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  ArrowLeft, 
-  Download, 
-  Share2, 
-  Calendar, 
-  Clock, 
-  User, 
-  Award, 
-  TrendingUp, 
-  Brain, 
-  MessageSquare, 
-  Star,
-  Target,
-  Zap,
-  Eye
-} from 'lucide-react';
-import { 
-  LineChart, 
-  Line, 
-  AreaChart, 
-  Area, 
-  BarChart, 
-  Bar, 
-  PieChart, 
-  Pie, 
-  Cell, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer, 
-  RadarChart, 
-  PolarGrid, 
-  PolarAngleAxis, 
-  PolarRadiusAxis, 
-  Radar,
-  ComposedChart
+import {
+  BarChart,
+  Bar,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  ScatterChart,
+  Scatter,
+  ComposedChart,
+  Area,
+  AreaChart
 } from 'recharts';
+import {
+  Download,
+  Filter,
+  Calendar,
+  TrendingUp,
+  Users,
+  Award,
+  Clock,
+  Target,
+  Brain,
+  Shield,
+  Eye,
+  FileText,
+  Search
+} from 'lucide-react';
 
-const performanceData = [
-  { step: 'Introduction', score: 85, time: 2.5, confidence: 90, engagement: 88 },
-  { step: 'Technical Q1', score: 78, time: 8.2, confidence: 75, engagement: 82 },
-  { step: 'Technical Q2', score: 92, time: 6.8, confidence: 95, engagement: 94 },
-  { step: 'Problem Solving', score: 88, time: 12.1, confidence: 85, engagement: 91 },
-  { step: 'System Design', score: 76, time: 15.3, confidence: 70, engagement: 78 },
-  { step: 'Behavioral Q1', score: 94, time: 4.2, confidence: 98, engagement: 96 },
-  { step: 'Behavioral Q2', score: 91, time: 5.8, confidence: 92, engagement: 93 },
-  { step: 'Closing', score: 89, time: 3.1, confidence: 88, engagement: 87 }
+const reportTypes = [
+  { id: 'session', name: 'Session Analytics', icon: Clock },
+  { id: 'job', name: 'Job Role Analytics', icon: Target },
+  { id: 'interviewer', name: 'Interviewer Performance', icon: Users },
+  { id: 'candidate', name: 'Candidate Analytics', icon: Award }
 ];
 
-const skillsData = [
-  { skill: 'Technical Knowledge', score: 85, industry: 82 },
-  { skill: 'Problem Solving', score: 88, industry: 79 },
-  { skill: 'Communication', score: 92, industry: 85 },
-  { skill: 'Leadership', score: 78, industry: 73 },
-  { skill: 'Adaptability', score: 86, industry: 81 },
-  { skill: 'Innovation', score: 82, industry: 77 }
+const sessionAnalytics = [
+  { date: '2024-12-01', sessions: 45, completion_rate: 87, avg_score: 78, duration: 52 },
+  { date: '2024-12-02', sessions: 52, completion_rate: 91, avg_score: 82, duration: 48 },
+  { date: '2024-12-03', sessions: 38, completion_rate: 85, avg_score: 79, duration: 55 },
+  { date: '2024-12-04', sessions: 61, completion_rate: 89, avg_score: 84, duration: 51 },
+  { date: '2024-12-05', sessions: 47, completion_rate: 93, avg_score: 86, duration: 49 },
+  { date: '2024-12-06', sessions: 54, completion_rate: 88, avg_score: 81, duration: 53 },
+  { date: '2024-12-07', sessions: 43, completion_rate: 92, avg_score: 83, duration: 50 }
 ];
 
-const sentimentData = [
-  { name: 'Positive', value: 65, color: '#22c55e' },
-  { name: 'Neutral', value: 28, color: '#64748b' },
-  { name: 'Negative', value: 7, color: '#ef4444' }
+const jobRoleAnalytics = [
+  { role: 'Software Engineer', interviews: 847, hired: 89, pass_rate: 68, avg_score: 78, time_to_hire: 18 },
+  { role: 'Product Manager', interviews: 423, hired: 67, pass_rate: 72, avg_score: 82, time_to_hire: 22 },
+  { role: 'Data Scientist', interviews: 356, hired: 52, pass_rate: 65, avg_score: 76, time_to_hire: 25 },
+  { role: 'UX Designer', interviews: 298, hired: 78, pass_rate: 78, avg_score: 84, time_to_hire: 20 },
+  { role: 'DevOps Engineer', interviews: 167, hired: 34, pass_rate: 81, avg_score: 87, time_to_hire: 16 }
 ];
 
-const timelineData = [
-  { time: '0:00', engagement: 85, stress: 20, clarity: 88 },
-  { time: '5:00', engagement: 78, stress: 35, clarity: 82 },
-  { time: '10:00', engagement: 92, stress: 15, clarity: 94 },
-  { time: '15:00', engagement: 88, stress: 25, clarity: 89 },
-  { time: '20:00', engagement: 76, stress: 45, clarity: 78 },
-  { time: '25:00', engagement: 94, stress: 10, clarity: 96 },
-  { time: '30:00', engagement: 91, stress: 18, clarity: 93 },
-  { time: '35:00', engagement: 89, stress: 22, clarity: 87 },
-  { time: '40:00', engagement: 87, stress: 25, clarity: 85 }
+const interviewerPerformance = [
+  { name: 'John Smith', interviews: 234, avg_score: 82, consistency: 94, feedback_rating: 4.7, department: 'Engineering' },
+  { name: 'Emily Davis', interviews: 189, avg_score: 85, consistency: 91, feedback_rating: 4.8, department: 'Product' },
+  { name: 'Alex Wilson', interviews: 156, avg_score: 79, consistency: 88, feedback_rating: 4.5, department: 'Design' },
+  { name: 'Lisa Brown', interviews: 198, avg_score: 87, consistency: 96, feedback_rating: 4.9, department: 'Engineering' },
+  { name: 'Mark Johnson', interviews: 167, avg_score: 81, consistency: 89, feedback_rating: 4.6, department: 'Product' }
 ];
 
-const competencyData = [
-  { category: 'Technical Skills', current: 85, target: 90, benchmark: 82 },
-  { category: 'Soft Skills', current: 92, target: 88, benchmark: 85 },
-  { category: 'Experience', current: 78, target: 85, benchmark: 75 },
-  { category: 'Cultural Fit', current: 94, target: 90, benchmark: 88 },
-  { category: 'Growth Potential', current: 86, target: 85, benchmark: 80 }
+const candidateInsights = [
+  { score_range: '90-100', count: 89, hire_rate: 95, avg_experience: 8.2 },
+  { score_range: '80-89', count: 234, hire_rate: 78, avg_experience: 6.8 },
+  { score_range: '70-79', count: 456, hire_rate: 52, avg_experience: 5.4 },
+  { score_range: '60-69', count: 298, hire_rate: 23, avg_experience: 4.1 },
+  { score_range: '50-59', count: 167, hire_rate: 8, avg_experience: 3.2 }
 ];
 
-const keyInsights = [
-  {
-    title: "Exceptional Communication Skills",
-    description: "Candidate demonstrated outstanding verbal communication with 92% rating, significantly above industry average.",
-    impact: "high",
-    icon: MessageSquare,
-    metric: "92%",
-    trend: "+7% vs avg"
-  },
-  {
-    title: "Strong Technical Foundation", 
-    description: "Solid understanding of core technical concepts with room for advanced architecture knowledge.",
-    impact: "high",
-    icon: Brain,
-    metric: "85%",
-    trend: "+3% vs avg"
-  },
-  {
-    title: "Leadership Development Opportunity",
-    description: "Shows potential but would benefit from more leadership experience and training.",
-    impact: "medium",
-    icon: Award,
-    metric: "78%",
-    trend: "+5% vs avg"
-  },
-  {
-    title: "Positive Interview Sentiment",
-    description: "Maintained positive engagement throughout with minimal stress indicators.",
-    impact: "high",
-    icon: Star,
-    metric: "65%",
-    trend: "Positive"
-  }
+const skillsAnalysis = [
+  { skill: 'Technical Skills', avg_score: 78, difficulty: 'High', success_rate: 65 },
+  { skill: 'Communication', avg_score: 85, difficulty: 'Medium', success_rate: 82 },
+  { skill: 'Problem Solving', avg_score: 76, difficulty: 'High', success_rate: 68 },
+  { skill: 'Leadership', avg_score: 71, difficulty: 'Medium', success_rate: 59 },
+  { skill: 'Cultural Fit', avg_score: 88, difficulty: 'Low', success_rate: 91 },
+  { skill: 'Innovation', avg_score: 74, difficulty: 'High', success_rate: 62 }
 ];
 
-const recommendations = [
-  {
-    category: "Technical Development",
-    items: [
-      "Advanced system design patterns training",
-      "Cloud architecture certification",
-      "Microservices best practices workshop"
-    ]
-  },
-  {
-    category: "Leadership Growth",
-    items: [
-      "Cross-functional team leadership opportunities",
-      "Mentoring junior developers",
-      "Project management methodology training"
-    ]
-  },
-  {
-    category: "Cultural Integration", 
-    items: [
-      "Company values alignment sessions",
-      "Team collaboration workshops",
-      "Innovation lab participation"
-    ]
-  }
+const integrityMetrics = [
+  { month: 'Aug', authentic: 92, suspicious: 6, flagged: 2 },
+  { month: 'Sep', authentic: 89, suspicious: 8, flagged: 3 },
+  { month: 'Oct', authentic: 94, suspicious: 4, flagged: 2 },
+  { month: 'Nov', authentic: 91, suspicious: 7, flagged: 2 },
+  { month: 'Dec', authentic: 96, suspicious: 3, flagged: 1 }
 ];
 
 export default function Report() {
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeReport, setActiveReport] = useState('session');
+  const [timeRange, setTimeRange] = useState('7d');
+  const [selectedDepartment, setSelectedDepartment] = useState('all');
 
-  const overallScore = Math.round(performanceData.reduce((acc, item) => acc + item.score, 0) / performanceData.length);
-  const totalTime = performanceData.reduce((acc, item) => acc + item.time, 0);
-  const avgConfidence = Math.round(performanceData.reduce((acc, item) => acc + item.confidence, 0) / performanceData.length);
-  const avgEngagement = Math.round(timelineData.reduce((acc, item) => acc + item.engagement, 0) / timelineData.length);
+  const departments = ['all', 'Engineering', 'Product', 'Design', 'Marketing', 'Sales'];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="bg-card border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-4">
-              <Link 
-                to="/" 
-                className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <ArrowLeft className="w-5 h-5" />
-                <span>Back to Dashboard</span>
-              </Link>
-              <div className="h-6 w-px bg-border" />
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-violet-600 rounded-lg flex items-center justify-center">
-                  <span className="text-sm font-bold text-white">Σ</span>
-                </div>
-                <h1 className="text-xl font-semibold text-foreground">T_interview_2</h1>
-              </div>
-            </div>
-            <div className="flex items-center space-x-2">
-              <button className="flex items-center space-x-2 px-3 py-2 text-sm bg-secondary hover:bg-secondary/80 rounded-lg transition-colors">
-                <Share2 className="w-4 h-4" />
-                <span>Share</span>
-              </button>
-              <button className="flex items-center space-x-2 px-3 py-2 text-sm bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg transition-colors">
-                <Download className="w-4 h-4" />
-                <span>Export</span>
-              </button>
-            </div>
-          </div>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-foreground">Analytics Reports</h1>
+          <p className="text-muted-foreground">Comprehensive insights for data-driven hiring decisions</p>
+        </div>
+        <div className="flex items-center space-x-2">
+          <select
+            value={timeRange}
+            onChange={(e) => setTimeRange(e.target.value)}
+            className="bg-card border border-border rounded-lg px-3 py-2 text-sm"
+          >
+            <option value="7d">Last 7 days</option>
+            <option value="30d">Last 30 days</option>
+            <option value="90d">Last 90 days</option>
+            <option value="1y">Last year</option>
+          </select>
+          <select
+            value={selectedDepartment}
+            onChange={(e) => setSelectedDepartment(e.target.value)}
+            className="bg-card border border-border rounded-lg px-3 py-2 text-sm"
+          >
+            {departments.map(dept => (
+              <option key={dept} value={dept}>
+                {dept === 'all' ? 'All Departments' : dept}
+              </option>
+            ))}
+          </select>
+          <button className="flex items-center space-x-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
+            <Download className="w-4 h-4" />
+            <span>Export Report</span>
+          </button>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Interview Header */}
-        <div className="bg-card border border-border rounded-xl p-6 mb-8">
-          <div className="flex items-start justify-between">
-            <div className="flex-1">
-              <h2 className="text-2xl font-bold text-foreground mb-2">Senior Software Engineer Interview</h2>
-              <div className="flex items-center space-x-6 text-muted-foreground mb-4">
-                <div className="flex items-center space-x-2">
-                  <User className="w-4 h-4" />
-                  <span>Sarah Johnson</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Calendar className="w-4 h-4" />
-                  <span>December 15, 2024</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Clock className="w-4 h-4" />
-                  <span>{Math.round(totalTime)} minutes</span>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="text-center p-3 bg-muted rounded-lg">
-                  <div className="text-lg font-bold text-foreground">{overallScore}%</div>
-                  <div className="text-xs text-muted-foreground">Overall Score</div>
-                </div>
-                <div className="text-center p-3 bg-muted rounded-lg">
-                  <div className="text-lg font-bold text-foreground">{avgConfidence}%</div>
-                  <div className="text-xs text-muted-foreground">Confidence</div>
-                </div>
-                <div className="text-center p-3 bg-muted rounded-lg">
-                  <div className="text-lg font-bold text-foreground">{avgEngagement}%</div>
-                  <div className="text-xs text-muted-foreground">Engagement</div>
-                </div>
-                <div className="text-center p-3 bg-muted rounded-lg">
-                  <div className="text-lg font-bold text-foreground">A-</div>
-                  <div className="text-xs text-muted-foreground">Grade</div>
-                </div>
-              </div>
-            </div>
-            <div className="text-right ml-6">
-              <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium ${
-                overallScore >= 90 ? 'bg-green-500/10 text-green-500' :
-                overallScore >= 80 ? 'bg-blue-500/10 text-blue-500' :
-                overallScore >= 70 ? 'bg-yellow-500/10 text-yellow-500' :
-                'bg-red-500/10 text-red-500'
-              }`}>
-                {overallScore >= 90 ? '✨ Excellent' :
-                 overallScore >= 80 ? '✅ Strong Candidate' :
-                 overallScore >= 70 ? '⚠️ Potential' : '❌ Needs Work'}
-              </div>
-              <p className="text-xs text-muted-foreground mt-2">Recommendation: Move to final round</p>
-            </div>
-          </div>
-        </div>
+      {/* Report Type Selector */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {reportTypes.map((type) => {
+          const IconComponent = type.icon;
+          return (
+            <button
+              key={type.id}
+              onClick={() => setActiveReport(type.id)}
+              className={`flex items-center space-x-3 p-4 rounded-xl border transition-all ${
+                activeReport === type.id
+                  ? 'bg-primary text-primary-foreground border-primary'
+                  : 'bg-card border-border hover:bg-muted'
+              }`}
+            >
+              <IconComponent className="w-5 h-5" />
+              <span className="font-medium">{type.name}</span>
+            </button>
+          );
+        })}
+      </div>
 
-        {/* Navigation Tabs */}
-        <div className="flex space-x-1 bg-muted p-1 rounded-lg mb-8">
-          {[
-            { id: 'overview', label: 'Overview', icon: Eye },
-            { id: 'performance', label: 'Performance', icon: TrendingUp },
-            { id: 'skills', label: 'Skills Analysis', icon: Target },
-            { id: 'insights', label: 'AI Insights', icon: Zap }
-          ].map((tab) => {
-            const IconComponent = tab.icon;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 flex items-center justify-center space-x-2 py-2 px-4 text-sm font-medium rounded-md transition-colors ${
-                  activeTab === tab.id
-                    ? 'bg-background text-foreground shadow-sm'
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}
-              >
-                <IconComponent className="w-4 h-4" />
-                <span>{tab.label}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Tab Content */}
-        {activeTab === 'overview' && (
+      {/* Session Analytics */}
+      {activeReport === 'session' && (
+        <div className="space-y-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Performance Timeline */}
+            {/* Session Trends */}
             <div className="bg-card border border-border rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Performance by Section</h3>
+              <h3 className="text-lg font-semibold text-foreground mb-4">Session Trends</h3>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
-                  <ComposedChart data={performanceData}>
+                  <ComposedChart data={sessionAnalytics}>
                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis dataKey="step" stroke="hsl(var(--muted-foreground))" fontSize={11} angle={-45} textAnchor="end" height={80} />
+                    <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" fontSize={12} />
                     <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                    <Tooltip 
-                      contentStyle={{ 
-                        backgroundColor: 'hsl(var(--card))', 
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: 'hsl(var(--card))',
                         border: '1px solid hsl(var(--border))',
                         borderRadius: '8px'
-                      }} 
+                      }}
                     />
-                    <Bar dataKey="score" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-                    <Line 
-                      type="monotone" 
-                      dataKey="confidence" 
-                      stroke="#22c55e" 
-                      strokeWidth={2} 
-                      dot={{ fill: '#22c55e', strokeWidth: 2, r: 4 }}
+                    <Bar dataKey="sessions" fill="hsl(var(--primary))" name="Sessions" />
+                    <Line
+                      type="monotone"
+                      dataKey="completion_rate"
+                      stroke="#22c55e"
+                      strokeWidth={2}
+                      name="Completion Rate"
                     />
                   </ComposedChart>
                 </ResponsiveContainer>
               </div>
             </div>
 
-            {/* Sentiment Analysis */}
+            {/* Score Distribution */}
             <div className="bg-card border border-border rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Sentiment Analysis</h3>
+              <h3 className="text-lg font-semibold text-foreground mb-4">Average Scores vs Duration</h3>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={sentimentData}
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={80}
-                      dataKey="value"
-                      label={({ name, value }) => `${name}: ${value}%`}
-                    >
-                      {sentimentData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
+                  <ScatterChart data={sessionAnalytics}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis dataKey="duration" stroke="hsl(var(--muted-foreground))" fontSize={12} name="Duration (min)" />
+                    <YAxis dataKey="avg_score" stroke="hsl(var(--muted-foreground))" fontSize={12} name="Avg Score" />
+                    <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+                    <Scatter dataKey="avg_score" fill="hsl(var(--primary))" />
+                  </ScatterChart>
                 </ResponsiveContainer>
               </div>
-              <div className="mt-4 space-y-2">
-                {sentimentData.map((item, index) => (
-                  <div key={index} className="flex items-center justify-between text-sm">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
-                      <span className="text-foreground">{item.name}</span>
+            </div>
+          </div>
+
+          {/* Skills Performance */}
+          <div className="bg-card border border-border rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-foreground mb-4">Skills Performance Analysis</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {skillsAnalysis.map((skill, index) => (
+                <div key={index} className="p-4 bg-muted rounded-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="font-medium text-foreground">{skill.skill}</h4>
+                    <span className={`px-2 py-1 rounded-full text-xs ${
+                      skill.difficulty === 'High' ? 'bg-red-500/10 text-red-500' :
+                      skill.difficulty === 'Medium' ? 'bg-yellow-500/10 text-yellow-500' :
+                      'bg-green-500/10 text-green-500'
+                    }`}>
+                      {skill.difficulty}
+                    </span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">Avg Score</span>
+                      <span className="text-foreground">{skill.avg_score}%</span>
                     </div>
-                    <span className="text-muted-foreground">{item.value}%</span>
+                    <div className="bg-background rounded-full h-2">
+                      <div
+                        className="bg-primary h-2 rounded-full"
+                        style={{ width: `${skill.avg_score}%` }}
+                      />
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">Success Rate</span>
+                      <span className="text-foreground">{skill.success_rate}%</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Job Role Analytics */}
+      {activeReport === 'job' && (
+        <div className="space-y-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Hiring Efficiency */}
+            <div className="bg-card border border-border rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-foreground mb-4">Hiring Efficiency by Role</h3>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={jobRoleAnalytics} layout="horizontal">
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis type="number" stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                    <YAxis dataKey="role" type="category" stroke="hsl(var(--muted-foreground))" fontSize={10} width={100} />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: 'hsl(var(--card))',
+                        border: '1px solid hsl(var(--border))',
+                        borderRadius: '8px'
+                      }}
+                    />
+                    <Bar dataKey="pass_rate" fill="hsl(var(--primary))" name="Pass Rate %" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Time to Hire */}
+            <div className="bg-card border border-border rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-foreground mb-4">Time to Hire Analysis</h3>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={jobRoleAnalytics}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis dataKey="role" stroke="hsl(var(--muted-foreground))" fontSize={10} angle={-45} textAnchor="end" height={80} />
+                    <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: 'hsl(var(--card))',
+                        border: '1px solid hsl(var(--border))',
+                        borderRadius: '8px'
+                      }}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="time_to_hire"
+                      stroke="#f59e0b"
+                      strokeWidth={3}
+                      dot={{ fill: '#f59e0b', strokeWidth: 2, r: 6 }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
+
+          {/* Job Role Performance Table */}
+          <div className="bg-card border border-border rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-foreground mb-4">Detailed Job Role Performance</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-border">
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Role</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Interviews</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Hired</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Pass Rate</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Avg Score</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Time to Hire</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {jobRoleAnalytics.map((role, index) => (
+                    <tr key={index} className="border-b border-border hover:bg-muted/50">
+                      <td className="py-3 px-4 font-medium text-foreground">{role.role}</td>
+                      <td className="py-3 px-4 text-muted-foreground">{role.interviews}</td>
+                      <td className="py-3 px-4 text-muted-foreground">{role.hired}</td>
+                      <td className="py-3 px-4">
+                        <span className={`px-2 py-1 rounded-full text-xs ${
+                          role.pass_rate >= 75 ? 'bg-green-500/10 text-green-500' :
+                          role.pass_rate >= 60 ? 'bg-yellow-500/10 text-yellow-500' :
+                          'bg-red-500/10 text-red-500'
+                        }`}>
+                          {role.pass_rate}%
+                        </span>
+                      </td>
+                      <td className="py-3 px-4 text-muted-foreground">{role.avg_score}</td>
+                      <td className="py-3 px-4 text-muted-foreground">{role.time_to_hire} days</td>
+                      <td className="py-3 px-4">
+                        <Link
+                          to={`/sessions?role=${encodeURIComponent(role.role)}`}
+                          className="text-primary hover:text-primary/80 text-sm"
+                        >
+                          View Details
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Interviewer Performance */}
+      {activeReport === 'interviewer' && (
+        <div className="space-y-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Interviewer Consistency */}
+            <div className="bg-card border border-border rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-foreground mb-4">Interviewer Consistency</h3>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <ScatterChart data={interviewerPerformance}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis dataKey="consistency" stroke="hsl(var(--muted-foreground))" fontSize={12} name="Consistency %" />
+                    <YAxis dataKey="avg_score" stroke="hsl(var(--muted-foreground))" fontSize={12} name="Avg Score" />
+                    <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+                    <Scatter dataKey="avg_score" fill="hsl(var(--primary))" />
+                  </ScatterChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Feedback Ratings */}
+            <div className="bg-card border border-border rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-foreground mb-4">Interviewer Feedback Ratings</h3>
+              <div className="space-y-4">
+                {interviewerPerformance.map((interviewer, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                    <div>
+                      <div className="font-medium text-foreground">{interviewer.name}</div>
+                      <div className="text-sm text-muted-foreground">{interviewer.department}</div>
+                    </div>
+                    <div className="flex items-center space-x-4">
+                      <div className="text-center">
+                        <div className="text-sm font-medium text-foreground">{interviewer.interviews}</div>
+                        <div className="text-xs text-muted-foreground">Interviews</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-sm font-medium text-foreground">{interviewer.feedback_rating}</div>
+                        <div className="text-xs text-muted-foreground">Rating</div>
+                      </div>
+                      <div className="flex">
+                        {Array.from({ length: 5 }, (_, i) => (
+                          <span
+                            key={i}
+                            className={`text-sm ${
+                              i < Math.floor(interviewer.feedback_rating) ? 'text-yellow-500' : 'text-muted'
+                            }`}
+                          >
+                            ★
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
+          </div>
 
-            {/* Engagement Timeline */}
-            <div className="bg-card border border-border rounded-xl p-6 lg:col-span-2">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Engagement & Stress Levels Over Time</h3>
+          {/* Performance Metrics */}
+          <div className="bg-card border border-border rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-foreground mb-4">Performance Comparison</h3>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={interviewerPerformance}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" fontSize={10} angle={-45} textAnchor="end" height={80} />
+                  <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: 'hsl(var(--card))',
+                      border: '1px solid hsl(var(--border))',
+                      borderRadius: '8px'
+                    }}
+                  />
+                  <Bar dataKey="avg_score" fill="hsl(var(--primary))" name="Avg Score" />
+                  <Bar dataKey="consistency" fill="#22c55e" name="Consistency" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Candidate Analytics */}
+      {activeReport === 'candidate' && (
+        <div className="space-y-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Score Distribution */}
+            <div className="bg-card border border-border rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-foreground mb-4">Score Distribution & Hire Rate</h3>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={timelineData}>
+                  <ComposedChart data={candidateInsights}>
                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis dataKey="time" stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                    <XAxis dataKey="score_range" stroke="hsl(var(--muted-foreground))" fontSize={12} />
                     <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                    <Tooltip 
-                      contentStyle={{ 
-                        backgroundColor: 'hsl(var(--card))', 
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: 'hsl(var(--card))',
                         border: '1px solid hsl(var(--border))',
                         borderRadius: '8px'
-                      }} 
+                      }}
                     />
-                    <Area 
-                      type="monotone" 
-                      dataKey="engagement" 
+                    <Bar dataKey="count" fill="hsl(var(--primary))" name="Candidates" />
+                    <Line
+                      type="monotone"
+                      dataKey="hire_rate"
+                      stroke="#22c55e"
+                      strokeWidth={3}
+                      name="Hire Rate %"
+                    />
+                  </ComposedChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Integrity Trends */}
+            <div className="bg-card border border-border rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-foreground mb-4">Integrity Trends</h3>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={integrityMetrics}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                    <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: 'hsl(var(--card))',
+                        border: '1px solid hsl(var(--border))',
+                        borderRadius: '8px'
+                      }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="authentic"
                       stackId="1"
-                      stroke="hsl(var(--primary))" 
-                      fill="hsl(var(--primary) / 0.3)" 
-                      strokeWidth={2}
+                      stroke="#22c55e"
+                      fill="#22c55e"
+                      fillOpacity={0.6}
                     />
-                    <Area 
-                      type="monotone" 
-                      dataKey="stress" 
-                      stackId="2"
-                      stroke="#ef4444" 
-                      fill="rgba(239, 68, 68, 0.2)" 
-                      strokeWidth={2}
+                    <Area
+                      type="monotone"
+                      dataKey="suspicious"
+                      stackId="1"
+                      stroke="#f59e0b"
+                      fill="#f59e0b"
+                      fillOpacity={0.6}
                     />
-                    <Line 
-                      type="monotone" 
-                      dataKey="clarity" 
-                      stroke="#22c55e" 
-                      strokeWidth={2}
+                    <Area
+                      type="monotone"
+                      dataKey="flagged"
+                      stackId="1"
+                      stroke="#ef4444"
+                      fill="#ef4444"
+                      fillOpacity={0.6}
                     />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
             </div>
           </div>
-        )}
 
-        {activeTab === 'performance' && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Time Analysis */}
-            <div className="bg-card border border-border rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Time Distribution</h3>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={performanceData} layout="horizontal">
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis type="number" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                    <YAxis dataKey="step" type="category" stroke="hsl(var(--muted-foreground))" fontSize={10} width={100} />
-                    <Tooltip 
-                      contentStyle={{ 
-                        backgroundColor: 'hsl(var(--card))', 
-                        border: '1px solid hsl(var(--border))',
-                        borderRadius: '8px'
-                      }} 
-                    />
-                    <Bar dataKey="time" fill="hsl(var(--secondary))" radius={[0, 4, 4, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-
-            {/* Competency Comparison */}
-            <div className="bg-card border border-border rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Competency vs Benchmarks</h3>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={competencyData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis dataKey="category" stroke="hsl(var(--muted-foreground))" fontSize={10} angle={-45} textAnchor="end" height={80} />
-                    <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                    <Tooltip 
-                      contentStyle={{ 
-                        backgroundColor: 'hsl(var(--card))', 
-                        border: '1px solid hsl(var(--border))',
-                        borderRadius: '8px'
-                      }} 
-                    />
-                    <Bar dataKey="current" fill="hsl(var(--primary))" name="Current" />
-                    <Bar dataKey="target" fill="#22c55e" name="Target" />
-                    <Bar dataKey="benchmark" fill="#64748b" name="Industry Avg" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-
-            {/* Detailed Scores */}
-            <div className="bg-card border border-border rounded-xl p-6 lg:col-span-2">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Section-by-Section Analysis</h3>
-              <div className="space-y-4">
-                {performanceData.map((item, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 bg-muted rounded-lg">
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-medium text-foreground">{item.step}</span>
-                        <div className="flex items-center space-x-4 text-sm">
-                          <span className="text-muted-foreground">Score: {item.score}%</span>
-                          <span className="text-muted-foreground">Time: {item.time}m</span>
-                          <span className="text-muted-foreground">Confidence: {item.confidence}%</span>
-                        </div>
-                      </div>
-                      <div className="flex space-x-2">
-                        <div className="flex-1 bg-background rounded-full h-2">
-                          <div 
-                            className="bg-primary h-2 rounded-full transition-all duration-500"
-                            style={{ width: `${item.score}%` }}
-                          />
-                        </div>
-                        <div className="flex-1 bg-background rounded-full h-2">
-                          <div 
-                            className="bg-green-500 h-2 rounded-full transition-all duration-500"
-                            style={{ width: `${item.confidence}%` }}
-                          />
-                        </div>
-                        <div className="flex-1 bg-background rounded-full h-2">
-                          <div 
-                            className="bg-blue-500 h-2 rounded-full transition-all duration-500"
-                            style={{ width: `${item.engagement}%` }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+          {/* Candidate Insights Table */}
+          <div className="bg-card border border-border rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-foreground mb-4">Candidate Performance Insights</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-border">
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Score Range</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Candidates</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Hire Rate</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Avg Experience</th>
+                    <th className="text-left py-3 px-4 font-medium text-foreground">Recommendation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {candidateInsights.map((insight, index) => (
+                    <tr key={index} className="border-b border-border hover:bg-muted/50">
+                      <td className="py-3 px-4 font-medium text-foreground">{insight.score_range}</td>
+                      <td className="py-3 px-4 text-muted-foreground">{insight.count}</td>
+                      <td className="py-3 px-4">
+                        <span className={`px-2 py-1 rounded-full text-xs ${
+                          insight.hire_rate >= 80 ? 'bg-green-500/10 text-green-500' :
+                          insight.hire_rate >= 50 ? 'bg-yellow-500/10 text-yellow-500' :
+                          'bg-red-500/10 text-red-500'
+                        }`}>
+                          {insight.hire_rate}%
+                        </span>
+                      </td>
+                      <td className="py-3 px-4 text-muted-foreground">{insight.avg_experience} years</td>
+                      <td className="py-3 px-4">
+                        <span className={`px-2 py-1 rounded-full text-xs ${
+                          insight.hire_rate >= 80 ? 'bg-green-500/10 text-green-500' :
+                          insight.hire_rate >= 50 ? 'bg-yellow-500/10 text-yellow-500' :
+                          'bg-red-500/10 text-red-500'
+                        }`}>
+                          {insight.hire_rate >= 80 ? 'Strong Pool' :
+                           insight.hire_rate >= 50 ? 'Mixed Results' :
+                           'Needs Improvement'}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
-        )}
+        </div>
+      )}
 
-        {activeTab === 'skills' && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Skills Radar */}
-            <div className="bg-card border border-border rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Skills Assessment</h3>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <RadarChart data={skillsData}>
-                    <PolarGrid stroke="hsl(var(--border))" />
-                    <PolarAngleAxis dataKey="skill" tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }} />
-                    <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }} />
-                    <Radar 
-                      name="Candidate" 
-                      dataKey="score" 
-                      stroke="hsl(var(--primary))" 
-                      fill="hsl(var(--primary) / 0.3)" 
-                      strokeWidth={2} 
-                    />
-                    <Radar 
-                      name="Industry Avg" 
-                      dataKey="industry" 
-                      stroke="#64748b" 
-                      fill="rgba(100, 116, 139, 0.1)" 
-                      strokeWidth={2} 
-                    />
-                  </RadarChart>
-                </ResponsiveContainer>
-              </div>
+      {/* Export Options */}
+      <div className="bg-card border border-border rounded-xl p-6">
+        <h3 className="text-lg font-semibold text-foreground mb-4">Export & Share</h3>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <button className="flex items-center space-x-3 p-4 bg-muted hover:bg-muted/80 rounded-lg transition-colors">
+            <FileText className="w-5 h-5 text-primary" />
+            <div className="text-left">
+              <div className="font-medium text-foreground">PDF Report</div>
+              <div className="text-sm text-muted-foreground">Comprehensive analysis</div>
             </div>
-
-            {/* Skills Breakdown */}
-            <div className="bg-card border border-border rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Detailed Skills Analysis</h3>
-              <div className="space-y-4">
-                {skillsData.map((skill, index) => (
-                  <div key={index}>
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-foreground">{skill.skill}</span>
-                      <div className="flex items-center space-x-2 text-xs">
-                        <span className="text-primary">{skill.score}%</span>
-                        <span className="text-muted-foreground">vs {skill.industry}% avg</span>
-                      </div>
-                    </div>
-                    <div className="relative">
-                      <div className="bg-muted rounded-full h-3">
-                        <div 
-                          className="bg-primary h-3 rounded-full transition-all duration-500"
-                          style={{ width: `${skill.score}%` }}
-                        />
-                      </div>
-                      <div 
-                        className="absolute top-0 w-1 h-3 bg-muted-foreground"
-                        style={{ left: `${skill.industry}%` }}
-                      />
-                    </div>
-                    <div className="mt-1 text-xs text-muted-foreground">
-                      {skill.score > skill.industry ? 
-                        `+${skill.score - skill.industry} points above industry average` :
-                        `${skill.industry - skill.score} points below industry average`
-                      }
-                    </div>
-                  </div>
-                ))}
-              </div>
+          </button>
+          <button className="flex items-center space-x-3 p-4 bg-muted hover:bg-muted/80 rounded-lg transition-colors">
+            <FileText className="w-5 h-5 text-green-500" />
+            <div className="text-left">
+              <div className="font-medium text-foreground">Excel Export</div>
+              <div className="text-sm text-muted-foreground">Raw data & charts</div>
             </div>
-
-            {/* Skill Recommendations */}
-            <div className="bg-card border border-border rounded-xl p-6 lg:col-span-2">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Development Recommendations</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {recommendations.map((category, index) => (
-                  <div key={index} className="p-4 bg-muted rounded-lg">
-                    <h4 className="font-medium text-foreground mb-3">{category.category}</h4>
-                    <ul className="space-y-2">
-                      {category.items.map((item, itemIndex) => (
-                        <li key={itemIndex} className="text-sm text-muted-foreground flex items-start space-x-2">
-                          <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
+          </button>
+          <button className="flex items-center space-x-3 p-4 bg-muted hover:bg-muted/80 rounded-lg transition-colors">
+            <Eye className="w-5 h-5 text-blue-500" />
+            <div className="text-left">
+              <div className="font-medium text-foreground">Dashboard Link</div>
+              <div className="text-sm text-muted-foreground">Shareable URL</div>
             </div>
-          </div>
-        )}
-
-        {activeTab === 'insights' && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {keyInsights.map((insight, index) => {
-              const IconComponent = insight.icon;
-              return (
-                <div key={index} className="bg-card border border-border rounded-xl p-6">
-                  <div className="flex items-start space-x-4">
-                    <div className={`p-3 rounded-lg ${
-                      insight.impact === 'high' ? 'bg-green-500/10' :
-                      insight.impact === 'medium' ? 'bg-yellow-500/10' :
-                      'bg-blue-500/10'
-                    }`}>
-                      <IconComponent className={`w-6 h-6 ${
-                        insight.impact === 'high' ? 'text-green-500' :
-                        insight.impact === 'medium' ? 'text-yellow-500' :
-                        'text-blue-500'
-                      }`} />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-start justify-between mb-2">
-                        <h4 className="text-lg font-semibold text-foreground">{insight.title}</h4>
-                        <div className="text-right">
-                          <div className="text-lg font-bold text-foreground">{insight.metric}</div>
-                          <div className="text-xs text-muted-foreground">{insight.trend}</div>
-                        </div>
-                      </div>
-                      <p className="text-muted-foreground text-sm leading-relaxed mb-3">{insight.description}</p>
-                      <div className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                        insight.impact === 'high' ? 'bg-green-500/10 text-green-500' :
-                        insight.impact === 'medium' ? 'bg-yellow-500/10 text-yellow-500' :
-                        'bg-blue-500/10 text-blue-500'
-                      }`}>
-                        {insight.impact === 'high' ? '🔥 High Impact' :
-                         insight.impact === 'medium' ? '⚡ Medium Impact' :
-                         '💡 Key Insight'}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
+          </button>
+          <button className="flex items-center space-x-3 p-4 bg-muted hover:bg-muted/80 rounded-lg transition-colors">
+            <Calendar className="w-5 h-5 text-orange-500" />
+            <div className="text-left">
+              <div className="font-medium text-foreground">Schedule Report</div>
+              <div className="text-sm text-muted-foreground">Automated delivery</div>
+            </div>
+          </button>
+        </div>
       </div>
     </div>
   );
