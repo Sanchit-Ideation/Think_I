@@ -862,68 +862,138 @@ export default function Report() {
             {candidateReportTab === 'competency' && (
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold text-foreground">Competency Analysis</h3>
-                
-                {/* Competency Scores */}
+
+                {/* Spider Chart for Expected vs Achieved */}
+                <div className="bg-muted rounded-lg p-6">
+                  <h4 className="font-medium text-foreground mb-4 text-center">Required vs Achieved</h4>
+                  <div className="h-96">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <RadarChart data={[
+                        { competency: 'Python', required: 8, achieved: 7, fullMark: 10 },
+                        { competency: 'SQL', required: 9, achieved: 8.5, fullMark: 10 },
+                        { competency: 'Data Visualization', required: 7, achieved: 8, fullMark: 10 },
+                        { competency: 'Problem Solving', required: 8, achieved: 7.5, fullMark: 10 },
+                        { competency: 'Communication', required: 6, achieved: 7.5, fullMark: 10 }
+                      ]}>
+                        <PolarGrid />
+                        <PolarAngleAxis dataKey="competency" tick={{ fontSize: 12, fill: 'hsl(var(--foreground))' }} />
+                        <PolarRadiusAxis
+                          angle={90}
+                          domain={[0, 10]}
+                          tick={{ fontSize: 10, fill: 'hsl(var(--muted-foreground))' }}
+                          tickCount={6}
+                        />
+                        <Radar
+                          name="Required"
+                          dataKey="required"
+                          stroke="#22c55e"
+                          fill="#22c55e"
+                          fillOpacity={0.1}
+                          strokeWidth={3}
+                          strokeDasharray="5 5"
+                        />
+                        <Radar
+                          name="Candidate Avg"
+                          dataKey="achieved"
+                          stroke="#1f2937"
+                          fill="#1f2937"
+                          fillOpacity={0.3}
+                          strokeWidth={3}
+                        />
+                        <Tooltip
+                          contentStyle={{
+                            backgroundColor: 'hsl(var(--card))',
+                            border: '1px solid hsl(var(--border))',
+                            borderRadius: '8px',
+                            fontSize: '12px'
+                          }}
+                        />
+                      </RadarChart>
+                    </ResponsiveContainer>
+                  </div>
+                  <div className="flex justify-center space-x-8 mt-4">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-4 h-1 bg-green-500 border-2 border-green-500 border-dashed" />
+                      <span className="text-sm text-muted-foreground">Required</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-4 h-1 bg-gray-800" />
+                      <span className="text-sm text-muted-foreground">Candidate Avg</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Detailed Analysis */}
                 <div className="space-y-4">
+                  <h4 className="font-medium text-foreground">Detailed Competency Breakdown</h4>
                   {[
                     {
-                      name: 'Technical Skills',
-                      ai: 88,
-                      interviewer: 85,
-                      ai_comment: 'AI Analysis: Strong programming fundamentals, efficient problem-solving approach',
-                      interviewer_comment: 'Interviewer Feedback: Good technical depth but could improve code optimization'
+                      name: 'Python',
+                      required: 8.0,
+                      achieved: 7.0,
+                      ai_comment: 'Strong fundamentals in Python programming, good use of libraries',
+                      interviewer_comment: 'Solid coding skills but could improve efficiency in complex algorithms'
                     },
                     {
-                      name: 'Communication',
-                      ai: 92,
-                      interviewer: 90,
-                      ai_comment: 'AI Analysis: Clear articulation, good pace and structure in explanations',
-                      interviewer_comment: 'Interviewer Feedback: Excellent listening skills and professional demeanor'
+                      name: 'SQL',
+                      required: 9.0,
+                      achieved: 8.5,
+                      ai_comment: 'Excellent database querying skills, understands complex joins',
+                      interviewer_comment: 'Very strong SQL knowledge, handled optimization questions well'
+                    },
+                    {
+                      name: 'Data Visualization',
+                      required: 7.0,
+                      achieved: 8.0,
+                      ai_comment: 'Exceeds expectations in creating clear, insightful visualizations',
+                      interviewer_comment: 'Great design sense and storytelling with data'
                     },
                     {
                       name: 'Problem Solving',
-                      ai: 85,
-                      interviewer: 88,
-                      ai_comment: 'AI Analysis: Systematic approach to problem breakdown and solution design',
-                      interviewer_comment: 'Interviewer Feedback: Creative solutions and good alternative thinking'
+                      required: 8.0,
+                      achieved: 7.5,
+                      ai_comment: 'Systematic approach to breaking down complex problems',
+                      interviewer_comment: 'Good analytical thinking, sometimes needs more creative approaches'
                     },
                     {
-                      name: 'Team Collaboration',
-                      ai: 78,
-                      interviewer: 82,
-                      ai_comment: 'AI Analysis: Shows willingness to collaborate, asks relevant questions',
-                      interviewer_comment: 'Interviewer Feedback: Good interpersonal skills, open to feedback and suggestions'
-                    },
-                    {
-                      name: 'Analytical Thinking',
-                      ai: 90,
-                      interviewer: 87,
-                      ai_comment: 'AI Analysis: Strong logical reasoning and attention to detail',
-                      interviewer_comment: 'Interviewer Feedback: Methodical approach but sometimes over-analyzes simple problems'
+                      name: 'Communication',
+                      required: 6.0,
+                      achieved: 7.5,
+                      ai_comment: 'Clear explanations and good technical communication skills',
+                      interviewer_comment: 'Excellent at explaining complex concepts in simple terms'
                     }
                   ].map((competency, index) => (
                     <div key={index} className="p-4 bg-muted rounded-lg">
                       <div className="flex items-center justify-between mb-3">
                         <h4 className="font-medium text-foreground">{competency.name}</h4>
                         <div className="flex items-center space-x-4 text-sm">
-                          <span className="text-purple-600">AI: {competency.ai}</span>
-                          <span className="text-blue-600">Interviewer: {competency.interviewer}</span>
+                          <span className="text-green-600">Required: {competency.required}</span>
+                          <span className="text-gray-700">Achieved: {competency.achieved}</span>
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            competency.achieved >= competency.required ? 'bg-green-500/10 text-green-600' :
+                            competency.achieved >= competency.required - 0.5 ? 'bg-yellow-500/10 text-yellow-600' :
+                            'bg-red-500/10 text-red-600'
+                          }`}>
+                            {competency.achieved >= competency.required ? 'Meets Requirement' :
+                             competency.achieved >= competency.required - 0.5 ? 'Close to Target' :
+                             'Below Requirement'}
+                          </span>
                         </div>
                       </div>
                       <div className="grid grid-cols-2 gap-2 mb-3">
                         <div className="bg-background rounded h-2">
-                          <div className="bg-purple-500 h-2 rounded" style={{width: `${competency.ai}%`}} />
+                          <div className="bg-green-500 h-2 rounded border-2 border-green-500 border-dashed" style={{width: `${(competency.required/10)*100}%`}} />
                         </div>
                         <div className="bg-background rounded h-2">
-                          <div className="bg-blue-500 h-2 rounded" style={{width: `${competency.interviewer}%`}} />
+                          <div className="bg-gray-700 h-2 rounded" style={{width: `${(competency.achieved/10)*100}%`}} />
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <div className="p-2 bg-purple-500/5 border border-purple-500/20 rounded">
-                          <p className="text-xs text-purple-700">{competency.ai_comment}</p>
-                        </div>
                         <div className="p-2 bg-blue-500/5 border border-blue-500/20 rounded">
-                          <p className="text-xs text-blue-700">{competency.interviewer_comment}</p>
+                          <p className="text-xs text-blue-700"><strong>AI Analysis:</strong> {competency.ai_comment}</p>
+                        </div>
+                        <div className="p-2 bg-purple-500/5 border border-purple-500/20 rounded">
+                          <p className="text-xs text-purple-700"><strong>Interviewer Feedback:</strong> {competency.interviewer_comment}</p>
                         </div>
                       </div>
                     </div>
