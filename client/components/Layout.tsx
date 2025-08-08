@@ -20,7 +20,7 @@ const navigation = [
   { name: 'Template', href: '/template', icon: FileText },
   { name: 'Schedule', href: '/schedule', icon: Calendar },
   { name: 'Report', href: '/report', icon: TrendingUp },
-  { name: 'Sessions', href: '/sessions', icon: Users },
+  { name: 'Settings', href: '/settings', icon: Settings },
 ];
 
 export default function Layout({ children }: LayoutProps) {
