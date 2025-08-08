@@ -349,68 +349,81 @@ export default function Report() {
                   </tr>
                 </thead>
                 <tbody>
-                  {candidatePerformance.map((candidate, index) => (
+                  {candidateOverview.map((candidate, index) => (
                     <tr key={index} className="border-b border-border hover:bg-muted/50">
-                      <td className="py-3 px-4">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                      <td className="py-2 px-2 text-xs text-foreground">{candidate.candidate_id}</td>
+                      <td className="py-2 px-2">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
                             <span className="text-white text-xs font-semibold">
-                              {candidate.name.split(' ').map(n => n[0]).join('')}
+                              {candidate.candidate_name.split(' ').map(n => n[0]).join('')}
                             </span>
                           </div>
-                          <span className="font-medium text-foreground">{candidate.name}</span>
+                          <span className="font-medium text-foreground text-xs">{candidate.candidate_name}</span>
                         </div>
                       </td>
-                      <td className="py-3 px-4">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-12 bg-muted rounded-full h-2">
-                            <div
-                              className="bg-primary h-2 rounded-full"
-                              style={{ width: `${candidate.ai_score}%` }}
-                            />
-                          </div>
-                          <span className="text-foreground text-sm">{candidate.ai_score}</span>
-                        </div>
-                      </td>
-                      <td className="py-3 px-4">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-12 bg-muted rounded-full h-2">
-                            <div
-                              className="bg-green-500 h-2 rounded-full"
-                              style={{ width: `${candidate.interviewer_score}%` }}
-                            />
-                          </div>
-                          <span className="text-foreground text-sm">{candidate.interviewer_score}</span>
-                        </div>
-                      </td>
-                      <td className="py-3 px-4">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-12 bg-muted rounded-full h-2">
-                            <div
-                              className="bg-purple-500 h-2 rounded-full"
-                              style={{ width: `${candidate.behavioral_score}%` }}
-                            />
-                          </div>
-                          <span className="text-foreground text-sm">{candidate.behavioral_score}</span>
-                        </div>
-                      </td>
-                      <td className="py-3 px-4">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getIntegrityColor(candidate.integrity)}`}>
-                          {candidate.integrity}
+                      <td className="py-2 px-2 text-xs text-foreground">{candidate.email}</td>
+                      <td className="py-2 px-2 text-xs text-foreground">{candidate.current_role}</td>
+                      <td className="py-2 px-2 text-xs text-foreground">{candidate.company}</td>
+                      <td className="py-2 px-2 text-xs text-foreground">{candidate.experience} yrs</td>
+                      <td className="py-2 px-2 text-xs text-foreground">{candidate.applied_role}</td>
+                      <td className="py-2 px-2 text-xs text-foreground">{candidate.interviewer}</td>
+                      <td className="py-2 px-2 text-xs text-foreground">{candidate.interview_date}</td>
+                      <td className="py-2 px-2 text-xs text-foreground">{candidate.duration} hrs</td>
+                      <td className="py-2 px-2 text-xs text-center">
+                        <span className={`px-1 py-0.5 rounded text-xs ${
+                          parseInt(candidate.connect_disconnect) > 2 ? 'bg-red-500/10 text-red-600' : 'bg-green-500/10 text-green-600'
+                        }`}>
+                          {candidate.connect_disconnect}
                         </span>
                       </td>
-                      <td className="py-3 px-4">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getVerdictColor(candidate.verdict)}`}>
-                          {candidate.verdict}
-                        </span>
-                      </td>
-                      <td className="py-3 px-4">
-                        <Link
-                          to={`/candidate/${index + 1}`}
-                          className="text-primary hover:text-primary/80 text-sm"
+                      <td className="py-2 px-2 text-xs text-center">
+                        <span
+                          className={`px-1 py-0.5 rounded text-xs cursor-help ${
+                            parseInt(candidate.ufm_count) > 0 ? 'bg-red-500/10 text-red-600' : 'bg-green-500/10 text-green-600'
+                          }`}
+                          title={candidate.ufm_list.join(', ')}
                         >
-                          View Details
-                        </Link>
+                          {candidate.ufm_count}
+                        </span>
+                      </td>
+                      <td className="py-2 px-2 text-xs text-center">
+                        <div className="flex items-center space-x-1">
+                          <div className="w-8 bg-muted rounded-full h-1.5">
+                            <div
+                              className={`h-1.5 rounded-full ${
+                                candidate.integrity_score >= 85 ? 'bg-green-500' :
+                                candidate.integrity_score >= 70 ? 'bg-yellow-500' : 'bg-red-500'
+                              }`}
+                              style={{ width: `${candidate.integrity_score}%` }}
+                            />
+                          </div>
+                          <span className="text-foreground text-xs">{candidate.integrity_score}</span>
+                        </div>
+                      </td>
+                      <td className="py-2 px-2 text-xs text-center">
+                        <div className="flex items-center space-x-1">
+                          <div className="w-8 bg-muted rounded-full h-1.5">
+                            <div
+                              className={`h-1.5 rounded-full ${
+                                candidate.overall_score >= 90 ? 'bg-green-500' :
+                                candidate.overall_score >= 80 ? 'bg-blue-500' :
+                                candidate.overall_score >= 70 ? 'bg-yellow-500' : 'bg-red-500'
+                              }`}
+                              style={{ width: `${candidate.overall_score}%` }}
+                            />
+                          </div>
+                          <span className="text-foreground text-xs">{candidate.overall_score}</span>
+                        </div>
+                      </td>
+                      <td className="py-2 px-2">
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          candidate.suggestion === 'Recommended' ? 'bg-green-500/10 text-green-600' :
+                          candidate.suggestion === 'Consider' ? 'bg-yellow-500/10 text-yellow-600' :
+                          'bg-red-500/10 text-red-600'
+                        }`}>
+                          {candidate.suggestion}
+                        </span>
                       </td>
                     </tr>
                   ))}
