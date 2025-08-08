@@ -311,7 +311,7 @@ export default function Report() {
           {/* Candidate Performance Table */}
           <div className="bg-card border border-border rounded-xl p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-foreground">Recent Candidate Performance</h3>
+              <h3 className="text-lg font-semibold text-foreground">Candidates Overview</h3>
               <div className="flex items-center space-x-2">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
