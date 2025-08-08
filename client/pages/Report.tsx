@@ -40,7 +40,7 @@ import {
 } from 'lucide-react';
 
 const reportTabs = [
-  { id: 'candidates', name: 'Candidate/Session Insights', icon: Users },
+  { id: 'candidates', name: 'Candidate Overview', icon: Users },
   { id: 'interviewer', name: 'Interviewer Report', icon: Award },
   { id: 'template', name: 'Template Report', icon: FileText }
 ];
@@ -248,6 +248,7 @@ export default function Report() {
   const [topFilter, setTopFilter] = useState('all');
   const [sortBy, setSortBy] = useState('score');
   const [searchTerm, setSearchTerm] = useState('');
+  const [candidateGraphFilter, setCandidateGraphFilter] = useState('30');
 
   // Filter and sort candidates
   const getFilteredCandidates = () => {
@@ -346,122 +347,75 @@ export default function Report() {
         })}
       </div>
 
-      {/* Candidate/Session Insights Tab */}
+      {/* Candidate Overview Tab */}
       {activeTab === 'candidates' && !showCandidateDetail && (
         <div className="space-y-8">
-          {/* Overview Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="bg-card border border-border rounded-xl p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Total Sessions</p>
-                  <p className="text-2xl font-bold text-foreground">206</p>
-                  <p className="text-xs text-green-500 mt-1">+12% from last period</p>
-                </div>
-                <Users className="w-8 h-8 text-blue-500" />
+          {/* Candidates Interviewed Chart */}
+          <div className="bg-card border border-border rounded-xl p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-foreground">Candidates Interviewed</h3>
+              <div className="flex items-center space-x-2">
+                <select
+                  value={candidateGraphFilter}
+                  onChange={(e) => setCandidateGraphFilter(e.target.value)}
+                  className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  <option value="7">Last 7 days</option>
+                  <option value="15">Last 15 days</option>
+                  <option value="30">Last 30 days</option>
+                  <option value="60">Last 60 days</option>
+                </select>
               </div>
             </div>
-            <div className="bg-card border border-border rounded-xl p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Avg AI Score</p>
-                  <p className="text-2xl font-bold text-foreground">83</p>
-                  <p className="text-xs text-green-500 mt-1">+5% improvement</p>
-                </div>
-                <Brain className="w-8 h-8 text-purple-500" />
-              </div>
-            </div>
-            <div className="bg-card border border-border rounded-xl p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Integrity Rate</p>
-                  <p className="text-2xl font-bold text-foreground">94%</p>
-                  <p className="text-xs text-green-500 mt-1">Clean sessions</p>
-                </div>
-                <Shield className="w-8 h-8 text-green-500" />
-              </div>
-            </div>
-            <div className="bg-card border border-border rounded-xl p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Highly Recommended</p>
-                  <p className="text-2xl font-bold text-foreground">127</p>
-                  <p className="text-xs text-blue-500 mt-1">62% of candidates</p>
-                </div>
-                <Award className="w-8 h-8 text-yellow-500" />
-              </div>
-            </div>
-          </div>
-
-          {/* Performance Trends */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="bg-card border border-border rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">AI vs Interviewer Score Trends</h3>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={sessionTrends}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis dataKey="week" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                    <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: 'hsl(var(--card))',
-                        border: '1px solid hsl(var(--border))',
-                        borderRadius: '8px'
-                      }}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="avg_ai_score"
-                      stroke="hsl(var(--primary))"
-                      strokeWidth={2}
-                      name="AI Score"
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="avg_interviewer_score"
-                      stroke="#22c55e"
-                      strokeWidth={2}
-                      name="Interviewer Score"
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-
-            <div className="bg-card border border-border rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Session Volume & Completion</h3>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <ComposedChart data={sessionTrends}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis dataKey="week" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                    <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: 'hsl(var(--card))',
-                        border: '1px solid hsl(var(--border))',
-                        borderRadius: '8px'
-                      }}
-                    />
-                    <Bar dataKey="total_sessions" fill="hsl(var(--primary))" name="Sessions" />
-                    <Line
-                      type="monotone"
-                      dataKey="completion_rate"
-                      stroke="#f59e0b"
-                      strokeWidth={2}
-                      name="Completion Rate"
-                    />
-                  </ComposedChart>
-                </ResponsiveContainer>
-              </div>
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={[
+                  { date: 'Jan 1', candidates: 12, scheduled: 15 },
+                  { date: 'Jan 2', candidates: 8, scheduled: 12 },
+                  { date: 'Jan 3', candidates: 15, scheduled: 18 },
+                  { date: 'Jan 4', candidates: 22, scheduled: 24 },
+                  { date: 'Jan 5', candidates: 18, scheduled: 20 },
+                  { date: 'Jan 6', candidates: 25, scheduled: 28 },
+                  { date: 'Jan 7', candidates: 19, scheduled: 22 }
+                ]}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                  <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: 'hsl(var(--card))',
+                      border: '1px solid hsl(var(--border))',
+                      borderRadius: '8px'
+                    }}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="candidates"
+                    stroke="hsl(var(--primary))"
+                    fill="hsl(var(--primary))"
+                    fillOpacity={0.3}
+                    strokeWidth={2}
+                    name="Interviewed"
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="scheduled"
+                    stroke="#22c55e"
+                    fill="#22c55e"
+                    fillOpacity={0.1}
+                    strokeWidth={2}
+                    strokeDasharray="5 5"
+                    name="Scheduled"
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
             </div>
           </div>
 
           {/* Candidate Performance Table */}
           <div className="bg-card border border-border rounded-xl p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-foreground">Candidate/Session Insights</h3>
+              <h3 className="text-lg font-semibold text-foreground">Candidate Overview</h3>
               <div className="flex items-center space-x-2">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
@@ -1468,7 +1422,7 @@ export default function Report() {
                   <h4 className="font-medium text-yellow-700 mb-2">Partially Evaluated (15%)</h4>
                   <ul className="text-sm text-yellow-600 space-y-1">
                     <li>• Team collaboration (surface level)</li>
-                    <li>• Innovation thinking (insufficient depth)</li>
+                    <li>��� Innovation thinking (insufficient depth)</li>
                   </ul>
                 </div>
                 <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
