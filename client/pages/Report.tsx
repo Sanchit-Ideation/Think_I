@@ -923,64 +923,181 @@ export default function Report() {
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold text-foreground">Recording & Transcript</h3>
 
-                {/* Video Player Placeholder */}
-                <div className="bg-muted rounded-lg p-8 text-center">
-                  <Eye className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                  <p className="text-muted-foreground">Video recording would be embedded here</p>
-                  <button className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-lg">Play Recording</button>
-                </div>
-
-                {/* Admin Analysis Tags */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-medium text-foreground mb-4">Interviewer Behavioral Tags</h4>
-                    <div className="space-y-2">
-                      {[
-                        { tag: 'Stress Tolerance', score: 85, color: 'green' },
-                        { tag: 'Empathy', score: 92, color: 'blue' },
-                        { tag: 'Confidence', score: 78, color: 'purple' },
-                        { tag: 'Proactive Thinking', score: 88, color: 'indigo' }
-                      ].map((item, index) => (
-                        <div key={index} className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                          <span className="text-sm font-medium">{item.tag}</span>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-16 bg-background rounded-full h-2">
-                              <div
-                                className={`h-2 rounded-full bg-${item.color}-500`}
-                                style={{width: `${item.score}%`}}
-                              />
-                            </div>
-                            <span className="text-sm text-muted-foreground w-8">{item.score}</span>
-                          </div>
-                        </div>
-                      ))}
+                {/* Recording Player with Side Panel */}
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                  {/* Video Player */}
+                  <div className="lg:col-span-3">
+                    <div className="bg-muted rounded-lg p-8 text-center">
+                      <Eye className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                      <p className="text-muted-foreground">Video recording would be embedded here</p>
+                      <button className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-lg">Play Recording</button>
                     </div>
                   </div>
 
-                  <div>
-                    <h4 className="font-medium text-foreground mb-4">Candidate Behavioral Tags</h4>
-                    <div className="space-y-2">
-                      {[
-                        { tag: 'Stress Tolerance', score: 72, color: 'green' },
-                        { tag: 'Integrity & Authenticity', score: selectedCandidate.integrity_score, color: 'green' },
-                        { tag: 'Empathy', score: 68, color: 'blue' },
-                        { tag: 'Risk-Taking', score: 45, color: 'orange' },
-                        { tag: 'Confidence', score: 82, color: 'purple' },
-                        { tag: 'Proactive Thinking', score: 75, color: 'indigo' }
-                      ].map((item, index) => (
-                        <div key={index} className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                          <span className="text-sm font-medium">{item.tag}</span>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-16 bg-background rounded-full h-2">
-                              <div
-                                className={`h-2 rounded-full bg-${item.color}-500`}
-                                style={{width: `${item.score}%`}}
-                              />
-                            </div>
-                            <span className="text-sm text-muted-foreground w-8">{item.score}</span>
+                  {/* Side Panel - Filters and Preview */}
+                  <div className="lg:col-span-1">
+                    <div className="bg-card border border-border rounded-lg p-4 space-y-4">
+                      <h4 className="font-medium text-foreground">Recording Controls</h4>
+
+                      {/* Filters */}
+                      <div className="space-y-3">
+                        <div>
+                          <label className="text-xs text-muted-foreground mb-1 block">View Type</label>
+                          <select className="w-full px-2 py-1 text-xs bg-background border border-border rounded">
+                            <option>Primary Camera</option>
+                            <option>Side Camera</option>
+                            <option>Screen Share</option>
+                            <option>Picture-in-Picture</option>
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="text-xs text-muted-foreground mb-1 block">Integrity Events</label>
+                          <div className="space-y-1">
+                            <label className="flex items-center space-x-2 text-xs">
+                              <input type="checkbox" className="w-3 h-3" defaultChecked />
+                              <span>UFM Markers</span>
+                            </label>
+                            <label className="flex items-center space-x-2 text-xs">
+                              <input type="checkbox" className="w-3 h-3" defaultChecked />
+                              <span>Face Detection</span>
+                            </label>
+                            <label className="flex items-center space-x-2 text-xs">
+                              <input type="checkbox" className="w-3 h-3" />
+                              <span>Audio Issues</span>
+                            </label>
                           </div>
                         </div>
-                      ))}
+
+                        <div>
+                          <label className="text-xs text-muted-foreground mb-1 block">Behavioral Tags</label>
+                          <div className="space-y-1">
+                            <label className="flex items-center space-x-2 text-xs">
+                              <input type="checkbox" className="w-3 h-3" defaultChecked />
+                              <span>Confidence Peaks</span>
+                            </label>
+                            <label className="flex items-center space-x-2 text-xs">
+                              <input type="checkbox" className="w-3 h-3" />
+                              <span>Stress Moments</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Preview Thumbnails */}
+                      <div className="space-y-2">
+                        <p className="text-xs text-muted-foreground">Camera Views</p>
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="bg-muted rounded p-2 text-center">
+                            <div className="w-full h-16 bg-background rounded mb-1 flex items-center justify-center">
+                              <Eye className="w-4 h-4 text-muted-foreground" />
+                            </div>
+                            <p className="text-xs">Primary</p>
+                          </div>
+                          <div className="bg-muted rounded p-2 text-center">
+                            <div className="w-full h-16 bg-background rounded mb-1 flex items-center justify-center">
+                              <Eye className="w-4 h-4 text-muted-foreground" />
+                            </div>
+                            <p className="text-xs">Side</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Behavioral Tags Section */}
+                <div className="space-y-4">
+                  <h4 className="font-medium text-foreground">Behavioral Analysis Timeline</h4>
+                  <div className="bg-card border border-border rounded-lg overflow-hidden">
+                    <div className="overflow-x-auto">
+                      <table className="w-full">
+                        <thead className="bg-muted">
+                          <tr>
+                            <th className="text-left py-3 px-4 font-medium text-foreground text-sm">Timestamp</th>
+                            <th className="text-left py-3 px-4 font-medium text-foreground text-sm">Speaker</th>
+                            <th className="text-left py-3 px-4 font-medium text-foreground text-sm">Conversation Snippet</th>
+                            <th className="text-left py-3 px-4 font-medium text-foreground text-sm">Behavioral Tags</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {[
+                            {
+                              timestamp: '00:02:15',
+                              speaker: 'Interviewer',
+                              snippet: 'Can you tell me about your experience with React?',
+                              tags: ['Professional', 'Clear Communication']
+                            },
+                            {
+                              timestamp: '00:02:32',
+                              speaker: 'Candidate',
+                              snippet: 'I have been working with React for about 3 years...',
+                              tags: ['Confident', 'Technical Knowledge']
+                            },
+                            {
+                              timestamp: '00:05:45',
+                              speaker: 'Interviewer',
+                              snippet: 'That\'s great. Now, can you walk me through a challenging project?',
+                              tags: ['Encouraging', 'Probing']
+                            },
+                            {
+                              timestamp: '00:06:12',
+                              speaker: 'Candidate',
+                              snippet: 'Well... um... there was this project where...',
+                              tags: ['Hesitant', 'Thinking', 'Nervous']
+                            },
+                            {
+                              timestamp: '00:12:30',
+                              speaker: 'Candidate',
+                              snippet: 'I implemented a caching strategy that improved performance by 40%',
+                              tags: ['Achievement-Oriented', 'Confident', 'Technical']
+                            },
+                            {
+                              timestamp: '00:18:22',
+                              speaker: 'Interviewer',
+                              snippet: 'How do you handle working under pressure?',
+                              tags: ['Behavioral Question', 'Assessing']
+                            },
+                            {
+                              timestamp: '00:18:45',
+                              speaker: 'Candidate',
+                              snippet: 'I actually perform better under pressure. In my last role...',
+                              tags: ['Self-Aware', 'Confident', 'Stress Tolerance']
+                            }
+                          ].map((entry, index) => (
+                            <tr key={index} className="border-b border-border hover:bg-muted/50">
+                              <td className="py-3 px-4 text-sm font-mono text-primary">{entry.timestamp}</td>
+                              <td className="py-3 px-4 text-sm">
+                                <span className={`font-medium ${
+                                  entry.speaker === 'Interviewer' ? 'text-blue-600' : 'text-green-600'
+                                }`}>
+                                  {entry.speaker}
+                                </span>
+                              </td>
+                              <td className="py-3 px-4 text-sm text-muted-foreground max-w-xs">
+                                <p className="truncate" title={entry.snippet}>{entry.snippet}</p>
+                              </td>
+                              <td className="py-3 px-4">
+                                <div className="flex flex-wrap gap-1">
+                                  {entry.tags.map((tag, tagIndex) => (
+                                    <span
+                                      key={tagIndex}
+                                      className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                        tag.includes('Confident') || tag.includes('Achievement') ? 'bg-green-500/10 text-green-600' :
+                                        tag.includes('Nervous') || tag.includes('Hesitant') ? 'bg-red-500/10 text-red-600' :
+                                        tag.includes('Technical') || tag.includes('Professional') ? 'bg-blue-500/10 text-blue-600' :
+                                        'bg-gray-500/10 text-gray-600'
+                                      }`}
+                                    >
+                                      {tag}
+                                    </span>
+                                  ))}
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
@@ -1021,21 +1138,51 @@ export default function Report() {
                   </div>
                 </div>
 
-                {/* Transcript */}
+                {/* Transcript with Download */}
                 <div>
-                  <h4 className="font-medium text-foreground mb-4">Transcript</h4>
+                  <div className="flex items-center justify-between mb-4">
+                    <h4 className="font-medium text-foreground">Full Transcript</h4>
+                    <button className="flex items-center space-x-2 px-3 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-sm">
+                      <Download className="w-4 h-4" />
+                      <span>Download Transcript</span>
+                    </button>
+                  </div>
                   <div className="bg-muted rounded-lg p-4 max-h-64 overflow-y-auto space-y-3">
                     <div className="text-sm">
-                      <span className="font-medium text-blue-600">Interviewer:</span>
-                      <span className="ml-2">Hello {selectedCandidate.candidate_name}, thank you for joining us today. Can you start by telling me about yourself?</span>
+                      <div className="flex items-start space-x-3">
+                        <span className="text-xs text-muted-foreground font-mono min-w-[60px]">00:01:15</span>
+                        <div>
+                          <span className="font-medium text-blue-600">Interviewer:</span>
+                          <span className="ml-2">Hello {selectedCandidate.candidate_name}, thank you for joining us today. Can you start by telling me about yourself?</span>
+                        </div>
+                      </div>
                     </div>
                     <div className="text-sm">
-                      <span className="font-medium text-green-600">Candidate:</span>
-                      <span className="ml-2">Hi, thank you for having me. I'm a software engineer with {selectedCandidate.experience} years of experience in web development...</span>
+                      <div className="flex items-start space-x-3">
+                        <span className="text-xs text-muted-foreground font-mono min-w-[60px]">00:01:32</span>
+                        <div>
+                          <span className="font-medium text-green-600">Candidate:</span>
+                          <span className="ml-2">Hi, thank you for having me. I'm a software engineer with {selectedCandidate.experience} years of experience in web development. I'm passionate about creating scalable applications and have worked extensively with React, Node.js, and cloud technologies...</span>
+                        </div>
+                      </div>
                     </div>
                     <div className="text-sm">
-                      <span className="font-medium text-blue-600">Interviewer:</span>
-                      <span className="ml-2">That's great. Now let's move to a technical question. Can you explain how you would design a scalable web application?</span>
+                      <div className="flex items-start space-x-3">
+                        <span className="text-xs text-muted-foreground font-mono min-w-[60px]">00:02:45</span>
+                        <div>
+                          <span className="font-medium text-blue-600">Interviewer:</span>
+                          <span className="ml-2">That's great. Now let's move to a technical question. Can you explain how you would design a scalable web application architecture?</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-sm">
+                      <div className="flex items-start space-x-3">
+                        <span className="text-xs text-muted-foreground font-mono min-w-[60px]">00:03:02</span>
+                        <div>
+                          <span className="font-medium text-green-600">Candidate:</span>
+                          <span className="ml-2">Sure, I would start by considering the expected traffic and data volume. For the frontend, I'd use a component-based architecture with React, implement state management with Redux for complex applications...</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
