@@ -1171,77 +1171,6 @@ export default function Report() {
               </div>
             )}
             
-            {candidateReportTab === 'behavioral' && (
-              <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-foreground">Behavioral Traits</h3>
-                
-                {/* Behavioral Analysis */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {[
-                    {trait: 'Decision-Making Ability', score: 85, rationale: 'Shows confidence in making choices, considers multiple options'},
-                    {trait: 'Emotional Awareness', score: 78, rationale: 'Good self-awareness, handles stress reasonably well'},
-                    {trait: 'Communication Clarity', score: 92, rationale: 'Excellent verbal communication, clear explanations'},
-                    {trait: 'Integrity & Authenticity', score: selectedCandidate.integrity_score, rationale: 'Honest responses, transparent about limitations'}
-                  ].map((trait, index) => (
-                    <div key={index} className="p-4 bg-muted rounded-lg">
-                      <div className="flex items-center justify-between mb-3">
-                        <h4 className="font-medium text-foreground">{trait.trait}</h4>
-                        <span className="text-lg font-bold text-primary">{trait.score}</span>
-                      </div>
-                      <div className="bg-background rounded-full h-2 mb-3">
-                        <div 
-                          className="bg-primary h-2 rounded-full" 
-                          style={{width: `${trait.score}%`}} 
-                        />
-                      </div>
-                      <p className="text-sm text-muted-foreground">{trait.rationale}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-            
-            {candidateReportTab === 'integrity' && (
-              <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-foreground">Session Integrity</h3>
-                
-                {/* Integrity Score */}
-                <div className="bg-muted rounded-lg p-6 text-center">
-                  <Shield className="w-12 h-12 text-green-500 mx-auto mb-4" />
-                  <h4 className="text-2xl font-bold text-foreground mb-2">{selectedCandidate.integrity_score}/100</h4>
-                  <p className="text-muted-foreground">Overall Integrity Score</p>
-                </div>
-                
-                {/* UFM Events Timeline */}
-                {parseInt(selectedCandidate.ufm_count) > 0 ? (
-                  <div>
-                    <h4 className="font-medium text-foreground mb-4">Unfair Means Events</h4>
-                    <div className="space-y-3">
-                      {selectedCandidate.ufm_list.map((ufm: string, index: number) => {
-                        const timestamps = ['15:30', '22:45', '35:12', '48:20', '52:15'];
-                        const durations = ['2 mins', '1 min', '3 mins', '1.5 mins', '45 secs'];
-                        return (
-                          <div key={index} className="flex items-center space-x-3 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
-                            <div className="w-2 h-2 bg-red-500 rounded-full" />
-                            <div className="flex-1">
-                              <span className="text-red-700 text-sm font-medium">{ufm}</span>
-                              <p className="text-xs text-red-600">
-                                Detected at {timestamps[index] || '15:30'} - Duration: {durations[index] || '2 mins'}
-                              </p>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="p-6 bg-green-500/10 border border-green-500/20 rounded-lg text-center">
-                    <h4 className="font-medium text-green-700 mb-2">Clean Session</h4>
-                    <p className="text-sm text-green-600">No integrity violations detected during this interview</p>
-                  </div>
-                )}
-              </div>
-            )}
             
             {candidateReportTab === 'authentication' && (
               <div className="space-y-6">
@@ -1503,7 +1432,6 @@ export default function Report() {
                 {[
                   { metric: 'Question Depth', score: 88, feedback: 'Asks insightful follow-up questions' },
                   { metric: 'Time Management', score: 75, feedback: 'Sometimes runs over allocated time' },
-                  { metric: 'Candidate Engagement', score: 92, feedback: 'Excellent at keeping candidates comfortable' },
                   { metric: 'Technical Assessment', score: 85, feedback: 'Good at evaluating technical skills' },
                   { metric: 'Bias Mitigation', score: 78, feedback: 'Room for improvement in unconscious bias' }
                 ].map((item, index) => (
@@ -1524,60 +1452,142 @@ export default function Report() {
               </div>
             </div>
 
-            {/* Competency Coverage */}
+            {/* Missed Competencies */}
             <div className="bg-card border border-border rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Template Alignment & Coverage</h3>
+              <h3 className="text-lg font-semibold text-foreground mb-4">Missed Competencies (%)</h3>
               <div className="space-y-4">
-                <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
-                  <h4 className="font-medium text-green-700 mb-2">Well Covered Areas</h4>
-                  <ul className="text-sm text-green-600 space-y-1">
-                    <li>• Technical Skills Assessment (95% coverage)</li>
-                    <li>• Communication Evaluation (90% coverage)</li>
-                    <li>• Problem-solving scenarios (88% coverage)</li>
+                <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
+                  <h4 className="font-medium text-red-700 mb-2">Not Discussed (23%)</h4>
+                  <ul className="text-sm text-red-600 space-y-1">
+                    <li>• Cultural fit assessment (completely missed)</li>
+                    <li>• Leadership potential (briefly mentioned)</li>
+                    <li>• Conflict resolution scenarios (not addressed)</li>
                   </ul>
                 </div>
                 <div className="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
-                  <h4 className="font-medium text-yellow-700 mb-2">Needs Improvement</h4>
+                  <h4 className="font-medium text-yellow-700 mb-2">Partially Evaluated (15%)</h4>
                   <ul className="text-sm text-yellow-600 space-y-1">
-                    <li>• Cultural fit assessment (65% coverage)</li>
-                    <li>• Leadership potential (70% coverage)</li>
+                    <li>• Team collaboration (surface level)</li>
+                    <li>• Innovation thinking (insufficient depth)</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                  <h4 className="font-medium text-blue-700 mb-2">Consistency Patterns</h4>
-                  <p className="text-sm text-blue-600">Shows consistent evaluation patterns across similar roles with minimal score deviation (±3 points).</p>
+                <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
+                  <h4 className="font-medium text-green-700 mb-2">Well Covered (62%)</h4>
+                  <p className="text-sm text-green-600">Technical skills, communication, and problem-solving thoroughly evaluated</p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Behavioral Analysis */}
-          <div className="bg-card border border-border rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-foreground mb-4">Interviewer Behavior Analysis</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-blue-500/10 border border-blue-500/20 rounded-full mx-auto mb-3 flex items-center justify-center">
-                  <Clock className="w-8 h-8 text-blue-500" />
-                </div>
-                <h4 className="font-medium text-foreground mb-2">Speaking Time</h4>
-                <p className="text-2xl font-bold text-primary">35%</p>
-                <p className="text-xs text-muted-foreground">Optimal interviewer speaking ratio</p>
+          {/* Enhanced Behavioral Analysis */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Behavioral Tag Trends */}
+            <div className="bg-card border border-border rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-foreground mb-4">Behavioral Tag Trends</h3>
+              <p className="text-sm text-muted-foreground mb-4">How interviewer responds to different candidate types</p>
+              <div className="space-y-3">
+                {[
+                  { behavior: 'With Confident Candidates', trend: 'More challenging questions (+25%)', color: 'blue' },
+                  { behavior: 'With Nervous Candidates', trend: 'Extra encouragement and breaks', color: 'green' },
+                  { behavior: 'Technical Discussions', trend: 'Deep dives, sometimes too long', color: 'purple' },
+                  { behavior: 'Cultural Fit Questions', trend: 'Often skipped (35% of time)', color: 'red' }
+                ].map((item, index) => (
+                  <div key={index} className="p-3 bg-muted rounded-lg">
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium text-foreground text-sm">{item.behavior}</span>
+                      <span className={`text-xs px-2 py-1 rounded-full bg-${item.color}-500/10 text-${item.color}-600`}>
+                        {item.trend}
+                      </span>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-green-500/10 border border-green-500/20 rounded-full mx-auto mb-3 flex items-center justify-center">
-                  <Users className="w-8 h-8 text-green-500" />
+            </div>
+
+            {/* Session Integrity Handling */}
+            <div className="bg-card border border-border rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-foreground mb-4">Session Integrity Handling</h3>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4 text-center">
+                  <div className="p-3 bg-muted rounded-lg">
+                    <p className="text-2xl font-bold text-red-600">12</p>
+                    <p className="text-xs text-muted-foreground">Sessions Flagged</p>
+                  </div>
+                  <div className="p-3 bg-muted rounded-lg">
+                    <p className="text-2xl font-bold text-green-600">8</p>
+                    <p className="text-xs text-muted-foreground">Properly Handled</p>
+                  </div>
                 </div>
-                <h4 className="font-medium text-foreground mb-2">Candidate Comfort</h4>
-                <p className="text-2xl font-bold text-primary">4.8</p>
-                <p className="text-xs text-muted-foreground">Average candidate rating</p>
+                <div className="space-y-2">
+                  <div className="p-3 bg-green-500/10 border border-green-500/20 rounded">
+                    <p className="text-sm font-medium text-green-700">Good Responses:</p>
+                    <p className="text-xs text-green-600">• Paused interview to address technical issues</p>
+                    <p className="text-xs text-green-600">• Documented integrity concerns properly</p>
+                  </div>
+                  <div className="p-3 bg-red-500/10 border border-red-500/20 rounded">
+                    <p className="text-sm font-medium text-red-700">Missed Issues:</p>
+                    <p className="text-xs text-red-600">• 4 cases of obvious tab switching ignored</p>
+                  </div>
+                </div>
               </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-purple-500/10 border border-purple-500/20 rounded-full mx-auto mb-3 flex items-center justify-center">
-                  <Target className="w-8 h-8 text-purple-500" />
+            </div>
+          </div>
+
+          {/* Bias Detection and Follow-up Quality */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Bias Detection */}
+            <div className="bg-card border border-border rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-foreground mb-4">Bias Detection (AI vs Human Delta)</h3>
+              <div className="space-y-4">
+                <div className="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+                  <h4 className="font-medium text-yellow-700 mb-2">Significant Score Gaps</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span>Female Candidates:</span>
+                      <span className="text-red-600">-12 points vs AI</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Non-native Speakers:</span>
+                      <span className="text-red-600">-8 points vs AI</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Junior Experience:</span>
+                      <span className="text-green-600">+6 points vs AI</span>
+                    </div>
+                  </div>
                 </div>
-                <h4 className="font-medium text-foreground mb-2">Score Accuracy</h4>
-                <p className="text-2xl font-bold text-primary">89%</p>
-                <p className="text-xs text-muted-foreground">Alignment with AI assessment</p>
+                <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded">
+                  <p className="text-sm text-blue-700"><strong>Pattern:</strong> Tends to be harder on communication skills, more lenient on technical depth for junior candidates</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Follow-up Quality */}
+            <div className="bg-card border border-border rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-foreground mb-4">Follow-up Quality</h3>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4 text-center">
+                  <div className="p-3 bg-muted rounded-lg">
+                    <p className="text-2xl font-bold text-primary">73%</p>
+                    <p className="text-xs text-muted-foreground">Questions with Follow-ups</p>
+                  </div>
+                  <div className="p-3 bg-muted rounded-lg">
+                    <p className="text-2xl font-bold text-green-600">4.2</p>
+                    <p className="text-xs text-muted-foreground">Avg Quality Score</p>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="p-3 bg-green-500/10 border border-green-500/20 rounded">
+                    <p className="text-sm font-medium text-green-700">Strong Areas:</p>
+                    <p className="text-xs text-green-600">• Technical depth probing (92%)</p>
+                    <p className="text-xs text-green-600">• Problem-solving clarification (87%)</p>
+                  </div>
+                  <div className="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded">
+                    <p className="text-sm font-medium text-yellow-700">Improvement Needed:</p>
+                    <p className="text-xs text-yellow-600">• Behavioral question follow-ups (45%)</p>
+                    <p className="text-xs text-yellow-600">• Cultural fit exploration (38%)</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1595,13 +1605,14 @@ export default function Report() {
                     <th className="text-left py-2 px-3 font-medium text-foreground text-sm">Duration</th>
                     <th className="text-left py-2 px-3 font-medium text-foreground text-sm">Score Given</th>
                     <th className="text-left py-2 px-3 font-medium text-foreground text-sm">AI Score</th>
+                    <th className="text-left py-2 px-3 font-medium text-foreground text-sm">Bias Delta</th>
                   </tr>
                 </thead>
                 <tbody>
                   {[
-                    { date: '01/08/2025', candidate: 'Ajit Sharma', role: 'Sr. PM', duration: '1h', interviewer_score: 92, ai_score: 95 },
-                    { date: '30/07/2025', candidate: 'Sarah Wilson', role: 'Developer', duration: '45m', interviewer_score: 88, ai_score: 86 },
-                    { date: '29/07/2025', candidate: 'Mike Chen', role: 'Designer', duration: '1h 15m', interviewer_score: 91, ai_score: 89 }
+                    { date: '01/08/2025', candidate: 'Ajit Sharma', role: 'Sr. PM', duration: '1h', interviewer_score: 92, ai_score: 95, delta: -3 },
+                    { date: '30/07/2025', candidate: 'Sarah Wilson', role: 'Developer', duration: '45m', interviewer_score: 88, ai_score: 86, delta: +2 },
+                    { date: '29/07/2025', candidate: 'Mike Chen', role: 'Designer', duration: '1h 15m', interviewer_score: 91, ai_score: 89, delta: +2 }
                   ].map((interview, index) => (
                     <tr key={index} className="border-b border-border hover:bg-muted/50">
                       <td className="py-2 px-3 text-sm text-muted-foreground">{interview.date}</td>
@@ -1610,6 +1621,11 @@ export default function Report() {
                       <td className="py-2 px-3 text-sm text-muted-foreground">{interview.duration}</td>
                       <td className="py-2 px-3 text-sm font-medium text-blue-600">{interview.interviewer_score}</td>
                       <td className="py-2 px-3 text-sm font-medium text-purple-600">{interview.ai_score}</td>
+                      <td className="py-2 px-3 text-sm font-medium ${
+                        interview.delta > 0 ? 'text-green-600' : interview.delta < 0 ? 'text-red-600' : 'text-gray-600'
+                      }">
+                        {interview.delta > 0 ? '+' : ''}{interview.delta}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
