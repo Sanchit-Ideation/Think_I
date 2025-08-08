@@ -40,10 +40,19 @@ import {
 } from 'lucide-react';
 
 const reportTabs = [
-  { id: 'session', name: 'Session Report', icon: Users },
-  { id: 'candidate', name: 'Candidate Report', icon: User },
+  { id: 'candidates', name: 'Candidate/Session Insights', icon: Users },
   { id: 'interviewer', name: 'Interviewer Report', icon: Award },
   { id: 'template', name: 'Template Report', icon: FileText }
+];
+
+const candidateReportTabs = [
+  { id: 'summary', name: 'Summary & Stages', icon: FileText },
+  { id: 'recording', name: 'Recording & Transcript', icon: Eye },
+  { id: 'competency', name: 'Competency Analysis', icon: Target },
+  { id: 'behavioral', name: 'Behavioral Traits', icon: Brain },
+  { id: 'integrity', name: 'Session Integrity', icon: Shield },
+  { id: 'authentication', name: 'Authentication', icon: User },
+  { id: 'chat', name: 'Chat & Notes', icon: FileText }
 ];
 
 // Session/Candidate data
@@ -130,9 +139,11 @@ const interviewerSkillAnalysis = [
 ];
 
 export default function Report() {
-  const [activeTab, setActiveTab] = useState('session');
+  const [activeTab, setActiveTab] = useState('candidates');
   const [timeRange, setTimeRange] = useState('30d');
   const [selectedCandidate, setSelectedCandidate] = useState<any>(null);
+  const [candidateReportTab, setCandidateReportTab] = useState('summary');
+  const [showCandidateDetail, setShowCandidateDetail] = useState(false);
 
   const getVerdictColor = (verdict: string) => {
     switch (verdict) {
@@ -198,8 +209,8 @@ export default function Report() {
         })}
       </div>
 
-      {/* Session Report Tab - Default Candidate List View */}
-      {activeTab === 'session' && (
+      {/* Candidate/Session Insights Tab */}
+      {activeTab === 'candidates' && !showCandidateDetail && (
         <div className="space-y-8">
           {/* Overview Cards */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -313,7 +324,7 @@ export default function Report() {
           {/* Candidate Performance Table */}
           <div className="bg-card border border-border rounded-xl p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-foreground">Session Report - Candidates Overview</h3>
+              <h3 className="text-lg font-semibold text-foreground">Candidate/Session Insights</h3>
               <div className="flex items-center space-x-2">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
@@ -352,12 +363,13 @@ export default function Report() {
                 </thead>
                 <tbody>
                   {candidateOverview.map((candidate, index) => (
-                    <tr
-                      key={index}
+                    <tr 
+                      key={index} 
                       className="border-b border-border hover:bg-muted/50 cursor-pointer"
                       onClick={() => {
                         setSelectedCandidate(candidate);
-                        setActiveTab('candidate');
+                        setShowCandidateDetail(true);
+                        setCandidateReportTab('summary');
                       }}
                     >
                       <td className="py-2 px-2 text-xs text-foreground">{candidate.candidate_id}</td>
@@ -443,93 +455,418 @@ export default function Report() {
         </div>
       )}
 
-      {/* Candidate Report Tab - Individual Candidate Analysis */}
-      {activeTab === 'candidate' && (
-        <div className="space-y-8">
-          {selectedCandidate ? (
-            <>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <button
-                    onClick={() => setActiveTab('session')}
-                    className="text-primary hover:text-primary/80 transition-colors"
-                  >
-                    ← Back to Session Report
-                  </button>
-                  <div>
-                    <h2 className="text-2xl font-bold text-foreground">{selectedCandidate.candidate_name}</h2>
-                    <p className="text-muted-foreground">{selectedCandidate.applied_role} - Interview Analysis</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Candidate Analysis Content - Reuse from existing CandidateDetail */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div className="bg-card border border-border rounded-xl p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-muted-foreground">AI Score</p>
-                      <p className="text-2xl font-bold text-foreground">{selectedCandidate.overall_score}</p>
-                    </div>
-                    <Brain className="w-8 h-8 text-purple-500" />
-                  </div>
-                </div>
-                <div className="bg-card border border-border rounded-xl p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Interviewer Score</p>
-                      <p className="text-2xl font-bold text-foreground">{selectedCandidate.overall_score - 3}</p>
-                    </div>
-                    <User className="w-8 h-8 text-blue-500" />
-                  </div>
-                </div>
-                <div className="bg-card border border-border rounded-xl p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Integrity Score</p>
-                      <p className="text-2xl font-bold text-foreground">{selectedCandidate.integrity_score}</p>
-                    </div>
-                    <Shield className="w-8 h-8 text-green-500" />
-                  </div>
-                </div>
-                <div className="bg-card border border-border rounded-xl p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Final Verdict</p>
-                      <p className="text-lg font-bold text-foreground">{selectedCandidate.suggestion}</p>
-                    </div>
-                    <Award className="w-8 h-8 text-yellow-500" />
-                  </div>
-                </div>
-              </div>
-
-              {/* UFM Timeline if any violations */}
-              {parseInt(selectedCandidate.ufm_count) > 0 && (
-                <div className="bg-card border border-border rounded-xl p-6">
-                  <h3 className="text-lg font-semibold text-foreground mb-4">Integrity Timeline</h3>
-                  <div className="space-y-3">
-                    {selectedCandidate.ufm_list.map((ufm: string, index: number) => (
-                      <div key={index} className="flex items-center space-x-3 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
-                        <div className="w-2 h-2 bg-red-500 rounded-full" />
-                        <span className="text-red-700 text-sm">{ufm}</span>
-                        <span className="text-xs text-muted-foreground ml-auto">During interview</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </>
-          ) : (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">Please select a candidate from the Session Report to view detailed analysis.</p>
-              <button
-                onClick={() => setActiveTab('session')}
-                className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+      {/* Detailed Candidate Report */}
+      {activeTab === 'candidates' && showCandidateDetail && selectedCandidate && (
+        <div className="space-y-6">
+          {/* Header Summary */}
+          <div className="bg-card border border-border rounded-xl p-6">
+            <div className="flex items-center justify-between mb-6">
+              <button 
+                onClick={() => setShowCandidateDetail(false)}
+                className="text-primary hover:text-primary/80 transition-colors flex items-center space-x-2"
               >
-                Go to Session Report
+                <span>←</span>
+                <span>Back to Candidate List</span>
               </button>
+              <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                selectedCandidate.suggestion === 'Recommended' ? 'bg-green-500/10 text-green-600' :
+                selectedCandidate.suggestion === 'Consider' ? 'bg-yellow-500/10 text-yellow-600' :
+                'bg-red-500/10 text-red-600'
+              }`}>
+                {selectedCandidate.suggestion === 'Recommended' ? 'Highly Recommended' : selectedCandidate.suggestion}
+              </span>
             </div>
-          )}
+            
+            {/* Basic Info */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Candidate Details</p>
+                <p className="font-semibold text-foreground">{selectedCandidate.candidate_name}</p>
+                <p className="text-sm text-muted-foreground">{selectedCandidate.email}</p>
+                <p className="text-sm text-muted-foreground">ID: {selectedCandidate.candidate_id}</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Interview Details</p>
+                <p className="font-semibold text-foreground">{selectedCandidate.interview_date}</p>
+                <p className="text-sm text-muted-foreground">Role: {selectedCandidate.applied_role}</p>
+                <p className="text-sm text-muted-foreground">Interviewer: {selectedCandidate.interviewer}</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Status</p>
+                <p className="font-semibold text-green-600">Evaluated</p>
+                <p className="text-sm text-muted-foreground">Duration: {selectedCandidate.duration} hrs</p>
+              </div>
+            </div>
+            
+            {/* Key Scores */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-4 text-center">
+                <Brain className="w-6 h-6 text-purple-500 mx-auto mb-2" />
+                <p className="text-sm text-muted-foreground">AI Score</p>
+                <p className="text-2xl font-bold text-foreground">{selectedCandidate.overall_score}</p>
+              </div>
+              <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 text-center">
+                <User className="w-6 h-6 text-blue-500 mx-auto mb-2" />
+                <p className="text-sm text-muted-foreground">Interviewer Score</p>
+                <p className="text-2xl font-bold text-foreground">{selectedCandidate.overall_score - 3}</p>
+              </div>
+              <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-4 text-center">
+                <Brain className="w-6 h-6 text-orange-500 mx-auto mb-2" />
+                <p className="text-sm text-muted-foreground">Behavioral Score</p>
+                <p className="text-2xl font-bold text-foreground">{selectedCandidate.overall_score - 5}</p>
+              </div>
+              <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 text-center">
+                <Shield className="w-6 h-6 text-green-500 mx-auto mb-2" />
+                <p className="text-sm text-muted-foreground">Integrity Score</p>
+                <p className="text-2xl font-bold text-foreground">{selectedCandidate.integrity_score}</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Candidate Report Tabs */}
+          <div className="flex space-x-1 bg-muted p-1 rounded-lg">
+            {candidateReportTabs.map((tab) => {
+              const IconComponent = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setCandidateReportTab(tab.id)}
+                  className={`flex-1 flex items-center justify-center space-x-2 py-2 px-3 text-xs font-medium rounded-md transition-colors ${
+                    candidateReportTab === tab.id
+                      ? 'bg-background text-foreground shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  <IconComponent className="w-3 h-3" />
+                  <span className="hidden md:inline">{tab.name}</span>
+                </button>
+              );
+            })}
+          </div>
+          
+          {/* Tab Content */}
+          <div className="bg-card border border-border rounded-xl p-6">
+            {candidateReportTab === 'summary' && (
+              <div className="space-y-6">
+                <h3 className="text-lg font-semibold text-foreground">Summary & Stages</h3>
+                
+                {/* Interview Stages */}
+                <div className="space-y-4">
+                  <h4 className="font-medium text-foreground">Interview Stages</h4>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                      <span className="font-medium">Introduction</span>
+                      <span className="text-sm text-muted-foreground">00:00 - 05:30</span>
+                    </div>
+                    <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                      <span className="font-medium">Technical Assessment</span>
+                      <span className="text-sm text-muted-foreground">05:30 - 35:00</span>
+                    </div>
+                    <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                      <span className="font-medium">Problem Solving</span>
+                      <span className="text-sm text-muted-foreground">35:00 - 55:00</span>
+                    </div>
+                    <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                      <span className="font-medium">Q&A Session</span>
+                      <span className="text-sm text-muted-foreground">55:00 - 60:00</span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Performance Summary */}
+                <div className="space-y-4">
+                  <h4 className="font-medium text-foreground">Performance Summary</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
+                      <h5 className="font-medium text-green-700 mb-2">Strengths</h5>
+                      <ul className="text-sm text-green-600 space-y-1">
+                        <li>• Strong technical knowledge and problem-solving approach</li>
+                        <li>• Clear communication and logical thinking</li>
+                        <li>• Good understanding of system design principles</li>
+                      </ul>
+                    </div>
+                    <div className="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+                      <h5 className="font-medium text-yellow-700 mb-2">Areas for Improvement</h5>
+                      <ul className="text-sm text-yellow-600 space-y-1">
+                        <li>• Could improve time management during coding</li>
+                        <li>• Some uncertainty in advanced algorithm concepts</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Verdict Logic */}
+                <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                  <h4 className="font-medium text-blue-700 mb-2">Verdict Logic</h4>
+                  <p className="text-sm text-blue-600">
+                    Strong technical performance and clear communication skills. Minor concerns about time management but overall solid candidate for the role.
+                  </p>
+                </div>
+              </div>
+            )}
+            
+            {candidateReportTab === 'recording' && (
+              <div className="space-y-6">
+                <h3 className="text-lg font-semibold text-foreground">Recording & Transcript</h3>
+                
+                {/* Video Player Placeholder */}
+                <div className="bg-muted rounded-lg p-8 text-center">
+                  <Eye className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                  <p className="text-muted-foreground">Video recording would be embedded here</p>
+                  <button className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-lg">Play Recording</button>
+                </div>
+                
+                {/* Speaking Time Analysis */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="font-medium text-foreground mb-4">Speaking Time Analysis</h4>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm">Candidate</span>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-32 bg-muted rounded-full h-2">
+                            <div className="bg-blue-500 h-2 rounded-full" style={{width: '65%'}} />
+                          </div>
+                          <span className="text-sm text-muted-foreground">65%</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm">Interviewer</span>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-32 bg-muted rounded-full h-2">
+                            <div className="bg-green-500 h-2 rounded-full" style={{width: '35%'}} />
+                          </div>
+                          <span className="text-sm text-muted-foreground">35%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-medium text-foreground mb-4">Conversation Flow</h4>
+                    <div className="text-sm text-muted-foreground space-y-1">
+                      <p>• 2 interruptions detected</p>
+                      <p>• Average response time: 3.2 seconds</p>
+                      <p>• Longest monologue: 4 minutes (candidate)</p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Transcript */}
+                <div>
+                  <h4 className="font-medium text-foreground mb-4">Transcript</h4>
+                  <div className="bg-muted rounded-lg p-4 max-h-64 overflow-y-auto space-y-3">
+                    <div className="text-sm">
+                      <span className="font-medium text-blue-600">Interviewer:</span>
+                      <span className="ml-2">Hello {selectedCandidate.candidate_name}, thank you for joining us today. Can you start by telling me about yourself?</span>
+                    </div>
+                    <div className="text-sm">
+                      <span className="font-medium text-green-600">Candidate:</span>
+                      <span className="ml-2">Hi, thank you for having me. I'm a software engineer with {selectedCandidate.experience} years of experience in web development...</span>
+                    </div>
+                    <div className="text-sm">
+                      <span className="font-medium text-blue-600">Interviewer:</span>
+                      <span className="ml-2">That's great. Now let's move to a technical question. Can you explain how you would design a scalable web application?</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {candidateReportTab === 'competency' && (
+              <div className="space-y-6">
+                <h3 className="text-lg font-semibold text-foreground">Competency Analysis</h3>
+                
+                {/* Competency Scores */}
+                <div className="space-y-4">
+                  {[
+                    {name: 'Technical Skills', ai: 88, interviewer: 85, note: 'Strong programming fundamentals, good problem-solving approach'},
+                    {name: 'Communication', ai: 92, interviewer: 90, note: 'Clear explanations, good listening skills'},
+                    {name: 'Problem Solving', ai: 85, interviewer: 88, note: 'Systematic approach, creative solutions'},
+                    {name: 'Team Collaboration', ai: 78, interviewer: 82, note: 'Good interpersonal skills, open to feedback'},
+                    {name: 'Analytical Thinking', ai: 90, interviewer: 87, note: 'Strong logical approach, detail-oriented'}
+                  ].map((competency, index) => (
+                    <div key={index} className="p-4 bg-muted rounded-lg">
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="font-medium text-foreground">{competency.name}</h4>
+                        <div className="flex items-center space-x-4 text-sm">
+                          <span className="text-purple-600">AI: {competency.ai}</span>
+                          <span className="text-blue-600">Interviewer: {competency.interviewer}</span>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 mb-2">
+                        <div className="bg-background rounded h-2">
+                          <div className="bg-purple-500 h-2 rounded" style={{width: `${competency.ai}%`}} />
+                        </div>
+                        <div className="bg-background rounded h-2">
+                          <div className="bg-blue-500 h-2 rounded" style={{width: `${competency.interviewer}%`}} />
+                        </div>
+                      </div>
+                      <p className="text-sm text-muted-foreground">{competency.note}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {candidateReportTab === 'behavioral' && (
+              <div className="space-y-6">
+                <h3 className="text-lg font-semibold text-foreground">Behavioral Traits</h3>
+                
+                {/* Behavioral Analysis */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {[
+                    {trait: 'Decision-Making Ability', score: 85, rationale: 'Shows confidence in making choices, considers multiple options'},
+                    {trait: 'Emotional Awareness', score: 78, rationale: 'Good self-awareness, handles stress reasonably well'},
+                    {trait: 'Communication Clarity', score: 92, rationale: 'Excellent verbal communication, clear explanations'},
+                    {trait: 'Integrity & Authenticity', score: selectedCandidate.integrity_score, rationale: 'Honest responses, transparent about limitations'}
+                  ].map((trait, index) => (
+                    <div key={index} className="p-4 bg-muted rounded-lg">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-medium text-foreground">{trait.trait}</h4>
+                        <span className="text-lg font-bold text-primary">{trait.score}</span>
+                      </div>
+                      <div className="bg-background rounded-full h-2 mb-3">
+                        <div 
+                          className="bg-primary h-2 rounded-full" 
+                          style={{width: `${trait.score}%`}} 
+                        />
+                      </div>
+                      <p className="text-sm text-muted-foreground">{trait.rationale}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {candidateReportTab === 'integrity' && (
+              <div className="space-y-6">
+                <h3 className="text-lg font-semibold text-foreground">Session Integrity</h3>
+                
+                {/* Integrity Score */}
+                <div className="bg-muted rounded-lg p-6 text-center">
+                  <Shield className="w-12 h-12 text-green-500 mx-auto mb-4" />
+                  <h4 className="text-2xl font-bold text-foreground mb-2">{selectedCandidate.integrity_score}/100</h4>
+                  <p className="text-muted-foreground">Overall Integrity Score</p>
+                </div>
+                
+                {/* UFM Events Timeline */}
+                {parseInt(selectedCandidate.ufm_count) > 0 ? (
+                  <div>
+                    <h4 className="font-medium text-foreground mb-4">Unfair Means Events</h4>
+                    <div className="space-y-3">
+                      {selectedCandidate.ufm_list.map((ufm: string, index: number) => (
+                        <div key={index} className="flex items-center space-x-3 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+                          <div className="w-2 h-2 bg-red-500 rounded-full" />
+                          <div className="flex-1">
+                            <span className="text-red-700 text-sm font-medium">{ufm}</span>
+                            <p className="text-xs text-red-600">Detected at 15:30 - Duration: 2 mins</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="p-6 bg-green-500/10 border border-green-500/20 rounded-lg text-center">
+                    <h4 className="font-medium text-green-700 mb-2">Clean Session</h4>
+                    <p className="text-sm text-green-600">No integrity violations detected during this interview</p>
+                  </div>
+                )}
+              </div>
+            )}
+            
+            {candidateReportTab === 'authentication' && (
+              <div className="space-y-6">
+                <h3 className="text-lg font-semibold text-foreground">Authentication</h3>
+                
+                {/* Photo Verification */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="bg-muted rounded-lg p-4 text-center">
+                    <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mx-auto mb-3 flex items-center justify-center">
+                      <span className="text-white text-2xl font-bold">
+                        {selectedCandidate.candidate_name.split(' ').map((n: string) => n[0]).join('')}
+                      </span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">Profile Photo</p>
+                  </div>
+                  
+                  <div className="bg-muted rounded-lg p-4 text-center">
+                    <div className="w-24 h-24 bg-gradient-to-br from-green-500 to-blue-500 rounded-full mx-auto mb-3 flex items-center justify-center">
+                      <User className="w-12 h-12 text-white" />
+                    </div>
+                    <p className="text-sm text-muted-foreground">Live Capture</p>
+                  </div>
+                  
+                  <div className="space-y-3">
+                    <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
+                      <p className="text-sm font-medium text-green-700">Face Match: 96%</p>
+                    </div>
+                    <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
+                      <p className="text-sm font-medium text-green-700">ID Verified</p>
+                    </div>
+                    <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
+                      <p className="text-sm font-medium text-green-700">No Fraud Detected</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {candidateReportTab === 'chat' && (
+              <div className="space-y-6">
+                <h3 className="text-lg font-semibold text-foreground">Chat & Notes</h3>
+                
+                {/* Chat Logs */}
+                <div>
+                  <h4 className="font-medium text-foreground mb-4">Chat History</h4>
+                  <div className="bg-muted rounded-lg p-4 max-h-64 overflow-y-auto space-y-3">
+                    <div className="text-sm">
+                      <span className="text-xs text-muted-foreground">10:55 AM</span>
+                      <div className="mt-1 p-2 bg-blue-500/10 rounded">
+                        <span className="font-medium text-blue-600">Interviewer:</span>
+                        <span className="ml-2">Welcome! We'll start in 2 minutes.</span>
+                      </div>
+                    </div>
+                    <div className="text-sm">
+                      <span className="text-xs text-muted-foreground">11:20 AM</span>
+                      <div className="mt-1 p-2 bg-green-500/10 rounded">
+                        <span className="font-medium text-green-600">Candidate:</span>
+                        <span className="ml-2">Thank you for the opportunity!</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Interviewer Notes */}
+                <div>
+                  <h4 className="font-medium text-foreground mb-4">Interviewer Notes</h4>
+                  <div className="bg-muted rounded-lg p-4">
+                    <p className="text-sm text-muted-foreground">
+                      Candidate showed strong technical skills and good communication. 
+                      Recommended for next round. Note: Follow up on system design experience.
+                    </p>
+                  </div>
+                </div>
+                
+                {/* Shared Links */}
+                <div>
+                  <h4 className="font-medium text-foreground mb-4">Shared Resources</h4>
+                  <div className="space-y-2">
+                    <div className="flex items-center space-x-3 p-3 bg-muted rounded-lg">
+                      <FileText className="w-4 h-4 text-primary" />
+                      <span className="text-sm">Code Repository - GitHub Link</span>
+                      <span className="text-xs text-muted-foreground ml-auto">11:15 AM</span>
+                    </div>
+                    <div className="flex items-center space-x-3 p-3 bg-muted rounded-lg">
+                      <FileText className="w-4 h-4 text-primary" />
+                      <span className="text-sm">Portfolio Website</span>
+                      <span className="text-xs text-muted-foreground ml-auto">11:30 AM</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       )}
 
