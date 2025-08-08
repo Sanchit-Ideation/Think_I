@@ -46,12 +46,45 @@ const reportTabs = [
 ];
 
 // Session/Candidate data
-const candidatePerformance = [
-  { name: 'Sarah Johnson', ai_score: 87, interviewer_score: 85, behavioral_score: 92, integrity: 'Clean', verdict: 'Highly Recommended' },
-  { name: 'Michael Chen', ai_score: 78, interviewer_score: 82, behavioral_score: 85, integrity: 'Clean', verdict: 'Consider' },
-  { name: 'Emily Rodriguez', ai_score: 92, interviewer_score: 89, behavioral_score: 88, integrity: 'Clean', verdict: 'Highly Recommended' },
-  { name: 'David Kim', ai_score: 65, interviewer_score: 70, behavioral_score: 72, integrity: 'Suspicious', verdict: 'Not Recommended' },
-  { name: 'Anna Thompson', ai_score: 89, interviewer_score: 91, behavioral_score: 94, integrity: 'Clean', verdict: 'Highly Recommended' }
+const candidateOverview = [
+  {
+    candidate_id: '1234',
+    candidate_name: 'Ajit Sharma',
+    email: 'ajit1234@gmail.com',
+    current_role: 'PM',
+    company: 'TCS',
+    experience: '3',
+    applied_role: 'Sr. PM',
+    interviewer_id: '99',
+    interviewer: 'Ajay Srivastva',
+    interview_date: '01/08/2025 11:00:00',
+    duration: '1',
+    connect_disconnect: '3',
+    ufm_count: '1',
+    ufm_list: ['Suspicious browser activity'],
+    integrity_score: 90,
+    overall_score: 95,
+    suggestion: 'Consider'
+  },
+  {
+    candidate_id: '2345',
+    candidate_name: 'Ram Gupta',
+    email: 'ram2345@gmail.com',
+    current_role: 'Junior Developer',
+    company: 'CISCO',
+    experience: '1',
+    applied_role: 'Developer',
+    interviewer_id: '47',
+    interviewer: 'Payal Jha',
+    interview_date: '29/07/2025 14:00:22',
+    duration: '1.5',
+    connect_disconnect: '0',
+    ufm_count: '3',
+    ufm_list: ['Code copied from external source', 'Tab switching detected', 'Unauthorized help'],
+    integrity_score: 75,
+    overall_score: 89,
+    suggestion: 'Recommended'
+  }
 ];
 
 const sessionTrends = [
