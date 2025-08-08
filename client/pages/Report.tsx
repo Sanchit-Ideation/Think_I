@@ -771,6 +771,66 @@ export default function Report() {
                       </div>
                     </div>
                   </div>
+
+                  {/* Detailed Competency Breakdown with AI/Interviewer Comments */}
+                  <div className="space-y-3 mt-6">
+                    <h5 className="font-medium text-foreground">Detailed Assessment</h5>
+                    {[
+                      {
+                        name: 'Python',
+                        aiScore: 7.0,
+                        interviewerScore: 6.8,
+                        aiComment: 'Strong fundamentals in Python programming, good use of libraries and data structures',
+                        interviewerComment: 'Solid coding skills but could improve efficiency in complex algorithms, good problem-solving approach'
+                      },
+                      {
+                        name: 'SQL',
+                        aiScore: 8.5,
+                        interviewerScore: 8.2,
+                        aiComment: 'Excellent database querying skills, understands complex joins and optimization',
+                        interviewerComment: 'Very strong SQL knowledge, handled optimization questions well, great understanding of indexing'
+                      },
+                      {
+                        name: 'Data Visualization',
+                        aiScore: 8.0,
+                        interviewerScore: 8.3,
+                        aiComment: 'Exceeds expectations in creating clear, insightful visualizations with proper chart selection',
+                        interviewerComment: 'Great design sense and storytelling with data, understands audience needs well'
+                      },
+                      {
+                        name: 'Problem Solving',
+                        aiScore: 7.5,
+                        interviewerScore: 7.8,
+                        aiComment: 'Systematic approach to breaking down complex problems, good logical thinking',
+                        interviewerComment: 'Good analytical thinking, sometimes needs more creative approaches but solid methodology'
+                      },
+                      {
+                        name: 'Communication',
+                        aiScore: 7.5,
+                        interviewerScore: 7.2,
+                        aiComment: 'Clear explanations and good technical communication skills, appropriate pace',
+                        interviewerComment: 'Excellent at explaining complex concepts, could improve confidence in presentation'
+                      }
+                    ].map((competency, index) => (
+                      <div key={index} className="p-4 bg-background rounded-lg border border-border">
+                        <div className="flex items-center justify-between mb-3">
+                          <h6 className="font-medium text-foreground">{competency.name}</h6>
+                          <div className="flex items-center space-x-4 text-sm">
+                            <span className="text-purple-600">AI: {competency.aiScore}</span>
+                            <span className="text-blue-600">Interviewer: {competency.interviewerScore}</span>
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <div className="p-3 bg-purple-500/5 border border-purple-500/20 rounded">
+                            <p className="text-xs text-purple-700"><strong>AI Analysis ({competency.aiScore}):</strong> {competency.aiComment}</p>
+                          </div>
+                          <div className="p-3 bg-blue-500/5 border border-blue-500/20 rounded">
+                            <p className="text-xs text-blue-700"><strong>Interviewer Assessment ({competency.interviewerScore}):</strong> {competency.interviewerComment}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Behavioral Traits */}
@@ -849,11 +909,11 @@ export default function Report() {
                   </div>
                 </div>
 
-                {/* Verdict Logic */}
+                {/* Interviewer Feedback */}
                 <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                  <h4 className="font-medium text-blue-700 mb-2">Verdict Logic</h4>
+                  <h4 className="font-medium text-blue-700 mb-2">Interviewer Feedback</h4>
                   <p className="text-sm text-blue-600">
-                    Strong technical performance and clear communication skills. Minor concerns about time management but overall solid candidate for the role.
+                    Strong technical performance and clear communication skills. The candidate demonstrated good problem-solving abilities and showed enthusiasm for the role. Minor concerns about time management during coding exercises, but overall a solid candidate with potential for growth. Recommend proceeding to next round with focus on system design discussion.
                   </p>
                 </div>
               </div>
