@@ -1214,8 +1214,201 @@ export default function Report() {
         </div>
       )}
 
-      {/* Interviewer Report Tab */}
-      {activeTab === 'interviewer' && (
+      {/* Individual Interviewer Detail Report */}
+      {activeTab === 'interviewer' && showInterviewerDetail && selectedInterviewer && (
+        <div className="space-y-6">
+          {/* Header */}
+          <div className="bg-card border border-border rounded-xl p-6">
+            <div className="flex items-center justify-between mb-6">
+              <button
+                onClick={() => setShowInterviewerDetail(false)}
+                className="text-primary hover:text-primary/80 transition-colors flex items-center space-x-2"
+              >
+                <span>←</span>
+                <span>Back to Interviewer List</span>
+              </button>
+            </div>
+
+            {/* Interviewer Info */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <div className="flex items-center space-x-4">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                  <span className="text-white text-xl font-bold">
+                    {selectedInterviewer.name.split(' ').map((n: string) => n[0]).join('')}
+                  </span>
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-foreground">{selectedInterviewer.name}</h2>
+                  <p className="text-sm text-muted-foreground">Senior Technical Interviewer</p>
+                </div>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Performance Metrics</p>
+                <p className="font-semibold text-foreground">Avg Score: {selectedInterviewer.avg_score}</p>
+                <p className="text-sm text-muted-foreground">Consistency: {selectedInterviewer.consistency}%</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Activity</p>
+                <p className="font-semibold text-foreground">{selectedInterviewer.interviews} Interviews</p>
+                <p className="text-sm text-muted-foreground">Rating: {selectedInterviewer.candidate_feedback}/5.0</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Comprehensive Analysis */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Interview Quality Metrics */}
+            <div className="bg-card border border-border rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-foreground mb-4">Interview Quality Assessment</h3>
+              <div className="space-y-4">
+                {[
+                  { metric: 'Question Depth', score: 88, feedback: 'Asks insightful follow-up questions' },
+                  { metric: 'Time Management', score: 75, feedback: 'Sometimes runs over allocated time' },
+                  { metric: 'Candidate Engagement', score: 92, feedback: 'Excellent at keeping candidates comfortable' },
+                  { metric: 'Technical Assessment', score: 85, feedback: 'Good at evaluating technical skills' },
+                  { metric: 'Bias Mitigation', score: 78, feedback: 'Room for improvement in unconscious bias' }
+                ].map((item, index) => (
+                  <div key={index} className="p-3 bg-muted rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-medium text-foreground">{item.metric}</span>
+                      <span className="text-sm font-bold text-primary">{item.score}%</span>
+                    </div>
+                    <div className="bg-background rounded-full h-2 mb-2">
+                      <div
+                        className="bg-primary h-2 rounded-full"
+                        style={{width: `${item.score}%`}}
+                      />
+                    </div>
+                    <p className="text-xs text-muted-foreground">{item.feedback}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Competency Coverage */}
+            <div className="bg-card border border-border rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-foreground mb-4">Template Alignment & Coverage</h3>
+              <div className="space-y-4">
+                <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
+                  <h4 className="font-medium text-green-700 mb-2">Well Covered Areas</h4>
+                  <ul className="text-sm text-green-600 space-y-1">
+                    <li>• Technical Skills Assessment (95% coverage)</li>
+                    <li>• Communication Evaluation (90% coverage)</li>
+                    <li>• Problem-solving scenarios (88% coverage)</li>
+                  </ul>
+                </div>
+                <div className="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+                  <h4 className="font-medium text-yellow-700 mb-2">Needs Improvement</h4>
+                  <ul className="text-sm text-yellow-600 space-y-1">
+                    <li>• Cultural fit assessment (65% coverage)</li>
+                    <li>• Leadership potential (70% coverage)</li>
+                  </ul>
+                </div>
+                <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                  <h4 className="font-medium text-blue-700 mb-2">Consistency Patterns</h4>
+                  <p className="text-sm text-blue-600">Shows consistent evaluation patterns across similar roles with minimal score deviation (±3 points).</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Behavioral Analysis */}
+          <div className="bg-card border border-border rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-foreground mb-4">Interviewer Behavior Analysis</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-blue-500/10 border border-blue-500/20 rounded-full mx-auto mb-3 flex items-center justify-center">
+                  <Clock className="w-8 h-8 text-blue-500" />
+                </div>
+                <h4 className="font-medium text-foreground mb-2">Speaking Time</h4>
+                <p className="text-2xl font-bold text-primary">35%</p>
+                <p className="text-xs text-muted-foreground">Optimal interviewer speaking ratio</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-green-500/10 border border-green-500/20 rounded-full mx-auto mb-3 flex items-center justify-center">
+                  <Users className="w-8 h-8 text-green-500" />
+                </div>
+                <h4 className="font-medium text-foreground mb-2">Candidate Comfort</h4>
+                <p className="text-2xl font-bold text-primary">4.8</p>
+                <p className="text-xs text-muted-foreground">Average candidate rating</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-purple-500/10 border border-purple-500/20 rounded-full mx-auto mb-3 flex items-center justify-center">
+                  <Target className="w-8 h-8 text-purple-500" />
+                </div>
+                <h4 className="font-medium text-foreground mb-2">Score Accuracy</h4>
+                <p className="text-2xl font-bold text-primary">89%</p>
+                <p className="text-xs text-muted-foreground">Alignment with AI assessment</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Recent Interviews */}
+          <div className="bg-card border border-border rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-foreground mb-4">Recent Interview History</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-border">
+                    <th className="text-left py-2 px-3 font-medium text-foreground text-sm">Date</th>
+                    <th className="text-left py-2 px-3 font-medium text-foreground text-sm">Candidate</th>
+                    <th className="text-left py-2 px-3 font-medium text-foreground text-sm">Role</th>
+                    <th className="text-left py-2 px-3 font-medium text-foreground text-sm">Duration</th>
+                    <th className="text-left py-2 px-3 font-medium text-foreground text-sm">Score Given</th>
+                    <th className="text-left py-2 px-3 font-medium text-foreground text-sm">AI Score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { date: '01/08/2025', candidate: 'Ajit Sharma', role: 'Sr. PM', duration: '1h', interviewer_score: 92, ai_score: 95 },
+                    { date: '30/07/2025', candidate: 'Sarah Wilson', role: 'Developer', duration: '45m', interviewer_score: 88, ai_score: 86 },
+                    { date: '29/07/2025', candidate: 'Mike Chen', role: 'Designer', duration: '1h 15m', interviewer_score: 91, ai_score: 89 }
+                  ].map((interview, index) => (
+                    <tr key={index} className="border-b border-border hover:bg-muted/50">
+                      <td className="py-2 px-3 text-sm text-muted-foreground">{interview.date}</td>
+                      <td className="py-2 px-3 text-sm text-foreground">{interview.candidate}</td>
+                      <td className="py-2 px-3 text-sm text-muted-foreground">{interview.role}</td>
+                      <td className="py-2 px-3 text-sm text-muted-foreground">{interview.duration}</td>
+                      <td className="py-2 px-3 text-sm font-medium text-blue-600">{interview.interviewer_score}</td>
+                      <td className="py-2 px-3 text-sm font-medium text-purple-600">{interview.ai_score}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Actionable Recommendations */}
+          <div className="bg-card border border-border rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-foreground mb-4">Actionable Insights & Recommendations</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-3">
+                <h4 className="font-medium text-foreground">Strengths to Leverage</h4>
+                <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
+                  <p className="text-sm text-green-700">• Excellent at building rapport with candidates</p>
+                  <p className="text-sm text-green-700">• Strong technical assessment capabilities</p>
+                  <p className="text-sm text-green-700">• Consistent scoring patterns</p>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <h4 className="font-medium text-foreground">Development Areas</h4>
+                <div className="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+                  <p className="text-sm text-yellow-700">• Time management during interviews</p>
+                  <p className="text-sm text-yellow-700">• Cultural fit assessment techniques</p>
+                  <p className="text-sm text-yellow-700">• Unconscious bias awareness</p>
+                </div>
+              </div>
+            </div>
+            <div className="mt-4 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+              <h4 className="font-medium text-blue-700 mb-2">Recommended Training</h4>
+              <p className="text-sm text-blue-600">Consider enrolling in the "Advanced Interview Techniques" workshop focusing on time management and structured behavioral assessments.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Interviewer Report Tab - Main List */}
+      {activeTab === 'interviewer' && !showInterviewerDetail && (
         <div className="space-y-8">
           {/* Interviewer Performance Overview */}
           <div className="bg-card border border-border rounded-xl p-6">
@@ -1234,7 +1427,14 @@ export default function Report() {
                 </thead>
                 <tbody>
                   {interviewerMetrics.map((interviewer, index) => (
-                    <tr key={index} className="border-b border-border hover:bg-muted/50">
+                    <tr
+                      key={index}
+                      className="border-b border-border hover:bg-muted/50 cursor-pointer"
+                      onClick={() => {
+                        setSelectedInterviewer(interviewer);
+                        setShowInterviewerDetail(true);
+                      }}
+                    >
                       <td className="py-3 px-4">
                         <div className="flex items-center space-x-3">
                           <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
