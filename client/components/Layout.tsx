@@ -39,7 +39,7 @@ export default function Layout({ children }: LayoutProps) {
                   <span className="text-lg font-bold text-white">Σ</span>
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-foreground">T_interview_2</h1>
+                  <h1 className="text-xl font-bold text-foreground">Think_Int_2</h1>
                   <p className="text-xs text-muted-foreground">Interview Analytics Platform</p>
                 </div>
               </div>
