@@ -355,15 +355,15 @@ export default function Report() {
           <div className="bg-card border border-border rounded-xl p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-foreground">Candidate Overview</h3>
-              <div className="flex items-center space-x-2">
-                <div className="relative">
+              <div className="flex flex-wrap items-center gap-3">
+                <div className="relative flex-1 min-w-[250px]">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                   <input
                     type="text"
                     placeholder="Search candidates..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 pr-4 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full pl-10 pr-4 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
                 <select
@@ -388,118 +388,157 @@ export default function Report() {
                   <option value="integrity">Sort by Integrity</option>
                   <option value="experience">Sort by Experience</option>
                 </select>
+                <button className="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg text-sm hover:bg-secondary/80 transition-colors">
+                  <Filter className="w-4 h-4 inline mr-2" />
+                  Filters
+                </button>
               </div>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">ID</th>
-                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Candidate</th>
-                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Email</th>
-                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Current Role</th>
-                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Company</th>
-                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Experience</th>
-                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Applied Role</th>
-                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Interviewer</th>
-                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Date & Time</th>
-                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Duration</th>
-                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Connect/Disconnect</th>
-                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">UFM Count</th>
-                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Integrity Score</th>
-                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Overall Score</th>
-                    <th className="text-left py-3 px-2 font-medium text-foreground text-xs">Suggestion</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {getFilteredCandidates().map((candidate, index) => (
-                    <tr 
-                      key={index} 
-                      className="border-b border-border hover:bg-muted/50 cursor-pointer"
-                      onClick={() => {
-                        setSelectedCandidate(candidate);
-                        setShowCandidateDetail(true);
-                        setCandidateReportTab('summary');
-                      }}
-                    >
-                      <td className="py-2 px-2 text-xs text-foreground">{candidate.candidate_id}</td>
-                      <td className="py-2 px-2">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
-                            <span className="text-white text-xs font-semibold">
-                              {candidate.candidate_name.split(' ').map(n => n[0]).join('')}
-                            </span>
-                          </div>
-                          <span className="font-medium text-foreground text-xs">{candidate.candidate_name}</span>
-                        </div>
-                      </td>
-                      <td className="py-2 px-2 text-xs text-foreground">{candidate.email}</td>
-                      <td className="py-2 px-2 text-xs text-foreground">{candidate.current_role}</td>
-                      <td className="py-2 px-2 text-xs text-foreground">{candidate.company}</td>
-                      <td className="py-2 px-2 text-xs text-foreground">{candidate.experience} yrs</td>
-                      <td className="py-2 px-2 text-xs text-foreground">{candidate.applied_role}</td>
-                      <td className="py-2 px-2 text-xs text-foreground">{candidate.interviewer}</td>
-                      <td className="py-2 px-2 text-xs text-foreground">{candidate.interview_date}</td>
-                      <td className="py-2 px-2 text-xs text-foreground">{candidate.duration} hrs</td>
-                      <td className="py-2 px-2 text-xs text-center">
-                        <span className={`px-1 py-0.5 rounded text-xs ${
-                          parseInt(candidate.connect_disconnect) > 2 ? 'bg-red-500/10 text-red-600' : 'bg-green-500/10 text-green-600'
+            {/* Candidate Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {getFilteredCandidates().map((candidate, index) => (
+                <div
+                  key={index}
+                  className="bg-card border border-border rounded-xl p-6 hover:shadow-lg hover:border-primary/30 transition-all cursor-pointer"
+                  onClick={() => {
+                    setSelectedCandidate(candidate);
+                    setShowCandidateDetail(true);
+                    setCandidateReportTab('summary');
+                  }}
+                >
+                  {/* Header with Avatar and Status */}
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-sm">
+                        <span className="text-white text-sm font-bold">
+                          {candidate.candidate_name.split(' ').map(n => n[0]).join('')}
+                        </span>
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-foreground">{candidate.candidate_name}</h3>
+                        <p className="text-xs text-muted-foreground">ID: {candidate.candidate_id}</p>
+                      </div>
+                    </div>
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                      candidate.suggestion === 'Highly Recommended' ? 'bg-green-500/10 text-green-600' :
+                      candidate.suggestion === 'Recommended' ? 'bg-blue-500/10 text-blue-600' :
+                      candidate.suggestion === 'Consider' ? 'bg-yellow-500/10 text-yellow-600' :
+                      'bg-red-500/10 text-red-600'
+                    }`}>
+                      {candidate.suggestion}
+                    </span>
+                  </div>
+
+                  {/* Contact & Basic Info */}
+                  <div className="space-y-2 mb-4">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-xs text-muted-foreground min-w-[60px]">Email:</span>
+                      <span className="text-xs text-foreground truncate">{candidate.email}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <span className="text-xs text-muted-foreground min-w-[60px]">Current:</span>
+                      <span className="text-xs text-foreground">{candidate.current_role} at {candidate.company}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <span className="text-xs text-muted-foreground min-w-[60px]">Applied:</span>
+                      <span className="text-xs text-foreground font-medium">{candidate.applied_role}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <span className="text-xs text-muted-foreground min-w-[60px]">Exp:</span>
+                      <span className="text-xs text-foreground">{candidate.experience} years</span>
+                    </div>
+                  </div>
+
+                  {/* Interview Details */}
+                  <div className="bg-muted rounded-lg p-3 mb-4">
+                    <div className="grid grid-cols-2 gap-2 text-xs">
+                      <div>
+                        <span className="text-muted-foreground">Interviewer:</span>
+                        <p className="font-medium text-foreground">{candidate.interviewer}</p>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">Duration:</span>
+                        <p className="font-medium text-foreground">{candidate.duration} hrs</p>
+                      </div>
+                      <div className="col-span-2">
+                        <span className="text-muted-foreground">Date:</span>
+                        <p className="font-medium text-foreground">{candidate.interview_date}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Scores Section */}
+                  <div className="space-y-3 mb-4">
+                    {/* Overall Score */}
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-xs font-medium text-foreground">Overall Score</span>
+                        <span className="text-xs font-bold text-primary">{candidate.overall_score}</span>
+                      </div>
+                      <div className="w-full bg-muted rounded-full h-2">
+                        <div
+                          className={`h-2 rounded-full ${
+                            candidate.overall_score >= 90 ? 'bg-green-500' :
+                            candidate.overall_score >= 80 ? 'bg-blue-500' :
+                            candidate.overall_score >= 70 ? 'bg-yellow-500' : 'bg-red-500'
+                          }`}
+                          style={{ width: `${candidate.overall_score}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Integrity Score */}
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-xs font-medium text-foreground">Integrity Score</span>
+                        <span className="text-xs font-bold text-green-600">{candidate.integrity_score}</span>
+                      </div>
+                      <div className="w-full bg-muted rounded-full h-2">
+                        <div
+                          className={`h-2 rounded-full ${
+                            candidate.integrity_score >= 85 ? 'bg-green-500' :
+                            candidate.integrity_score >= 70 ? 'bg-yellow-500' : 'bg-red-500'
+                          }`}
+                          style={{ width: `${candidate.integrity_score}%` }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Technical Metrics */}
+                  <div className="flex items-center justify-between pt-3 border-t border-border">
+                    <div className="flex items-center space-x-4">
+                      {/* Connection Issues */}
+                      <div className="text-center">
+                        <div className={`text-xs font-bold ${
+                          parseInt(candidate.connect_disconnect) > 2 ? 'text-red-600' : 'text-green-600'
                         }`}>
                           {candidate.connect_disconnect}
-                        </span>
-                      </td>
-                      <td className="py-2 px-2 text-xs text-center">
-                        <span
-                          className={`px-1 py-0.5 rounded text-xs cursor-help ${
-                            parseInt(candidate.ufm_count) > 0 ? 'bg-red-500/10 text-red-600' : 'bg-green-500/10 text-green-600'
+                        </div>
+                        <div className="text-[10px] text-muted-foreground">Disconnects</div>
+                      </div>
+
+                      {/* UFM Count */}
+                      <div className="text-center">
+                        <div
+                          className={`text-xs font-bold cursor-help ${
+                            parseInt(candidate.ufm_count) > 0 ? 'text-red-600' : 'text-green-600'
                           }`}
                           title={candidate.ufm_list.join(', ')}
                         >
                           {candidate.ufm_count}
-                        </span>
-                      </td>
-                      <td className="py-2 px-2 text-xs text-center">
-                        <div className="flex items-center space-x-1">
-                          <div className="w-8 bg-muted rounded-full h-1.5">
-                            <div
-                              className={`h-1.5 rounded-full ${
-                                candidate.integrity_score >= 85 ? 'bg-green-500' :
-                                candidate.integrity_score >= 70 ? 'bg-yellow-500' : 'bg-red-500'
-                              }`}
-                              style={{ width: `${candidate.integrity_score}%` }}
-                            />
-                          </div>
-                          <span className="text-foreground text-xs">{candidate.integrity_score}</span>
                         </div>
-                      </td>
-                      <td className="py-2 px-2 text-xs text-center">
-                        <div className="flex items-center space-x-1">
-                          <div className="w-8 bg-muted rounded-full h-1.5">
-                            <div
-                              className={`h-1.5 rounded-full ${
-                                candidate.overall_score >= 90 ? 'bg-green-500' :
-                                candidate.overall_score >= 80 ? 'bg-blue-500' :
-                                candidate.overall_score >= 70 ? 'bg-yellow-500' : 'bg-red-500'
-                              }`}
-                              style={{ width: `${candidate.overall_score}%` }}
-                            />
-                          </div>
-                          <span className="text-foreground text-xs">{candidate.overall_score}</span>
-                        </div>
-                      </td>
-                      <td className="py-2 px-2">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          candidate.suggestion === 'Recommended' ? 'bg-green-500/10 text-green-600' :
-                          candidate.suggestion === 'Consider' ? 'bg-yellow-500/10 text-yellow-600' :
-                          'bg-red-500/10 text-red-600'
-                        }`}>
-                          {candidate.suggestion}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                        <div className="text-[10px] text-muted-foreground">UFM</div>
+                      </div>
+                    </div>
+
+                    {/* View Details Button */}
+                    <button className="px-3 py-1 bg-primary text-primary-foreground rounded-md text-xs font-medium hover:bg-primary/90 transition-colors">
+                      View Details
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
