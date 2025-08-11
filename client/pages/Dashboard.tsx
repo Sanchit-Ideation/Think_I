@@ -203,6 +203,7 @@ const recentAlerts = [
 
 export default function Dashboard() {
   const [timeRange, setTimeRange] = useState('30d');
+  const [candidateGraphFilter, setCandidateGraphFilter] = useState('30');
 
   return (
     <div className="space-y-8">
@@ -487,6 +488,78 @@ export default function Dashboard() {
               ))}
             </tbody>
           </table>
+        </div>
+      </div>
+
+      {/* Candidates Interviewed Chart */}
+      <div className="bg-card border border-border rounded-xl p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-foreground">Candidates Interviewed</h3>
+          <div className="flex items-center space-x-2">
+            <select
+              value={candidateGraphFilter}
+              onChange={(e) => setCandidateGraphFilter(e.target.value)}
+              className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="7">Last 7 days</option>
+              <option value="15">Last 15 days</option>
+              <option value="30">Last 30 days</option>
+              <option value="60">Last 60 days</option>
+            </select>
+          </div>
+        </div>
+        <div className="h-80">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={[
+              { date: 'Jan 1', candidates: 12, scheduled: 15 },
+              { date: 'Jan 2', candidates: 8, scheduled: 12 },
+              { date: 'Jan 3', candidates: 15, scheduled: 18 },
+              { date: 'Jan 4', candidates: 22, scheduled: 24 },
+              { date: 'Jan 5', candidates: 18, scheduled: 20 },
+              { date: 'Jan 6', candidates: 25, scheduled: 28 },
+              { date: 'Jan 7', candidates: 19, scheduled: 22 }
+            ]}>
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+              <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" fontSize={12} />
+              <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: 'hsl(var(--card))',
+                  border: '1px solid hsl(var(--border))',
+                  borderRadius: '8px'
+                }}
+              />
+              <Area
+                type="monotone"
+                dataKey="candidates"
+                stroke="hsl(var(--primary))"
+                fill="hsl(var(--primary))"
+                fillOpacity={0.3}
+                strokeWidth={2}
+                name="Interviewed"
+              />
+              <Area
+                type="monotone"
+                dataKey="scheduled"
+                stroke="#22c55e"
+                fill="#22c55e"
+                fillOpacity={0.1}
+                strokeWidth={2}
+                strokeDasharray="5 5"
+                name="Scheduled"
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="flex justify-center space-x-6 mt-4 text-sm">
+          <div className="flex items-center space-x-2">
+            <div className="w-3 h-3 bg-primary rounded" />
+            <span>Interviewed</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <div className="w-3 h-3 border-2 border-green-500 border-dashed rounded" />
+            <span>Scheduled</span>
+          </div>
         </div>
       </div>
 
