@@ -350,67 +350,6 @@ export default function Report() {
       {/* Candidate Overview Tab */}
       {activeTab === 'candidates' && !showCandidateDetail && (
         <div className="space-y-8">
-          {/* Candidates Interviewed Chart */}
-          <div className="bg-card border border-border rounded-xl p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-foreground">Candidates Interviewed</h3>
-              <div className="flex items-center space-x-2">
-                <select
-                  value={candidateGraphFilter}
-                  onChange={(e) => setCandidateGraphFilter(e.target.value)}
-                  className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                >
-                  <option value="7">Last 7 days</option>
-                  <option value="15">Last 15 days</option>
-                  <option value="30">Last 30 days</option>
-                  <option value="60">Last 60 days</option>
-                </select>
-              </div>
-            </div>
-            <div className="h-80">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={[
-                  { date: 'Jan 1', candidates: 12, scheduled: 15 },
-                  { date: 'Jan 2', candidates: 8, scheduled: 12 },
-                  { date: 'Jan 3', candidates: 15, scheduled: 18 },
-                  { date: 'Jan 4', candidates: 22, scheduled: 24 },
-                  { date: 'Jan 5', candidates: 18, scheduled: 20 },
-                  { date: 'Jan 6', candidates: 25, scheduled: 28 },
-                  { date: 'Jan 7', candidates: 19, scheduled: 22 }
-                ]}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                  <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: 'hsl(var(--card))',
-                      border: '1px solid hsl(var(--border))',
-                      borderRadius: '8px'
-                    }}
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="candidates"
-                    stroke="hsl(var(--primary))"
-                    fill="hsl(var(--primary))"
-                    fillOpacity={0.3}
-                    strokeWidth={2}
-                    name="Interviewed"
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="scheduled"
-                    stroke="#22c55e"
-                    fill="#22c55e"
-                    fillOpacity={0.1}
-                    strokeWidth={2}
-                    strokeDasharray="5 5"
-                    name="Scheduled"
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
 
           {/* Candidate Performance Table */}
           <div className="bg-card border border-border rounded-xl p-6">
@@ -569,6 +508,18 @@ export default function Report() {
       {/* Detailed Candidate Report */}
       {activeTab === 'candidates' && showCandidateDetail && selectedCandidate && (
         <div className="space-y-6">
+          {/* Report Header */}
+          <div className="bg-card border border-border rounded-xl p-6">
+            <div className="flex items-center space-x-4">
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-violet-600 rounded-xl flex items-center justify-center shadow-lg">
+                <span className="text-xl font-bold text-white">Σ</span>
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-foreground">Think_Int_2</h1>
+                <p className="text-sm text-muted-foreground">Individual Candidate Report</p>
+              </div>
+            </div>
+          </div>
           {/* Header Summary */}
           <div className="bg-card border border-border rounded-xl p-6">
             <div className="flex items-center justify-between mb-6">
@@ -899,11 +850,12 @@ export default function Report() {
                         <li>• Good understanding of system design principles</li>
                       </ul>
                     </div>
-                    <div className="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
-                      <h5 className="font-medium text-yellow-700 mb-2">Areas for Improvement</h5>
-                      <ul className="text-sm text-yellow-600 space-y-1">
-                        <li>• Could improve time management during coding</li>
-                        <li>• Some uncertainty in advanced algorithm concepts</li>
+                    <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
+                      <h5 className="font-medium text-red-700 mb-2">Weaknesses / Lacking for Role</h5>
+                      <ul className="text-sm text-red-600 space-y-1">
+                        <li>• Time management during coding exercises needs improvement</li>
+                        <li>• Uncertainty in advanced algorithm concepts may limit performance</li>
+                        <li>• Could benefit from more experience in system architecture</li>
                       </ul>
                     </div>
                   </div>
@@ -1546,6 +1498,18 @@ export default function Report() {
       {/* Individual Interviewer Detail Report */}
       {activeTab === 'interviewer' && showInterviewerDetail && selectedInterviewer && (
         <div className="space-y-6">
+          {/* Report Header */}
+          <div className="bg-card border border-border rounded-xl p-6">
+            <div className="flex items-center space-x-4">
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-violet-600 rounded-xl flex items-center justify-center shadow-lg">
+                <span className="text-xl font-bold text-white">Σ</span>
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-foreground">Think_Int_2</h1>
+                <p className="text-sm text-muted-foreground">Individual Interviewer Report</p>
+              </div>
+            </div>
+          </div>
           {/* Header */}
           <div className="bg-card border border-border rounded-xl p-6">
             <div className="flex items-center justify-between mb-6">
