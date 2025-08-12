@@ -49,6 +49,63 @@ export default function Layout({ children }: LayoutProps) {
                 </div>
               </div>
 
+              {/* Platform Selector */}
+              <div className="relative">
+                <button
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="flex items-center space-x-2 px-4 py-2 bg-secondary hover:bg-secondary/80 rounded-lg text-sm font-medium transition-colors"
+                >
+                  {selectedPlatform === 'SAAS' ? (
+                    <Cloud className="w-4 h-4" />
+                  ) : (
+                    <Server className="w-4 h-4" />
+                  )}
+                  <span>{selectedPlatform} Platform</span>
+                  <ChevronDown className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {isDropdownOpen && (
+                  <div className="absolute top-full left-0 mt-2 w-48 bg-card border border-border rounded-lg shadow-lg z-50">
+                    <div className="p-2">
+                      <button
+                        onClick={() => {
+                          setSelectedPlatform('SAAS');
+                          setIsDropdownOpen(false);
+                        }}
+                        className={`w-full flex items-center space-x-3 px-3 py-2 rounded-md text-sm transition-colors ${
+                          selectedPlatform === 'SAAS'
+                            ? 'bg-primary text-primary-foreground'
+                            : 'text-foreground hover:bg-muted'
+                        }`}
+                      >
+                        <Cloud className="w-4 h-4" />
+                        <div className="text-left">
+                          <div className="font-medium">SAAS Platform</div>
+                          <div className="text-xs text-muted-foreground">Software as a Service insights</div>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => {
+                          setSelectedPlatform('PAAS');
+                          setIsDropdownOpen(false);
+                        }}
+                        className={`w-full flex items-center space-x-3 px-3 py-2 rounded-md text-sm transition-colors ${
+                          selectedPlatform === 'PAAS'
+                            ? 'bg-primary text-primary-foreground'
+                            : 'text-foreground hover:bg-muted'
+                        }`}
+                      >
+                        <Server className="w-4 h-4" />
+                        <div className="text-left">
+                          <div className="font-medium">PAAS Platform</div>
+                          <div className="text-xs text-muted-foreground">Platform as a Service insights</div>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
               {/* Navigation */}
               <nav className="hidden md:flex space-x-1">
                 {navigation.map((item) => {
