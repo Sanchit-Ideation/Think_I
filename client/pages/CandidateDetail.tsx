@@ -78,7 +78,7 @@ const interviewStages = [
 
 const competencyComparison = [
   { skill: 'Technical Knowledge', ai_score: 85, interviewer_score: 87, explanation: 'AI noted strong fundamentals, interviewer appreciated practical experience' },
-  { skill: 'Problem Solving', skill: 'Communication', ai_score: 89, interviewer_score: 91, explanation: 'Excellent communication throughout, clear explanations' },
+  { skill: 'Communication', ai_score: 89, interviewer_score: 91, explanation: 'Excellent communication throughout, clear explanations' },
   { skill: 'System Design', ai_score: 82, interviewer_score: 85, explanation: 'Good understanding of architecture, room for improvement in scalability' },
   { skill: 'Code Quality', ai_score: 88, interviewer_score: 86, explanation: 'Clean, readable code with good practices' },
   { skill: 'Adaptability', ai_score: 91, interviewer_score: 89, explanation: 'Quick to adjust approach based on feedback' }
