@@ -1,14 +1,17 @@
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { 
-  BarChart3, 
-  FileText, 
-  Calendar, 
-  TrendingUp, 
-  Users, 
+import {
+  BarChart3,
+  FileText,
+  Calendar,
+  TrendingUp,
+  Users,
   Settings,
   Bell,
-  Search
+  Search,
+  Cloud,
+  Server,
+  ChevronDown
 } from 'lucide-react';
 
 interface LayoutProps {
