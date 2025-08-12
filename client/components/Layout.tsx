@@ -72,14 +72,6 @@ export default function Layout({ children }: LayoutProps) {
                 </div>
               </div>
 
-              {/* Test Button */}
-              <button
-                onClick={() => alert('Test button works!')}
-                className="px-3 py-1 bg-red-500 text-white rounded text-xs"
-              >
-                Test
-              </button>
-
               {/* Platform Toggle */}
               <div className="flex items-center space-x-2">
                 <button
