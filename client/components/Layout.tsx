@@ -79,7 +79,7 @@ export default function Layout({ children }: LayoutProps) {
                 </button>
 
                 {isDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-48 bg-card border border-border rounded-lg shadow-lg z-50">
+                  <div className="absolute top-full left-0 mt-2 w-56 bg-card border border-border rounded-lg shadow-xl z-[100]">
                     <div className="p-2">
                       <button
                         onClick={() => {
