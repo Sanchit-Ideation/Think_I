@@ -449,6 +449,78 @@ export default function CandidateDetail() {
 
       {activeTab === 'competencies' && (
         <div className="space-y-8">
+          {/* Technical Skills Analysis */}
+          <div className="bg-card border border-border rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-foreground mb-4">Key Technical Skills Analysis</h3>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                {technicalSkills.map((skill, index) => (
+                  <div key={index} className="p-4 bg-muted rounded-lg">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-medium text-foreground">{skill.skill}</h4>
+                      <div className="flex items-center space-x-4 text-sm">
+                        <span className="text-blue-600">Score: {skill.candidate_score}%</span>
+                        <span className="text-orange-600">Avg: {skill.role_average}%</span>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 mb-3">
+                      <div>
+                        <div className="text-xs text-muted-foreground mb-1">Candidate Score</div>
+                        <div className="bg-background rounded-full h-3">
+                          <div
+                            className="bg-blue-500 h-3 rounded-full"
+                            style={{ width: `${skill.candidate_score}%` }}
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-xs text-muted-foreground mb-1">Role Average</div>
+                        <div className="bg-background rounded-full h-3">
+                          <div
+                            className="bg-orange-500 h-3 rounded-full"
+                            style={{ width: `${skill.role_average}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-sm text-muted-foreground">{skill.explanation}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="bg-card border border-border rounded-xl p-6">
+                <h4 className="text-lg font-semibold text-foreground mb-4">Technical Skills Overview</h4>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={technicalSkills}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                      <XAxis dataKey="skill" tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }} />
+                      <YAxis tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }} />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: 'hsl(var(--card))',
+                          border: '1px solid hsl(var(--border))',
+                          borderRadius: '8px',
+                        }}
+                      />
+                      <Bar dataKey="candidate_score" fill="#3b82f6" name="Candidate Score" />
+                      <Bar dataKey="role_average" fill="#f97316" name="Role Average" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="flex justify-center space-x-6 mt-4 text-sm">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-3 h-3 bg-blue-500 rounded" />
+                    <span>Candidate Score</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-3 h-3 bg-orange-500 rounded" />
+                    <span>Role Average</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* AI vs Interviewer Comparison */}
           <div className="bg-card border border-border rounded-xl p-6">
             <h3 className="text-lg font-semibold text-foreground mb-4">AI vs Interviewer Score Comparison</h3>
