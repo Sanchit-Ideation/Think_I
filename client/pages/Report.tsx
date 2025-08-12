@@ -630,14 +630,6 @@ export default function Report() {
                       </div>
                       <div className="flex items-center space-x-2">
                         <span className="text-xs text-muted-foreground min-w-[60px]">
-                          Current:
-                        </span>
-                        <span className="text-xs text-foreground">
-                          {candidate.current_role} at {candidate.company}
-                        </span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <span className="text-xs text-muted-foreground min-w-[60px]">
                           Applied:
                         </span>
                         <span className="text-xs text-foreground font-medium">
@@ -798,12 +790,6 @@ export default function Report() {
                         Email
                       </th>
                       <th className="text-left py-3 px-2 font-medium text-foreground text-xs">
-                        Current Role
-                      </th>
-                      <th className="text-left py-3 px-2 font-medium text-foreground text-xs">
-                        Company
-                      </th>
-                      <th className="text-left py-3 px-2 font-medium text-foreground text-xs">
                         Experience
                       </th>
                       <th className="text-left py-3 px-2 font-medium text-foreground text-xs">
@@ -866,12 +852,6 @@ export default function Report() {
                         </td>
                         <td className="py-2 px-2 text-xs text-foreground">
                           {candidate.email}
-                        </td>
-                        <td className="py-2 px-2 text-xs text-foreground">
-                          {candidate.current_role}
-                        </td>
-                        <td className="py-2 px-2 text-xs text-foreground">
-                          {candidate.company}
                         </td>
                         <td className="py-2 px-2 text-xs text-foreground">
                           {candidate.experience} yrs
