@@ -367,6 +367,7 @@ export default function Dashboard() {
   const [timeRange, setTimeRange] = useState("30d");
   const [candidateGraphFilter, setCandidateGraphFilter] = useState("30");
   const { selectedPlatform } = usePlatform();
+  const currentMetrics = selectedPlatform === 'SAAS' ? getSaasMetrics() : getPaasMetrics();
 
   return (
     <div className="space-y-8">
