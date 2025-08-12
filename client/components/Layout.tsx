@@ -172,7 +172,7 @@ export default function Layout({ children }: LayoutProps) {
           <div className="px-4 py-2">
             {/* Mobile Platform Selector */}
             <div className="mb-2">
-              <div className="relative">
+              <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   className="w-full flex items-center justify-between px-3 py-2 bg-secondary rounded-lg text-sm font-medium"
