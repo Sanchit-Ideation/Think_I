@@ -46,6 +46,108 @@ import {
 } from "lucide-react";
 
 // Key Metric Cards Data
+const getSaasMetrics = () => [
+  {
+    label: "Total Interviews Scheduled",
+    value: "1,247",
+    change: "+18%",
+    trend: "up",
+    icon: Calendar,
+    color: "blue",
+  },
+  {
+    label: "Total Interviews Completed",
+    value: "1,039",
+    change: "+12%",
+    trend: "up",
+    icon: UserCheck,
+    color: "green",
+  },
+  {
+    label: "Pending Evaluations",
+    value: "89",
+    change: "-5%",
+    trend: "down",
+    icon: Clock,
+    color: "orange",
+  },
+  {
+    label: "Avg. Integrity Score",
+    value: "91.2",
+    change: "+2.1%",
+    trend: "up",
+    icon: Shield,
+    color: "emerald",
+  },
+  {
+    label: "Avg. AI Score",
+    value: "84.7",
+    change: "+3.2%",
+    trend: "up",
+    icon: Brain,
+    color: "purple",
+  },
+  {
+    label: "Avg. Interviewer Score",
+    value: "82.3",
+    change: "+1.8%",
+    trend: "up",
+    icon: Users,
+    color: "indigo",
+  },
+];
+
+const getPaasMetrics = () => [
+  {
+    label: "Platform Deployments",
+    value: "892",
+    change: "+24%",
+    trend: "up",
+    icon: Calendar,
+    color: "purple",
+  },
+  {
+    label: "Active Development Teams",
+    value: "156",
+    change: "+8%",
+    trend: "up",
+    icon: UserCheck,
+    color: "green",
+  },
+  {
+    label: "Infrastructure Scaling Events",
+    value: "43",
+    change: "-12%",
+    trend: "down",
+    icon: Clock,
+    color: "orange",
+  },
+  {
+    label: "Platform Reliability Score",
+    value: "96.8",
+    change: "+1.4%",
+    trend: "up",
+    icon: Shield,
+    color: "emerald",
+  },
+  {
+    label: "Avg. Response Time",
+    value: "127ms",
+    change: "-8.3%",
+    trend: "up",
+    icon: Brain,
+    color: "purple",
+  },
+  {
+    label: "Developer Satisfaction",
+    value: "88.5",
+    change: "+3.2%",
+    trend: "up",
+    icon: Users,
+    color: "indigo",
+  },
+];
+
 const keyMetrics = [
   {
     label: "Total Interviews Scheduled",
