@@ -271,9 +271,21 @@ export default function Dashboard() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
+          <div className="flex items-center space-x-3 mb-2">
+            <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
+            <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+              selectedPlatform === 'SAAS'
+                ? 'bg-blue-500/10 text-blue-600 border border-blue-500/20'
+                : 'bg-purple-500/10 text-purple-600 border border-purple-500/20'
+            }`}>
+              {selectedPlatform} Analytics
+            </span>
+          </div>
           <p className="text-muted-foreground">
-            Comprehensive analytics overview for hiring decisions
+            {selectedPlatform === 'SAAS'
+              ? 'Software as a Service platform insights and analytics'
+              : 'Platform as a Service infrastructure insights and analytics'
+            }
           </p>
         </div>
         <div className="flex items-center space-x-2">
