@@ -75,7 +75,10 @@ export default function Layout({ children }: LayoutProps) {
               {/* Platform Selector */}
               <div className="relative" ref={dropdownRef}>
                 <button
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  onClick={() => {
+                    console.log('Platform button clicked, current state:', isDropdownOpen);
+                    setIsDropdownOpen(!isDropdownOpen);
+                  }}
                   className="flex items-center space-x-2 px-4 py-2 bg-secondary hover:bg-secondary/80 rounded-lg text-sm font-medium transition-colors"
                 >
                   {selectedPlatform === 'SAAS' ? (
