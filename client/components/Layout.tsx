@@ -28,6 +28,8 @@ const navigation = [
 
 export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
+  const [selectedPlatform, setSelectedPlatform] = useState('SAAS');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-background">
