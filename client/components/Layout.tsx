@@ -29,8 +29,7 @@ const navigation = [
 
 export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
-  const [selectedPlatform, setSelectedPlatform] = useState('SAAS');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { selectedPlatform, setSelectedPlatform, isDropdownOpen, setIsDropdownOpen } = usePlatform();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
