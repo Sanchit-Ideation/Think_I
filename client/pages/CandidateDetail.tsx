@@ -76,12 +76,19 @@ const interviewStages = [
   { stage: 'Q&A Session', ai_score: 86, interviewer_score: 84, duration: 2, status: 'completed' }
 ];
 
+const technicalSkills = [
+  { skill: 'SQL', candidate_score: 88, role_average: 82, explanation: 'Strong database querying and optimization skills' },
+  { skill: 'Tableau', candidate_score: 76, role_average: 79, explanation: 'Good visualization skills, room for advanced features' },
+  { skill: 'Data Analysis', candidate_score: 92, role_average: 85, explanation: 'Excellent analytical thinking and pattern recognition' },
+  { skill: 'Python', candidate_score: 85, role_average: 80, explanation: 'Solid programming fundamentals and data manipulation' },
+  { skill: 'AWS', candidate_score: 74, role_average: 77, explanation: 'Basic cloud knowledge, needs more hands-on experience' }
+];
+
 const competencyComparison = [
-  { skill: 'Technical Knowledge', ai_score: 85, interviewer_score: 87, explanation: 'AI noted strong fundamentals, interviewer appreciated practical experience' },
-  { skill: 'Communication', ai_score: 89, interviewer_score: 91, explanation: 'Excellent communication throughout, clear explanations' },
-  { skill: 'System Design', ai_score: 82, interviewer_score: 85, explanation: 'Good understanding of architecture, room for improvement in scalability' },
-  { skill: 'Code Quality', ai_score: 88, interviewer_score: 86, explanation: 'Clean, readable code with good practices' },
-  { skill: 'Adaptability', ai_score: 91, interviewer_score: 89, explanation: 'Quick to adjust approach based on feedback' }
+  { skill: 'Critical Reasoning', ai_score: 85, interviewer_score: 87, explanation: 'Strong logical thinking and problem decomposition abilities' },
+  { skill: 'Domain Knowledge', ai_score: 89, interviewer_score: 91, explanation: 'Deep understanding of technical concepts and industry practices' },
+  { skill: 'Analytical Thinking', ai_score: 82, interviewer_score: 85, explanation: 'Good analytical approach, methodical problem solving' },
+  { skill: 'Conciseness', ai_score: 88, interviewer_score: 86, explanation: 'Clear and concise communication, well-structured responses' }
 ];
 
 const behavioralScores = [
