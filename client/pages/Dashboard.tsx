@@ -414,7 +414,7 @@ export default function Dashboard() {
 
       {/* Key Metric Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {keyMetrics.map((metric, index) => {
+        {currentMetrics.map((metric, index) => {
           const IconComponent = metric.icon;
           return (
             <div
