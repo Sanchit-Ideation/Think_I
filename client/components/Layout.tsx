@@ -80,14 +80,18 @@ export default function Layout({ children }: LayoutProps) {
                 Test
               </button>
 
-              {/* Platform Selector */}
-              <div className="relative" ref={dropdownRef}>
+              {/* Platform Toggle */}
+              <div className="flex items-center space-x-2">
                 <button
                   onClick={() => {
-                    console.log('Platform button clicked, current state:', isDropdownOpen);
-                    setIsDropdownOpen(!isDropdownOpen);
+                    console.log('Switching platform from', selectedPlatform);
+                    setSelectedPlatform(selectedPlatform === 'SAAS' ? 'PAAS' : 'SAAS');
                   }}
-                  className="flex items-center space-x-2 px-4 py-2 bg-secondary hover:bg-secondary/80 rounded-lg text-sm font-medium transition-colors"
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    selectedPlatform === 'SAAS'
+                      ? 'bg-blue-500 text-white hover:bg-blue-600'
+                      : 'bg-purple-500 text-white hover:bg-purple-600'
+                  }`}
                 >
                   {selectedPlatform === 'SAAS' ? (
                     <Cloud className="w-4 h-4" />
@@ -95,52 +99,8 @@ export default function Layout({ children }: LayoutProps) {
                     <Server className="w-4 h-4" />
                   )}
                   <span>{selectedPlatform} Platform</span>
-                  <ChevronDown className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
-
-                {isDropdownOpen && (
-                  <div
-                    className="absolute top-full left-0 mt-2 w-56 bg-white border-2 border-black rounded-lg shadow-xl z-[9999]"
-                    style={{ backgroundColor: 'white', border: '2px solid black' }}
-                  >
-                    <div className="p-2">
-                      <button
-                        onClick={() => {
-                          setSelectedPlatform('SAAS');
-                          setIsDropdownOpen(false);
-                        }}
-                        className={`w-full flex items-center space-x-3 px-3 py-2 rounded-md text-sm transition-colors ${
-                          selectedPlatform === 'SAAS'
-                            ? 'bg-primary text-primary-foreground'
-                            : 'text-foreground hover:bg-muted'
-                        }`}
-                      >
-                        <Cloud className="w-4 h-4" />
-                        <div className="text-left">
-                          <div className="font-medium">SAAS Platform</div>
-                          <div className="text-xs text-muted-foreground">Software as a Service insights</div>
-                        </div>
-                      </button>
-                      <button
-                        onClick={() => {
-                          setSelectedPlatform('PAAS');
-                          setIsDropdownOpen(false);
-                        }}
-                        className={`w-full flex items-center space-x-3 px-3 py-2 rounded-md text-sm transition-colors ${
-                          selectedPlatform === 'PAAS'
-                            ? 'bg-primary text-primary-foreground'
-                            : 'text-foreground hover:bg-muted'
-                        }`}
-                      >
-                        <Server className="w-4 h-4" />
-                        <div className="text-left">
-                          <div className="font-medium">PAAS Platform</div>
-                          <div className="text-xs text-muted-foreground">Platform as a Service insights</div>
-                        </div>
-                      </button>
-                    </div>
-                  </div>
-                )}
+                <span className="text-xs text-muted-foreground">Click to switch</span>
               </div>
 
               {/* Navigation */}
