@@ -58,7 +58,16 @@ export default function Layout({ children }: LayoutProps) {
                   <span className="text-lg font-bold text-white">Σ</span>
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-foreground">Think_Int_2</h1>
+                  <div className="flex items-center space-x-2">
+                    <h1 className="text-xl font-bold text-foreground">Think_Int_2</h1>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      selectedPlatform === 'SAAS'
+                        ? 'bg-blue-500/10 text-blue-600'
+                        : 'bg-purple-500/10 text-purple-600'
+                    }`}>
+                      {selectedPlatform}
+                    </span>
+                  </div>
                   <p className="text-xs text-muted-foreground">Interview Analytics Platform</p>
                 </div>
               </div>
