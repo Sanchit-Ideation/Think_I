@@ -1,5 +1,6 @@
-import { ReactNode, useState, useEffect, useRef } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { usePlatform } from '../contexts/PlatformContext';
 import {
   BarChart3,
   FileText,
