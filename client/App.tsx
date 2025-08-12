@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
+import { PlatformProvider } from "./contexts/PlatformContext";
 import Dashboard from "./pages/Dashboard";
 import Template from "./pages/Template";
 import Schedule from "./pages/Schedule";
