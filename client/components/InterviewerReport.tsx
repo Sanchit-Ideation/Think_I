@@ -266,18 +266,6 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
                   </div>
                 </div>
 
-                {interviewer.improvement_areas.length > 0 && (
-                  <div>
-                    <p className="text-xs text-muted-foreground mb-2">Improvement Areas</p>
-                    <div className="flex flex-wrap gap-1">
-                      {interviewer.improvement_areas.map((area, areaIndex) => (
-                        <span key={areaIndex} className="px-2 py-1 bg-yellow-500/10 text-yellow-700 text-xs rounded-full">
-                          {area}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </div>
             ))}
           </div>
