@@ -389,6 +389,7 @@ const recentAlerts = [
 export default function Dashboard() {
   const [timeRange, setTimeRange] = useState("30d");
   const [candidateGraphFilter, setCandidateGraphFilter] = useState("30");
+  const [behavioralRoleFilter, setBehavioralRoleFilter] = useState("engineering");
   const { selectedPlatform } = usePlatform();
   const currentMetrics = selectedPlatform === 'SAAS' ? getSaasMetrics() : getPaasMetrics();
 
