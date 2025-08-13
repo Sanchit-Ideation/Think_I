@@ -352,20 +352,24 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
                     <td className="py-3 px-4">
                       <div className="space-y-1">
                         {interviewer.recentInterviews.slice(0, 2).map((interview, idx) => (
-                          <Link
-                            key={idx}
-                            to={`/candidate/${interview.candidate.toLowerCase().replace(' ', '-')}`}
-                            className="flex items-center justify-between text-xs hover:text-primary"
-                            onClick={(e) => e.stopPropagation()}
-                          >
+                          <div key={idx} className="flex items-center justify-between text-xs">
                             <span>{interview.candidate}</span>
-                            <span className={`px-1 py-0.5 rounded ${
-                              interview.score >= 85 ? 'bg-green-500/10 text-green-600' : 
-                              interview.score >= 70 ? 'bg-blue-500/10 text-blue-600' : 'bg-red-500/10 text-red-600'
-                            }`}>
-                              {interview.score}%
-                            </span>
-                          </Link>
+                            <div className="flex items-center space-x-2">
+                              <span className={`px-1 py-0.5 rounded ${
+                                interview.score >= 85 ? 'bg-green-500/10 text-green-600' :
+                                interview.score >= 70 ? 'bg-blue-500/10 text-blue-600' : 'bg-red-500/10 text-red-600'
+                              }`}>
+                                {interview.score}%
+                              </span>
+                              <Link
+                                to={`/candidate/${interview.candidate.toLowerCase().replace(' ', '-')}`}
+                                className="px-1 py-0.5 bg-primary text-primary-foreground rounded text-xs hover:bg-primary/90 transition-colors"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                View
+                              </Link>
+                            </div>
+                          </div>
                         ))}
                       </div>
                     </td>
