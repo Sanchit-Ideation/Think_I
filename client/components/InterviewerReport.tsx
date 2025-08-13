@@ -277,8 +277,6 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
                   <th className="text-left py-3 px-4 font-medium text-foreground">Interviewer</th>
                   <th className="text-left py-3 px-4 font-medium text-foreground">Interviews</th>
                   <th className="text-left py-3 px-4 font-medium text-foreground">Avg Score</th>
-                  <th className="text-left py-3 px-4 font-medium text-foreground">Consistency</th>
-                  <th className="text-left py-3 px-4 font-medium text-foreground">Rating</th>
                   <th className="text-left py-3 px-4 font-medium text-foreground">Recent Interviews</th>
                 </tr>
               </thead>
@@ -302,20 +300,6 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
                           <div className="bg-primary h-2 rounded-full" style={{ width: `${interviewer.avg_score}%` }} />
                         </div>
                         <span className="text-foreground text-sm">{interviewer.avg_score}%</span>
-                      </div>
-                    </td>
-                    <td className="py-3 px-4">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-12 bg-muted rounded-full h-2">
-                          <div className="bg-green-500 h-2 rounded-full" style={{ width: `${interviewer.consistency}%` }} />
-                        </div>
-                        <span className="text-foreground text-sm">{interviewer.consistency}%</span>
-                      </div>
-                    </td>
-                    <td className="py-3 px-4">
-                      <div className="flex items-center space-x-1">
-                        <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                        <span className="text-foreground text-sm">{interviewer.candidate_feedback}</span>
                       </div>
                     </td>
                     <td className="py-3 px-4">
