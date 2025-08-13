@@ -2340,8 +2340,24 @@ export default function Report() {
           </div>
         )}
 
-      {/* Template Report Tab */}
-      {activeTab === "template" && (
+      {/* Template Report Tab - New Components */}
+      {activeTab === "template" && !showTemplateDetail && (
+        <TemplateReport onTemplateSelect={(template) => {
+          setSelectedTemplate(template);
+          setShowTemplateDetail(true);
+        }} />
+      )}
+
+      {/* Template Detail View */}
+      {activeTab === "template" && showTemplateDetail && selectedTemplate && (
+        <TemplateDetailView
+          template={selectedTemplate}
+          onBack={() => setShowTemplateDetail(false)}
+        />
+      )}
+
+      {/* Template Report Tab - Original (Hidden) */}
+      {false && activeTab === "template" && (
         <div className="space-y-8">
           {/* Template Comparison */}
           <div className="bg-card border border-border rounded-xl p-6">
