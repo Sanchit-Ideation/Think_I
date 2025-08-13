@@ -171,7 +171,11 @@ export default function Layout({ children }: LayoutProps) {
               </button>
             </div>
             <div className="flex space-x-1 overflow-x-auto">
-              {navigation.filter(item => selectedPlatform === 'SAAS' || item.name !== 'Schedule').map((item) => {
+              {navigation.filter(item => {
+                const shouldShow = selectedPlatform === 'SAAS' || item.name !== 'Schedule';
+                console.log(`Mobile Item: ${item.name}, Platform: ${selectedPlatform}, Show: ${shouldShow}`);
+                return shouldShow;
+              }).map((item) => {
                 const IconComponent = item.icon;
                 const isActive = location.pathname === item.href;
                 return (
