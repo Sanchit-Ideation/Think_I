@@ -245,7 +245,7 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
         {viewMode === 'card' ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {paginatedTemplates.map((template) => (
-              <div key={template.id} className="bg-muted rounded-xl p-6 hover:shadow-lg transition-all cursor-pointer" onClick={() => onTemplateSelect(template)}>
+              <div key={template.id} className="bg-card border border-border rounded-xl p-6 hover:shadow-lg hover:border-primary/30 transition-all cursor-pointer" onClick={() => onTemplateSelect(template)}>
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <h4 className="font-semibold text-foreground">{template.template}</h4>
