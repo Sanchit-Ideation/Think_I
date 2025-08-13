@@ -2737,7 +2737,7 @@ export default function Report() {
               </div>
             </div>
 
-            {/* Enhanced Behavioral Analysis */}
+            {/* Enhanced Analysis */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Behavioral Tag Trends */}
               <div className="bg-card border border-border rounded-xl p-6">
@@ -2786,10 +2786,7 @@ export default function Report() {
                 </div>
               </div>
 
-            </div>
-
-            {/* Follow-up Quality */}
-            <div className="bg-card border border-border rounded-xl p-6">
+              {/* Follow-up Quality */}
               <div className="bg-card border border-border rounded-xl p-6">
                 <h3 className="text-lg font-semibold text-foreground mb-4">
                   Follow-up Quality
