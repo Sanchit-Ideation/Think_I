@@ -1339,31 +1339,26 @@ export default function Report() {
                             data={[
                               {
                                 skill: "Problem Solving",
-                                desired: 8.5,
                                 aiScore: 7.8,
                                 interviewerScore: 8.1,
                               },
                               {
                                 skill: "Technical Skills",
-                                desired: 9.0,
                                 aiScore: 8.2,
                                 interviewerScore: 7.9,
                               },
                               {
                                 skill: "Communication",
-                                desired: 7.5,
                                 aiScore: 7.5,
                                 interviewerScore: 7.2,
                               },
                               {
                                 skill: "Leadership",
-                                desired: 6.5,
                                 aiScore: 6.8,
                                 interviewerScore: 7.1,
                               },
                               {
                                 skill: "Innovation",
-                                desired: 7.0,
                                 aiScore: 7.3,
                                 interviewerScore: 6.9,
                               },
@@ -1391,17 +1386,12 @@ export default function Report() {
                                 fontSize: "12px",
                               }}
                             />
-                            <Bar dataKey="desired" fill="#22c55e" name="Desired Level" opacity={0.7} />
                             <Bar dataKey="aiScore" fill="#8b5cf6" name="AI Score" />
                             <Bar dataKey="interviewerScore" fill="#3b82f6" name="Interviewer Score" />
                           </BarChart>
                         </ResponsiveContainer>
                       </div>
                       <div className="flex justify-center space-x-6 mt-4">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-4 h-3 bg-green-500 opacity-70" />
-                          <span className="text-sm text-muted-foreground">Desired Level</span>
-                        </div>
                         <div className="flex items-center space-x-2">
                           <div className="w-4 h-3 bg-purple-500" />
                           <span className="text-sm text-muted-foreground">AI Score</span>
@@ -1964,7 +1954,7 @@ export default function Report() {
                       <div className="text-sm text-muted-foreground space-y-1">
                         <p>• 2 interruptions detected</p>
                         <p>• Average response time: 3.2 seconds</p>
-                        <p>��� Longest monologue: 4 minutes (candidate)</p>
+                        <p>• Longest monologue: 4 minutes (candidate)</p>
                       </div>
                     </div>
                   </div>
