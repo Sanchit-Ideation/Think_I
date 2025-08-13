@@ -33,15 +33,17 @@ const competencyTrends = [
 const funnelData = [
   { name: "Scheduled", value: 234, fill: "#8b5cf6" },
   { name: "Interviewed", value: 198, fill: "#7c3aed" },
+  { name: "Cancelled", value: 36, fill: "#ef4444" },
   { name: "Evaluated", value: 178, fill: "#6d28d9" },
   { name: "Recommended", value: 67, fill: "#5b21b6" }
 ];
 
 const topQuestions = [
-  { question: "Describe your approach to system design", effectiveness: 94, avgScore: 87 },
-  { question: "How do you handle technical debt?", effectiveness: 89, avgScore: 82 },
-  { question: "Walk through a challenging bug you fixed", effectiveness: 91, avgScore: 85 },
-  { question: "Explain your testing strategy", effectiveness: 86, avgScore: 79 }
+  { question: "Describe your approach to system design", skillCovered: "System Architecture" },
+  { question: "How do you handle technical debt?", skillCovered: "Code Quality Management" },
+  { question: "Walk through a challenging bug you fixed", skillCovered: "Problem Solving" },
+  { question: "Explain your testing strategy", skillCovered: "Quality Assurance" },
+  { question: "How do you optimize database queries?", skillCovered: "Database Optimization" }
 ];
 
 const behavioralTraits = [
@@ -159,37 +161,20 @@ export default function TemplateDetailView({ template, onBack }: TemplateDetailV
         </div>
       </div>
 
-      {/* Usage & Trends */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bg-card border border-border rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-foreground mb-4">Usage by Role/Department</h3>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={usageByRole}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="role" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                <Tooltip />
-                <Bar dataKey="usage" fill="hsl(var(--primary))" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        <div className="bg-card border border-border rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-foreground mb-4">Trend Over Time</h3>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={trendData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                <Tooltip />
-                <Line type="monotone" dataKey="evaluated" stroke="#8b5cf6" strokeWidth={2} name="Evaluated" />
-                <Line type="monotone" dataKey="recommended" stroke="#22c55e" strokeWidth={2} name="Recommended" />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+      {/* Trend Over Time */}
+      <div className="bg-card border border-border rounded-xl p-6">
+        <h3 className="text-lg font-semibold text-foreground mb-4">Trend Over Time</h3>
+        <div className="h-64">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={trendData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+              <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" fontSize={12} />
+              <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
+              <Tooltip />
+              <Line type="monotone" dataKey="evaluated" stroke="#8b5cf6" strokeWidth={2} name="Evaluated" />
+              <Line type="monotone" dataKey="recommended" stroke="#22c55e" strokeWidth={2} name="Recommended" />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
       </div>
 
@@ -250,17 +235,15 @@ export default function TemplateDetailView({ template, onBack }: TemplateDetailV
         </div>
       </div>
 
-      {/* Question Effectiveness */}
+      {/* Top 5 Questions */}
       <div className="bg-card border border-border rounded-xl p-6">
-        <h3 className="text-lg font-semibold text-foreground mb-4">Top-Performing Questions</h3>
+        <h3 className="text-lg font-semibold text-foreground mb-4">Top 5 Questions</h3>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-border">
                 <th className="text-left py-3 px-4 font-medium text-foreground">Question</th>
-                <th className="text-left py-3 px-4 font-medium text-foreground">Effectiveness</th>
-                <th className="text-left py-3 px-4 font-medium text-foreground">Avg Score</th>
-                <th className="text-left py-3 px-4 font-medium text-foreground">Quality Rating</th>
+                <th className="text-left py-3 px-4 font-medium text-foreground">Skill Covered</th>
               </tr>
             </thead>
             <tbody>
@@ -270,21 +253,8 @@ export default function TemplateDetailView({ template, onBack }: TemplateDetailV
                     <p className="font-medium text-foreground">{question.question}</p>
                   </td>
                   <td className="py-3 px-4">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-16 bg-muted rounded-full h-2">
-                        <div className="bg-primary h-2 rounded-full" style={{ width: `${question.effectiveness}%` }} />
-                      </div>
-                      <span className="text-sm font-medium">{question.effectiveness}%</span>
-                    </div>
-                  </td>
-                  <td className="py-3 px-4 text-muted-foreground">{question.avgScore}%</td>
-                  <td className="py-3 px-4">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      question.effectiveness >= 90 ? 'bg-green-500/10 text-green-500' :
-                      question.effectiveness >= 85 ? 'bg-blue-500/10 text-blue-500' :
-                      'bg-yellow-500/10 text-yellow-500'
-                    }`}>
-                      {question.effectiveness >= 90 ? 'Excellent' : question.effectiveness >= 85 ? 'Good' : 'Average'}
+                    <span className="px-2 py-1 bg-primary/10 text-primary rounded-full text-sm">
+                      {question.skillCovered}
                     </span>
                   </td>
                 </tr>
