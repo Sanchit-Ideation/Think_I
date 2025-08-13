@@ -97,7 +97,7 @@ export default function Layout({ children }: LayoutProps) {
 
               {/* Navigation */}
               <nav className="hidden md:flex space-x-1">
-                {navigation.map((item) => {
+                {navigation.filter(item => selectedPlatform === 'SAAS' || item.name !== 'Schedule').map((item) => {
                   const IconComponent = item.icon;
                   const isActive = location.pathname === item.href;
                   return (
