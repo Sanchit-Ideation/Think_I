@@ -94,6 +94,8 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
   const [sortBy, setSortBy] = useState("name");
   const [viewMode, setViewMode] = useState<"card" | "list">("card");
   const [dateFilter, setDateFilter] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   // Filter and sort templates
   const getFilteredTemplates = () => {
@@ -198,7 +200,7 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
 
       {/* Template Performance Summary */}
       <div className="bg-card border border-border rounded-xl p-6">
-        <h4 className="text-md font-semibold text-foreground mb-4">📊 Template Performance Summary</h4>
+        <h4 className="text-md font-semibold text-foreground mb-4">��� Template Performance Summary</h4>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="p-4 bg-muted rounded-lg text-center">
             <div className="text-2xl font-bold text-foreground">{filteredTemplates.length}</div>
