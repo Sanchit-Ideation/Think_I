@@ -381,6 +381,9 @@ export default function Report() {
   const [searchTerm, setSearchTerm] = useState("");
   const [candidateGraphFilter, setCandidateGraphFilter] = useState("30");
   const [viewMode, setViewMode] = useState<"card" | "sheet">("card");
+  const [interviewerViewMode, setInterviewerViewMode] = useState<"card" | "list">("card");
+  const [interviewerSearchTerm, setInterviewerSearchTerm] = useState("");
+  const [interviewerSortBy, setInterviewerSortBy] = useState("name");
 
   // Filter and sort candidates
   const getFilteredCandidates = () => {
