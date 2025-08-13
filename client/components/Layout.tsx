@@ -65,7 +65,7 @@ export default function Layout({ children }: LayoutProps) {
                         ? 'bg-blue-500/10 text-blue-600'
                         : 'bg-purple-500/10 text-purple-600'
                     }`}>
-                      {selectedPlatform}
+                      {selectedPlatform} ✓
                     </span>
                   </div>
                   <p className="text-xs text-muted-foreground">Interview Analytics Platform</p>
