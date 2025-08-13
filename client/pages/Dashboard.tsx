@@ -854,12 +854,27 @@ export default function Dashboard() {
 
       {/* Behavioral Traits Distribution */}
       <div className="bg-card border border-border rounded-xl p-6">
-        <h3 className="text-lg font-semibold text-foreground mb-4">
-          Behavioral Traits Distribution by Role
-        </h3>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-foreground">
+            Behavioral Traits Distribution
+          </h3>
+          <div className="flex items-center space-x-2">
+            <label className="text-sm text-muted-foreground">Role:</label>
+            <select
+              value={behavioralRoleFilter}
+              onChange={(e) => setBehavioralRoleFilter(e.target.value)}
+              className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="engineering">Engineering</option>
+              <option value="pm">Product Manager</option>
+              <option value="design">Design</option>
+              <option value="marketing">Marketing</option>
+            </select>
+          </div>
+        </div>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={behavioralTraits}>
+            <BarChart data={behavioralTraitsByRole[behavioralRoleFilter as keyof typeof behavioralTraitsByRole]}>
               <CartesianGrid
                 strokeDasharray="3 3"
                 stroke="hsl(var(--border))"
@@ -877,44 +892,14 @@ export default function Dashboard() {
                   borderRadius: "8px",
                 }}
               />
-              <Bar
-                dataKey="engineering"
-                stackId="a"
-                fill="#8b5cf6"
-                name="Engineering"
-              />
-              <Bar
-                dataKey="pm"
-                stackId="a"
-                fill="#06b6d4"
-                name="Product Manager"
-              />
-              <Bar dataKey="design" stackId="a" fill="#10b981" name="Design" />
-              <Bar
-                dataKey="marketing"
-                stackId="a"
-                fill="#f59e0b"
-                name="Marketing"
-              />
+              <Bar dataKey="value" fill="#8b5cf6" name="Percentage" />
             </BarChart>
           </ResponsiveContainer>
         </div>
         <div className="flex justify-center space-x-6 mt-4 text-sm">
           <div className="flex items-center space-x-2">
             <div className="w-3 h-3 bg-purple-500 rounded" />
-            <span>Engineering</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 bg-cyan-500 rounded" />
-            <span>Product Manager</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 bg-emerald-500 rounded" />
-            <span>Design</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 bg-amber-500 rounded" />
-            <span>Marketing</span>
+            <span>Behavioral Traits for {behavioralRoleFilter === 'pm' ? 'Product Manager' : behavioralRoleFilter.charAt(0).toUpperCase() + behavioralRoleFilter.slice(1)}</span>
           </div>
         </div>
       </div>
