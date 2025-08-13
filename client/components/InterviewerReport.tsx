@@ -102,12 +102,59 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
 
   return (
     <div className="space-y-8">
-      {/* Search and Controls */}
+      {/* Header Section */}
       <div className="bg-card border border-border rounded-xl p-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
           <div>
             <h3 className="text-lg font-semibold text-foreground">Interviewer Report</h3>
             <p className="text-sm text-muted-foreground">Performance & Evaluation Analytics</p>
+          </div>
+        </div>
+
+        {/* Top Recruiters - Hires by Role */}
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-3">
+            <h4 className="text-md font-semibold text-foreground">🏆 Top Recruiters - Hires</h4>
+            <select
+              value={topRecruiterRoleFilter}
+              onChange={(e) => setTopRecruiterRoleFilter(e.target.value)}
+              className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="all">All Roles</option>
+              <option value="data-analyst">Data Analyst</option>
+              <option value="software-developer">Software Developer</option>
+              <option value="senior-manager">Senior Manager</option>
+              <option value="product-manager">Product Manager</option>
+              <option value="designer">Designer</option>
+              <option value="qa-engineer">QA Engineer</option>
+            </select>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {filteredInterviewers.slice(0, 3).map((interviewer, index) => (
+              <div key={index} className="flex items-center space-x-3 p-3 bg-muted rounded-lg">
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold ${
+                  index === 0 ? 'bg-yellow-500' : index === 1 ? 'bg-gray-400' : 'bg-orange-500'
+                }`}>
+                  {index + 1}
+                </div>
+                <div>
+                  <p className="font-medium text-foreground">{interviewer.name}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {topRecruiterRoleFilter === 'all' ? 'All Roles' : topRecruiterRoleFilter.replace('-', ' ')} - {interviewer.avg_score}% avg score
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+
+      {/* Interviewer List/Cards */}
+      <div className="bg-card border border-border rounded-xl p-6">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
+          <div>
+            <h3 className="text-lg font-semibold text-foreground">All Interviewers</h3>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="relative">
@@ -159,59 +206,6 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
             </div>
           </div>
         </div>
-
-        {/* Top Recruiters - Hires by Role */}
-        <div className="mb-6">
-          <div className="flex items-center justify-between mb-3">
-            <h4 className="text-md font-semibold text-foreground">🏆 Top Recruiters - Hires</h4>
-            <select
-              value={topRecruiterRoleFilter}
-              onChange={(e) => setTopRecruiterRoleFilter(e.target.value)}
-              className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <option value="all">All Roles</option>
-              <option value="data-analyst">Data Analyst</option>
-              <option value="software-developer">Software Developer</option>
-              <option value="senior-manager">Senior Manager</option>
-              <option value="product-manager">Product Manager</option>
-              <option value="designer">Designer</option>
-              <option value="qa-engineer">QA Engineer</option>
-            </select>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {filteredInterviewers.slice(0, 3).map((interviewer, index) => (
-              <div key={index} className="flex items-center space-x-3 p-3 bg-muted rounded-lg">
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold ${
-                  index === 0 ? 'bg-yellow-500' : index === 1 ? 'bg-gray-400' : 'bg-orange-500'
-                }`}>
-                  {index + 1}
-                </div>
-                <div>
-                  <p className="font-medium text-foreground">{interviewer.name}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {topRecruiterRoleFilter === 'all' ? 'All Roles' : topRecruiterRoleFilter.replace('-', ' ')} - {interviewer.avg_score}% avg score
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Performance Trend Chart */}
-      <div className="bg-card border border-border rounded-xl p-6">
-        <h3 className="text-lg font-semibold text-foreground mb-4">Performance Trend Over Time</h3>
-        <div className="h-64 bg-muted rounded-lg flex items-center justify-center">
-          <div className="text-center">
-            <TrendingUp className="w-12 h-12 text-muted-foreground mx-auto mb-2" />
-            <p className="text-muted-foreground">Performance trend chart would display here</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Interviewer List/Cards */}
-      <div className="bg-card border border-border rounded-xl p-6">
-        <h3 className="text-lg font-semibold text-foreground mb-4">All Interviewers</h3>
         
         {viewMode === 'card' ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
