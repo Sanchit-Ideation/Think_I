@@ -223,13 +223,9 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
                       <p className="text-sm text-muted-foreground">{interviewer.interviews} interviews</p>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-1">
-                    <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                    <span className="text-sm font-medium">{interviewer.candidate_feedback}</span>
-                  </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 mb-4">
+                <div className="mb-4">
                   <div>
                     <p className="text-xs text-muted-foreground">Avg Score</p>
                     <div className="flex items-center space-x-2">
@@ -237,15 +233,6 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
                         <div className="bg-primary h-2 rounded-full" style={{ width: `${interviewer.avg_score}%` }} />
                       </div>
                       <span className="text-sm font-medium">{interviewer.avg_score}%</span>
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground">Consistency</p>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-16 bg-background rounded-full h-2">
-                        <div className="bg-green-500 h-2 rounded-full" style={{ width: `${interviewer.consistency}%` }} />
-                      </div>
-                      <span className="text-sm font-medium">{interviewer.consistency}%</span>
                     </div>
                   </div>
                 </div>
