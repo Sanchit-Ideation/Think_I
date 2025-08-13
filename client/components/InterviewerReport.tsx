@@ -120,15 +120,28 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
                 className="pl-10 pr-4 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary w-64"
               />
             </div>
-            <select 
+            <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
             >
               <option value="name">Sort by Name</option>
-              <option value="score">Sort by Score</option>
+              <option value="score">Sort by Avg Score</option>
               <option value="interviews">Sort by Interviews</option>
               <option value="consistency">Sort by Consistency</option>
+            </select>
+            <select
+              value={roleFilter}
+              onChange={(e) => setRoleFilter(e.target.value)}
+              className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="all">All Roles</option>
+              <option value="data-analyst">Data Analyst</option>
+              <option value="software-developer">Software Developer</option>
+              <option value="senior-manager">Senior Manager</option>
+              <option value="product-manager">Product Manager</option>
+              <option value="designer">Designer</option>
+              <option value="qa-engineer">QA Engineer</option>
             </select>
             <div className="flex border border-border rounded-lg">
               <button
