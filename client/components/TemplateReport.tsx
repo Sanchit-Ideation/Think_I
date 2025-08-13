@@ -4,7 +4,7 @@ import { Search, Filter, Calendar, Users, TrendingUp, Award, Target, Brain, BarC
 const templateData = [
   {
     id: 1,
-    template: "Software Engineer V2",
+    template: "Software Engineer",
     department: "Engineering",
     role: "Technical",
     version: "2.1",
@@ -24,7 +24,7 @@ const templateData = [
   },
   {
     id: 2,
-    template: "Product Manager V3",
+    template: "Product Manager",
     department: "Product",
     role: "Leadership",
     version: "3.0",
@@ -44,7 +44,7 @@ const templateData = [
   },
   {
     id: 3,
-    template: "UX Designer V1",
+    template: "UX Designer",
     department: "Design",
     role: "Creative",
     version: "1.5",
@@ -64,7 +64,7 @@ const templateData = [
   },
   {
     id: 4,
-    template: "Data Scientist V2",
+    template: "Data Scientist",
     department: "Data",
     role: "Technical",
     version: "2.0",
@@ -149,34 +149,6 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
         </div>
       </div>
 
-      {/* Template Performance Summary */}
-      <div className="bg-card border border-border rounded-xl p-6">
-        <h4 className="text-md font-semibold text-foreground mb-4">📊 Template Performance Summary</h4>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="p-4 bg-muted rounded-lg text-center">
-            <div className="text-2xl font-bold text-foreground">{filteredTemplates.length}</div>
-            <div className="text-sm text-muted-foreground">Total Templates</div>
-          </div>
-          <div className="p-4 bg-muted rounded-lg text-center">
-            <div className="text-2xl font-bold text-foreground">
-              {Math.round(filteredTemplates.reduce((acc, t) => acc + t.effectivenessScore, 0) / filteredTemplates.length)}%
-            </div>
-            <div className="text-sm text-muted-foreground">Avg Effectiveness</div>
-          </div>
-          <div className="p-4 bg-muted rounded-lg text-center">
-            <div className="text-2xl font-bold text-foreground">
-              {filteredTemplates.reduce((acc, t) => acc + t.interviews, 0)}
-            </div>
-            <div className="text-sm text-muted-foreground">Total Interviews</div>
-          </div>
-          <div className="p-4 bg-muted rounded-lg text-center">
-            <div className="text-2xl font-bold text-foreground">
-              {Math.round(filteredTemplates.reduce((acc, t) => acc + t.adoptionRate, 0) / filteredTemplates.length)}%
-            </div>
-            <div className="text-sm text-muted-foreground">Avg Adoption Rate</div>
-          </div>
-        </div>
-      </div>
 
       {/* Template List/Cards */}
       <div className="bg-card border border-border rounded-xl p-6">
