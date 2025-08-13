@@ -210,7 +210,7 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
         {viewMode === 'card' ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {paginatedInterviewers.map((interviewer, index) => (
-              <div key={index} className="bg-muted rounded-xl p-6 hover:shadow-lg transition-all cursor-pointer" onClick={() => onInterviewerSelect(interviewer)}>
+              <div key={index} className="bg-card border border-border rounded-xl p-6 hover:shadow-lg hover:border-primary/30 transition-all cursor-pointer" onClick={() => onInterviewerSelect(interviewer)}>
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center space-x-3">
                     <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
