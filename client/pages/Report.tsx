@@ -424,6 +424,32 @@ export default function Report() {
     return filtered;
   };
 
+  // Filter and sort interviewers
+  const getFilteredInterviewers = () => {
+    let filtered = interviewerMetrics.filter(
+      (interviewer) =>
+        interviewer.name
+          .toLowerCase()
+          .includes(interviewerSearchTerm.toLowerCase())
+    );
+
+    // Sort interviewers
+    filtered.sort((a, b) => {
+      switch (interviewerSortBy) {
+        case "score":
+          return b.avg_score - a.avg_score;
+        case "interviews":
+          return b.interviews - a.interviews;
+        case "consistency":
+          return b.consistency - a.consistency;
+        default:
+          return a.name.localeCompare(b.name);
+      }
+    });
+
+    return filtered;
+  };
+
   const getVerdictColor = (verdict: string) => {
     switch (verdict) {
       case "Highly Recommended":
