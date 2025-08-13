@@ -14,12 +14,12 @@ const usageByRole = [
 ];
 
 const trendData = [
-  { month: "Jul", interviews: 12, success: 8 },
-  { month: "Aug", interviews: 18, success: 14 },
-  { month: "Sep", interviews: 25, success: 18 },
-  { month: "Oct", interviews: 32, success: 24 },
-  { month: "Nov", interviews: 28, success: 21 },
-  { month: "Dec", interviews: 35, success: 27 }
+  { month: "Jul", evaluated: 15, recommended: 8 },
+  { month: "Aug", evaluated: 22, recommended: 14 },
+  { month: "Sep", evaluated: 28, recommended: 18 },
+  { month: "Oct", evaluated: 35, recommended: 24 },
+  { month: "Nov", evaluated: 31, recommended: 21 },
+  { month: "Dec", evaluated: 38, recommended: 27 }
 ];
 
 const competencyTrends = [
@@ -75,14 +75,10 @@ export default function TemplateDetailView({ template, onBack }: TemplateDetailV
           <div className="h-6 w-px bg-border" />
           <div>
             <h1 className="text-3xl font-bold text-foreground">{template.template}</h1>
-            <p className="text-muted-foreground">{template.department} • {template.roleType} • v{template.version}</p>
+            <p className="text-muted-foreground">{template.department} • {template.role}</p>
           </div>
         </div>
         <div className="flex items-center space-x-2">
-          <button className="flex items-center space-x-2 px-3 py-2 text-sm bg-secondary hover:bg-secondary/80 rounded-lg transition-colors">
-            <Share2 className="w-4 h-4" />
-            <span>Share</span>
-          </button>
           <button className="flex items-center space-x-2 px-3 py-2 text-sm bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg transition-colors">
             <Download className="w-4 h-4" />
             <span>Export Report</span>
@@ -102,20 +98,12 @@ export default function TemplateDetailView({ template, onBack }: TemplateDetailV
             <p className="font-medium text-foreground">{new Date(template.creationDate).toLocaleDateString()}</p>
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">Version</p>
-            <p className="font-medium text-foreground">v{template.version}</p>
-          </div>
-          <div>
             <p className="text-sm text-muted-foreground">Department</p>
             <p className="font-medium text-foreground">{template.department}</p>
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">Role Type</p>
-            <p className="font-medium text-foreground">{template.roleType}</p>
-          </div>
-          <div>
-            <p className="text-sm text-muted-foreground">Status</p>
-            <span className="px-2 py-1 bg-green-500/10 text-green-600 rounded-full text-sm">Active</span>
+            <p className="text-sm text-muted-foreground">Role</p>
+            <p className="font-medium text-foreground">{template.role}</p>
           </div>
         </div>
       </div>
@@ -204,8 +192,8 @@ export default function TemplateDetailView({ template, onBack }: TemplateDetailV
                 <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" fontSize={12} />
                 <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
                 <Tooltip />
-                <Line type="monotone" dataKey="interviews" stroke="#8b5cf6" strokeWidth={2} name="Interviews" />
-                <Line type="monotone" dataKey="success" stroke="#22c55e" strokeWidth={2} name="Successful" />
+                <Line type="monotone" dataKey="evaluated" stroke="#8b5cf6" strokeWidth={2} name="Evaluated" />
+                <Line type="monotone" dataKey="recommended" stroke="#22c55e" strokeWidth={2} name="Recommended" />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -230,20 +218,6 @@ export default function TemplateDetailView({ template, onBack }: TemplateDetailV
           </div>
         </div>
 
-        <div className="bg-card border border-border rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-foreground mb-4">Skill Distribution</h3>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={skillDistribution} layout="horizontal">
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis type="number" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                <YAxis dataKey="skill" type="category" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                <Tooltip />
-                <Bar dataKey="candidates" fill="#3b82f6" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
       </div>
 
       {/* Outcome Quality */}
