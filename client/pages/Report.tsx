@@ -2675,11 +2675,6 @@ export default function Report() {
                       score: 85,
                       feedback: "Good at evaluating technical skills",
                     },
-                    {
-                      metric: "Bias Mitigation",
-                      score: 78,
-                      feedback: "Room for improvement in unconscious bias",
-                    },
                   ].map((item, index) => (
                     <div key={index} className="p-3 bg-muted rounded-lg">
                       <div className="flex items-center justify-between mb-2">
