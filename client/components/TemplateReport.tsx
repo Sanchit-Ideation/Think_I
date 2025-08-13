@@ -305,7 +305,7 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
                 </tr>
               </thead>
               <tbody>
-                {filteredTemplates.map((template) => (
+                {paginatedTemplates.map((template) => (
                   <tr key={template.id} className="border-b border-border hover:bg-muted/50 cursor-pointer" onClick={() => onTemplateSelect(template)}>
                     <td className="py-3 px-4">
                       <div>
