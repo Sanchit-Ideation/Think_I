@@ -73,7 +73,8 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
       (interviewer) =>
         interviewer.name
           .toLowerCase()
-          .includes(searchTerm.toLowerCase())
+          .includes(searchTerm.toLowerCase()) &&
+        (roleFilter === "all" || interviewer.name.toLowerCase().includes(roleFilter.toLowerCase()))
     );
 
     filtered.sort((a, b) => {
@@ -93,6 +94,11 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
   };
 
   const filteredInterviewers = getFilteredInterviewers();
+  const totalPages = Math.ceil(filteredInterviewers.length / itemsPerPage);
+  const paginatedInterviewers = filteredInterviewers.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="space-y-8">
