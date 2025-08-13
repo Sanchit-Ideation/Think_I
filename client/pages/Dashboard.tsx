@@ -292,14 +292,37 @@ const topInterviewers = [
   },
 ];
 
-// Behavioral Traits Distribution Data
-const behavioralTraits = [
-  { trait: "Confident", engineering: 45, pm: 38, design: 52, marketing: 41 },
-  { trait: "Calm", engineering: 62, pm: 58, design: 48, marketing: 55 },
-  { trait: "Nervous", engineering: 23, pm: 28, design: 31, marketing: 26 },
-  { trait: "Hesitant", engineering: 18, pm: 22, design: 19, marketing: 21 },
-  { trait: "Aggressive", engineering: 12, pm: 15, design: 8, marketing: 17 },
-];
+// Behavioral Traits Distribution Data by Role
+const behavioralTraitsByRole = {
+  engineering: [
+    { trait: "Confident", value: 45 },
+    { trait: "Calm", value: 62 },
+    { trait: "Nervous", value: 23 },
+    { trait: "Hesitant", value: 18 },
+    { trait: "Aggressive", value: 12 },
+  ],
+  pm: [
+    { trait: "Confident", value: 38 },
+    { trait: "Calm", value: 58 },
+    { trait: "Nervous", value: 28 },
+    { trait: "Hesitant", value: 22 },
+    { trait: "Aggressive", value: 15 },
+  ],
+  design: [
+    { trait: "Confident", value: 52 },
+    { trait: "Calm", value: 48 },
+    { trait: "Nervous", value: 31 },
+    { trait: "Hesitant", value: 19 },
+    { trait: "Aggressive", value: 8 },
+  ],
+  marketing: [
+    { trait: "Confident", value: 41 },
+    { trait: "Calm", value: 55 },
+    { trait: "Nervous", value: 26 },
+    { trait: "Hesitant", value: 21 },
+    { trait: "Aggressive", value: 17 },
+  ],
+};
 
 // High Performing Templates Data
 const templatePerformance = [
