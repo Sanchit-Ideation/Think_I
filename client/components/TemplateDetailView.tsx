@@ -1,4 +1,4 @@
-import { ArrowLeft, Download, Share2, Calendar, User, Award, Target, TrendingUp, Users, Brain, BarChart3, Eye } from 'lucide-react';
+import { ArrowLeft, Download, Calendar, User, Award, Target, TrendingUp, Users, Brain, BarChart3, Eye } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, PieChart, Pie, Cell, LineChart, Line, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, FunnelChart, Funnel, LabelList } from 'recharts';
 
 interface TemplateDetailViewProps {
@@ -51,13 +51,6 @@ const behavioralTraits = [
   { trait: "Innovative", percentage: 25, color: "#8b5cf6" }
 ];
 
-const skillDistribution = [
-  { skill: "Frontend", candidates: 45 },
-  { skill: "Backend", candidates: 67 },
-  { skill: "Full Stack", candidates: 89 },
-  { skill: "DevOps", candidates: 23 },
-  { skill: "Mobile", candidates: 34 }
-];
 
 export default function TemplateDetailView({ template, onBack }: TemplateDetailViewProps) {
   return (
@@ -88,7 +81,7 @@ export default function TemplateDetailView({ template, onBack }: TemplateDetailV
 
       {/* Template Info Header */}
       <div className="bg-card border border-border rounded-xl p-6">
-        <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div>
             <p className="text-sm text-muted-foreground">Created By</p>
             <p className="font-medium text-foreground">{template.createdBy}</p>
