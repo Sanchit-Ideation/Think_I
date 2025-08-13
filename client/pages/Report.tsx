@@ -2786,89 +2786,10 @@ export default function Report() {
                 </div>
               </div>
 
-              {/* Session Integrity Handling */}
-              <div className="bg-card border border-border rounded-xl p-6">
-                <h3 className="text-lg font-semibold text-foreground mb-4">
-                  Session Integrity Handling
-                </h3>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4 text-center">
-                    <div className="p-3 bg-muted rounded-lg">
-                      <p className="text-2xl font-bold text-red-600">12</p>
-                      <p className="text-xs text-muted-foreground">
-                        Sessions Flagged
-                      </p>
-                    </div>
-                    <div className="p-3 bg-muted rounded-lg">
-                      <p className="text-2xl font-bold text-green-600">8</p>
-                      <p className="text-xs text-muted-foreground">
-                        Properly Handled
-                      </p>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="p-3 bg-green-500/10 border border-green-500/20 rounded">
-                      <p className="text-sm font-medium text-green-700">
-                        Good Responses:
-                      </p>
-                      <p className="text-xs text-green-600">
-                        • Paused interview to address technical issues
-                      </p>
-                      <p className="text-xs text-green-600">
-                        • Documented integrity concerns properly
-                      </p>
-                    </div>
-                    <div className="p-3 bg-red-500/10 border border-red-500/20 rounded">
-                      <p className="text-sm font-medium text-red-700">
-                        Missed Issues:
-                      </p>
-                      <p className="text-xs text-red-600">
-                        • 4 cases of obvious tab switching ignored
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
 
-            {/* Bias Detection and Follow-up Quality */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Bias Detection */}
-              <div className="bg-card border border-border rounded-xl p-6">
-                <h3 className="text-lg font-semibold text-foreground mb-4">
-                  Bias Detection (AI vs Human Delta)
-                </h3>
-                <div className="space-y-4">
-                  <div className="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
-                    <h4 className="font-medium text-yellow-700 mb-2">
-                      Significant Score Gaps
-                    </h4>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span>Female Candidates:</span>
-                        <span className="text-red-600">-12 points vs AI</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Non-native Speakers:</span>
-                        <span className="text-red-600">-8 points vs AI</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Junior Experience:</span>
-                        <span className="text-green-600">+6 points vs AI</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded">
-                    <p className="text-sm text-blue-700">
-                      <strong>Pattern:</strong> Tends to be harder on
-                      communication skills, more lenient on technical depth for
-                      junior candidates
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Follow-up Quality */}
+            {/* Follow-up Quality */}
+            <div className="bg-card border border-border rounded-xl p-6">
               <div className="bg-card border border-border rounded-xl p-6">
                 <h3 className="text-lg font-semibold text-foreground mb-4">
                   Follow-up Quality
