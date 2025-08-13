@@ -211,7 +211,7 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="p-4 bg-muted rounded-lg text-center">
             <div className="text-2xl font-bold text-foreground">{filteredTemplates.length}</div>
-            <div className="text-sm text-muted-foreground">Active Templates</div>
+            <div className="text-sm text-muted-foreground">Total Templates</div>
           </div>
           <div className="p-4 bg-muted rounded-lg text-center">
             <div className="text-2xl font-bold text-foreground">
