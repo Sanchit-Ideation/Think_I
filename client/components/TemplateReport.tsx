@@ -120,6 +120,8 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
           return b.interviews - a.interviews;
         case "date":
           return new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime();
+        case "alphabet":
+          return a.template.localeCompare(b.template);
         default:
           return a.template.localeCompare(b.template);
       }
@@ -129,6 +131,11 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
   };
 
   const filteredTemplates = getFilteredTemplates();
+  const totalPages = Math.ceil(filteredTemplates.length / itemsPerPage);
+  const paginatedTemplates = filteredTemplates.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="space-y-8">
@@ -200,7 +207,7 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
 
       {/* Template Performance Summary */}
       <div className="bg-card border border-border rounded-xl p-6">
-        <h4 className="text-md font-semibold text-foreground mb-4">��� Template Performance Summary</h4>
+        <h4 className="text-md font-semibold text-foreground mb-4">📊 Template Performance Summary</h4>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="p-4 bg-muted rounded-lg text-center">
             <div className="text-2xl font-bold text-foreground">{filteredTemplates.length}</div>
