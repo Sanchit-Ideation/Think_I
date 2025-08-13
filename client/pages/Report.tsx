@@ -1328,78 +1328,33 @@ export default function Report() {
                       </div>
                     </div>
 
-                    {/* Skills Chart - AI vs Interviewer */}
+                    {/* Skills Assessment */}
                     <div className="bg-muted rounded-lg p-6">
                       <h5 className="font-medium text-foreground mb-4 text-center">
-                        Skills Assessment: AI vs Interviewer
+                        Skills Assessment
                       </h5>
-                      <div className="h-80">
-                        <ResponsiveContainer width="100%" height="100%">
-                          <BarChart
-                            data={[
-                              {
-                                skill: "Problem Solving",
-                                aiScore: 7.8,
-                                interviewerScore: 8.1,
-                              },
-                              {
-                                skill: "Technical Skills",
-                                aiScore: 8.2,
-                                interviewerScore: 7.9,
-                              },
-                              {
-                                skill: "Communication",
-                                aiScore: 7.5,
-                                interviewerScore: 7.2,
-                              },
-                              {
-                                skill: "Leadership",
-                                aiScore: 6.8,
-                                interviewerScore: 7.1,
-                              },
-                              {
-                                skill: "Innovation",
-                                aiScore: 7.3,
-                                interviewerScore: 6.9,
-                              },
-                            ]}
-                          >
-                            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                            <XAxis
-                              dataKey="skill"
-                              stroke="hsl(var(--muted-foreground))"
-                              fontSize={12}
-                              angle={-45}
-                              textAnchor="end"
-                              height={80}
-                            />
-                            <YAxis
-                              stroke="hsl(var(--muted-foreground))"
-                              fontSize={12}
-                              domain={[0, 10]}
-                            />
-                            <Tooltip
-                              contentStyle={{
-                                backgroundColor: "hsl(var(--card))",
-                                border: "1px solid hsl(var(--border))",
-                                borderRadius: "8px",
-                                fontSize: "12px",
-                              }}
-                            />
-                            <Bar dataKey="aiScore" fill="#8b5cf6" name="AI Score" />
-                            <Bar dataKey="interviewerScore" fill="#3b82f6" name="Interviewer Score" />
-                          </BarChart>
-                        </ResponsiveContainer>
-                      </div>
-                      <div className="flex justify-center space-x-6 mt-4">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-4 h-3 bg-purple-500" />
-                          <span className="text-sm text-muted-foreground">AI Score</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-4 h-3 bg-blue-500" />
-                          <span className="text-sm text-muted-foreground">Interviewer Score</span>
-                        </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {[
+                          { skill: "Python", score: 8.5 },
+                          { skill: "SQL", score: 9.0 },
+                          { skill: "System Design", score: 7.8 },
+                          { skill: "Data Warehousing", score: 8.2 },
+                          { skill: "AWS", score: 7.5 },
+                          { skill: "Machine Learning", score: 8.0 }
+                        ].map((item, index) => (
+                          <div key={index} className="flex items-center justify-between p-3 bg-background rounded-lg">
+                            <span className="font-medium text-foreground">{item.skill}</span>
+                            <div className="flex items-center space-x-2">
+                              <div className="w-16 bg-muted rounded-full h-2">
+                                <div
+                                  className="bg-primary h-2 rounded-full"
+                                  style={{ width: `${(item.score / 10) * 100}%` }}
+                                />
+                              </div>
+                              <span className="text-sm font-bold text-primary min-w-[2rem]">{item.score}</span>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
 
