@@ -387,6 +387,8 @@ export default function Report() {
   const [interviewerViewMode, setInterviewerViewMode] = useState<"card" | "list">("card");
   const [interviewerSearchTerm, setInterviewerSearchTerm] = useState("");
   const [interviewerSortBy, setInterviewerSortBy] = useState("name");
+  const [showTemplateDetail, setShowTemplateDetail] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState<any>(null);
 
   // Filter and sort candidates
   const getFilteredCandidates = () => {
