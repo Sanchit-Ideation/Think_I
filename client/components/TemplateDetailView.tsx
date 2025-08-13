@@ -230,56 +230,27 @@ export default function TemplateDetailView({ template, onBack }: TemplateDetailV
         </div>
       </div>
 
-      {/* Top 5 Questions */}
-      <div className="bg-card border border-border rounded-xl p-6">
-        <h3 className="text-lg font-semibold text-foreground mb-4">Top 5 Questions</h3>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-border">
-                <th className="text-left py-3 px-4 font-medium text-foreground">Question</th>
-                <th className="text-left py-3 px-4 font-medium text-foreground">Skill Covered</th>
-              </tr>
-            </thead>
-            <tbody>
-              {topQuestions.map((question, index) => (
-                <tr key={index} className="border-b border-border hover:bg-muted/50">
-                  <td className="py-3 px-4">
-                    <p className="font-medium text-foreground">{question.question}</p>
-                  </td>
-                  <td className="py-3 px-4">
-                    <span className="px-2 py-1 bg-primary/10 text-primary rounded-full text-sm">
-                      {question.skillCovered}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Behavioral Insights */}
+      {/* Detailed Analysis */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Top 5 Questions */}
         <div className="bg-card border border-border rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-foreground mb-4">Candidate Behavioral Traits</h3>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie data={behavioralTraits} cx="50%" cy="50%" outerRadius={80} dataKey="percentage" label={({ trait, percentage }) => `${trait}: ${percentage}%`}>
-                  {behavioralTraits.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
+          <h3 className="text-lg font-semibold text-foreground mb-4">Top 5 Questions</h3>
+          <div className="space-y-3">
+            {topQuestions.map((question, index) => (
+              <div key={index} className="p-3 bg-muted rounded-lg">
+                <p className="font-medium text-foreground text-sm mb-2">{question.question}</p>
+                <span className="px-2 py-1 bg-primary/10 text-primary rounded-full text-xs">
+                  {question.skillCovered}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
 
+        {/* Behavioral Traits & Performance */}
         <div className="bg-card border border-border rounded-xl p-6">
           <h3 className="text-lg font-semibold text-foreground mb-4">Performance Overview</h3>
-          <div className="space-y-4">
+          <div className="space-y-4 mb-6">
             <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
               <div className="flex items-center justify-between">
                 <span className="font-medium text-green-700">High Performance</span>
@@ -294,6 +265,16 @@ export default function TemplateDetailView({ template, onBack }: TemplateDetailV
               </div>
               <p className="text-sm text-yellow-600 mt-1">Technical depth and leadership need improvement</p>
             </div>
+          </div>
+
+          <h4 className="text-md font-semibold text-foreground mb-3">Behavioral Traits</h4>
+          <div className="grid grid-cols-2 gap-2">
+            {behavioralTraits.map((trait, index) => (
+              <div key={index} className="p-2 bg-muted rounded text-center">
+                <div className="text-sm font-bold" style={{ color: trait.color }}>{trait.percentage}%</div>
+                <div className="text-xs text-muted-foreground">{trait.trait}</div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
