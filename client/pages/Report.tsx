@@ -1222,10 +1222,10 @@ export default function Report() {
                     </div>
                   </div>
 
-                  {/* Competency Analysis */}
+                  {/* Core Competency Analysis */}
                   <div className="space-y-4">
                     <h4 className="font-medium text-foreground">
-                      Competency Analysis
+                      Core Competency Analysis
                     </h4>
                     <div className="bg-muted rounded-lg p-6">
                       <h5 className="font-medium text-foreground mb-4 text-center">
@@ -1236,33 +1236,33 @@ export default function Report() {
                           <RadarChart
                             data={[
                               {
-                                competency: "Python",
+                                competency: "Communication Clarity",
                                 required: 8,
-                                achieved: 7,
+                                achieved: 7.5,
                                 fullMark: 10,
                               },
                               {
-                                competency: "SQL",
+                                competency: "Cognitive Thinking & Reasoning",
                                 required: 9,
-                                achieved: 8.5,
+                                achieved: 8.2,
                                 fullMark: 10,
                               },
                               {
-                                competency: "Data Visualization",
+                                competency: "Technical / Domain Expertise",
+                                required: 8.5,
+                                achieved: 7.8,
+                                fullMark: 10,
+                              },
+                              {
+                                competency: "Adaptability & Learning Agility",
                                 required: 7,
-                                achieved: 8,
+                                achieved: 8.1,
                                 fullMark: 10,
                               },
                               {
-                                competency: "Problem Solving",
+                                competency: "Execution Ownership",
                                 required: 8,
-                                achieved: 7.5,
-                                fullMark: 10,
-                              },
-                              {
-                                competency: "Communication",
-                                required: 6,
-                                achieved: 7.5,
+                                achieved: 7.3,
                                 fullMark: 10,
                               },
                             ]}
@@ -1271,7 +1271,7 @@ export default function Report() {
                             <PolarAngleAxis
                               dataKey="competency"
                               tick={{
-                                fontSize: 12,
+                                fontSize: 10,
                                 fill: "hsl(var(--foreground))",
                               }}
                             />
@@ -1294,7 +1294,7 @@ export default function Report() {
                               strokeDasharray="5 5"
                             />
                             <Radar
-                              name="Candidate Avg"
+                              name="Candidate Score"
                               dataKey="achieved"
                               stroke="#1f2937"
                               fill="#1f2937"
@@ -1322,8 +1322,93 @@ export default function Report() {
                         <div className="flex items-center space-x-2">
                           <div className="w-4 h-1 bg-gray-800" />
                           <span className="text-sm text-muted-foreground">
-                            Candidate Avg
+                            Candidate Score
                           </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Skills Chart - AI vs Interviewer */}
+                    <div className="bg-muted rounded-lg p-6">
+                      <h5 className="font-medium text-foreground mb-4 text-center">
+                        Skills Assessment: AI vs Interviewer
+                      </h5>
+                      <div className="h-80">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart
+                            data={[
+                              {
+                                skill: "Problem Solving",
+                                desired: 8.5,
+                                aiScore: 7.8,
+                                interviewerScore: 8.1,
+                              },
+                              {
+                                skill: "Technical Skills",
+                                desired: 9.0,
+                                aiScore: 8.2,
+                                interviewerScore: 7.9,
+                              },
+                              {
+                                skill: "Communication",
+                                desired: 7.5,
+                                aiScore: 7.5,
+                                interviewerScore: 7.2,
+                              },
+                              {
+                                skill: "Leadership",
+                                desired: 6.5,
+                                aiScore: 6.8,
+                                interviewerScore: 7.1,
+                              },
+                              {
+                                skill: "Innovation",
+                                desired: 7.0,
+                                aiScore: 7.3,
+                                interviewerScore: 6.9,
+                              },
+                            ]}
+                          >
+                            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                            <XAxis
+                              dataKey="skill"
+                              stroke="hsl(var(--muted-foreground))"
+                              fontSize={12}
+                              angle={-45}
+                              textAnchor="end"
+                              height={80}
+                            />
+                            <YAxis
+                              stroke="hsl(var(--muted-foreground))"
+                              fontSize={12}
+                              domain={[0, 10]}
+                            />
+                            <Tooltip
+                              contentStyle={{
+                                backgroundColor: "hsl(var(--card))",
+                                border: "1px solid hsl(var(--border))",
+                                borderRadius: "8px",
+                                fontSize: "12px",
+                              }}
+                            />
+                            <Bar dataKey="desired" fill="#22c55e" name="Desired Level" opacity={0.7} />
+                            <Bar dataKey="aiScore" fill="#8b5cf6" name="AI Score" />
+                            <Bar dataKey="interviewerScore" fill="#3b82f6" name="Interviewer Score" />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
+                      <div className="flex justify-center space-x-6 mt-4">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-4 h-3 bg-green-500 opacity-70" />
+                          <span className="text-sm text-muted-foreground">Desired Level</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-4 h-3 bg-purple-500" />
+                          <span className="text-sm text-muted-foreground">AI Score</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-4 h-3 bg-blue-500" />
+                          <span className="text-sm text-muted-foreground">Interviewer Score</span>
                         </div>
                       </div>
                     </div>
@@ -1335,49 +1420,49 @@ export default function Report() {
                       </h5>
                       {[
                         {
-                          name: "Python",
-                          aiScore: 7.0,
-                          interviewerScore: 6.8,
-                          aiComment:
-                            "Strong fundamentals in Python programming, good use of libraries and data structures",
-                          interviewerComment:
-                            "Solid coding skills but could improve efficiency in complex algorithms, good problem-solving approach",
-                        },
-                        {
-                          name: "SQL",
-                          aiScore: 8.5,
-                          interviewerScore: 8.2,
-                          aiComment:
-                            "Excellent database querying skills, understands complex joins and optimization",
-                          interviewerComment:
-                            "Very strong SQL knowledge, handled optimization questions well, great understanding of indexing",
-                        },
-                        {
-                          name: "Data Visualization",
-                          aiScore: 8.0,
-                          interviewerScore: 8.3,
-                          aiComment:
-                            "Exceeds expectations in creating clear, insightful visualizations with proper chart selection",
-                          interviewerComment:
-                            "Great design sense and storytelling with data, understands audience needs well",
-                        },
-                        {
-                          name: "Problem Solving",
-                          aiScore: 7.5,
-                          interviewerScore: 7.8,
-                          aiComment:
-                            "Systematic approach to breaking down complex problems, good logical thinking",
-                          interviewerComment:
-                            "Good analytical thinking, sometimes needs more creative approaches but solid methodology",
-                        },
-                        {
-                          name: "Communication",
+                          name: "Communication Clarity",
                           aiScore: 7.5,
                           interviewerScore: 7.2,
                           aiComment:
-                            "Clear explanations and good technical communication skills, appropriate pace",
+                            "Clear articulation of ideas, well-structured responses, appropriate technical language usage",
                           interviewerComment:
-                            "Excellent at explaining complex concepts, could improve confidence in presentation",
+                            "Excellent at explaining concepts, confident presentation style, good listening skills",
+                        },
+                        {
+                          name: "Cognitive Thinking & Reasoning",
+                          aiScore: 8.2,
+                          interviewerScore: 8.0,
+                          aiComment:
+                            "Strong analytical skills, logical problem decomposition, excellent pattern recognition",
+                          interviewerComment:
+                            "Demonstrates systematic thinking, good at connecting concepts, creative problem solving",
+                        },
+                        {
+                          name: "Technical / Domain Expertise",
+                          aiScore: 7.8,
+                          interviewerScore: 8.1,
+                          aiComment:
+                            "Solid technical foundation, good understanding of best practices, practical application skills",
+                          interviewerComment:
+                            "Strong domain knowledge, hands-on experience evident, good depth in core areas",
+                        },
+                        {
+                          name: "Adaptability & Learning Agility",
+                          aiScore: 8.1,
+                          interviewerScore: 7.9,
+                          aiComment:
+                            "Quick to grasp new concepts, flexible thinking approach, embraces challenging scenarios",
+                          interviewerComment:
+                            "Shows curiosity and willingness to learn, adapts well to changing requirements",
+                        },
+                        {
+                          name: "Execution Ownership",
+                          aiScore: 7.3,
+                          interviewerScore: 7.6,
+                          aiComment:
+                            "Takes responsibility for outcomes, demonstrates accountability, follows through on commitments",
+                          interviewerComment:
+                            "Good sense of ownership, proactive approach, reliable in execution and delivery",
                         },
                       ].map((competency, index) => (
                         <div
@@ -1879,7 +1964,7 @@ export default function Report() {
                       <div className="text-sm text-muted-foreground space-y-1">
                         <p>• 2 interruptions detected</p>
                         <p>• Average response time: 3.2 seconds</p>
-                        <p>• Longest monologue: 4 minutes (candidate)</p>
+                        <p>��� Longest monologue: 4 minutes (candidate)</p>
                       </div>
                     </div>
                   </div>
