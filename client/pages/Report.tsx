@@ -3027,8 +3027,16 @@ export default function Report() {
           </div>
         )}
 
-      {/* Interviewer Report Tab - Main List */}
+      {/* Interviewer Report Tab - New Component */}
       {activeTab === "interviewer" && !showInterviewerDetail && (
+        <InterviewerReport onInterviewerSelect={(interviewer) => {
+          setSelectedInterviewer(interviewer);
+          setShowInterviewerDetail(true);
+        }} />
+      )}
+
+      {/* Interviewer Report Tab - Original (Hidden) */}
+      {false && activeTab === "interviewer" && !showInterviewerDetail && (
         <div className="space-y-8">
           {/* Interviewer Performance Overview */}
           <div className="bg-card border border-border rounded-xl p-6">
