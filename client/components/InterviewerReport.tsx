@@ -147,9 +147,24 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
           </div>
         </div>
 
-        {/* Top Recruiters */}
+        {/* Top Recruiters - Hires by Role */}
         <div className="mb-6">
-          <h4 className="text-md font-semibold text-foreground mb-3">🏆 Top Recruiters This Month</h4>
+          <div className="flex items-center justify-between mb-3">
+            <h4 className="text-md font-semibold text-foreground">🏆 Top Recruiters - Hires</h4>
+            <select
+              value={topRecruiterRoleFilter}
+              onChange={(e) => setTopRecruiterRoleFilter(e.target.value)}
+              className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="all">All Roles</option>
+              <option value="data-analyst">Data Analyst</option>
+              <option value="software-developer">Software Developer</option>
+              <option value="senior-manager">Senior Manager</option>
+              <option value="product-manager">Product Manager</option>
+              <option value="designer">Designer</option>
+              <option value="qa-engineer">QA Engineer</option>
+            </select>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {filteredInterviewers.slice(0, 3).map((interviewer, index) => (
               <div key={index} className="flex items-center space-x-3 p-3 bg-muted rounded-lg">
@@ -160,7 +175,9 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
                 </div>
                 <div>
                   <p className="font-medium text-foreground">{interviewer.name}</p>
-                  <p className="text-xs text-muted-foreground">{interviewer.avg_score}% avg score</p>
+                  <p className="text-xs text-muted-foreground">
+                    {topRecruiterRoleFilter === 'all' ? 'All Roles' : topRecruiterRoleFilter.replace('-', ' ')} - {interviewer.avg_score}% avg score
+                  </p>
                 </div>
               </div>
             ))}
