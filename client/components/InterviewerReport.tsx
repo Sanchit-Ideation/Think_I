@@ -314,7 +314,7 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
                 </tr>
               </thead>
               <tbody>
-                {filteredInterviewers.map((interviewer, index) => (
+                {paginatedInterviewers.map((interviewer, index) => (
                   <tr key={index} className="border-b border-border hover:bg-muted/50 cursor-pointer" onClick={() => onInterviewerSelect(interviewer)}>
                     <td className="py-3 px-4">
                       <div className="flex items-center space-x-3">
