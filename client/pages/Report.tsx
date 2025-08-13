@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import InterviewerReport from "../components/InterviewerReport";
+import TemplateReport from "../components/TemplateReport";
+import TemplateDetailView from "../components/TemplateDetailView";
 import {
   BarChart,
   Bar,
