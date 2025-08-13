@@ -62,6 +62,10 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("name");
   const [viewMode, setViewMode] = useState<"card" | "list">("card");
+  const [topRecruiterRoleFilter, setTopRecruiterRoleFilter] = useState("all");
+  const [roleFilter, setRoleFilter] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   // Filter and sort interviewers
   const getFilteredInterviewers = () => {
