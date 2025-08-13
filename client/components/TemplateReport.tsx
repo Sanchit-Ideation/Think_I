@@ -6,7 +6,7 @@ const templateData = [
     id: 1,
     template: "Software Engineer V2",
     department: "Engineering",
-    roleType: "Technical",
+    role: "Technical",
     version: "2.1",
     createdBy: "Alice Johnson",
     creationDate: "2024-01-15",
@@ -26,7 +26,7 @@ const templateData = [
     id: 2,
     template: "Product Manager V3",
     department: "Product",
-    roleType: "Leadership",
+    role: "Leadership",
     version: "3.0",
     createdBy: "Bob Smith",
     creationDate: "2024-02-20",
@@ -46,7 +46,7 @@ const templateData = [
     id: 3,
     template: "UX Designer V1",
     department: "Design",
-    roleType: "Creative",
+    role: "Creative",
     version: "1.5",
     createdBy: "Carol White",
     creationDate: "2024-03-10",
@@ -66,7 +66,7 @@ const templateData = [
     id: 4,
     template: "Data Scientist V2",
     department: "Data",
-    roleType: "Technical",
+    role: "Technical",
     version: "2.0",
     createdBy: "David Brown",
     creationDate: "2024-01-30",
@@ -249,8 +249,8 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <h4 className="font-semibold text-foreground">{template.template}</h4>
-                    <p className="text-sm text-muted-foreground">{template.department} • {template.roleType}</p>
-                    <p className="text-xs text-muted-foreground">v{template.version} by {template.createdBy}</p>
+                    <p className="text-sm text-muted-foreground">{template.department} • {template.role}</p>
+                    <p className="text-xs text-muted-foreground">by {template.createdBy}</p>
                   </div>
                   <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                     template.effectivenessScore >= 85 ? 'bg-green-500/10 text-green-600' :
@@ -314,7 +314,7 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
                     <td className="py-3 px-4">
                       <div>
                         <div className="font-medium text-foreground">{template.template}</div>
-                        <div className="text-sm text-muted-foreground">v{template.version} by {template.createdBy}</div>
+                        <div className="text-sm text-muted-foreground">by {template.createdBy}</div>
                       </div>
                     </td>
                     <td className="py-3 px-4">
