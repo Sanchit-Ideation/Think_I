@@ -182,10 +182,10 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
               onChange={(e) => setSortBy(e.target.value)}
               className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
             >
-              <option value="name">Sort by Name</option>
+              <option value="alphabet">Alphabetical Order</option>
+              <option value="date">Sort by Creation Date</option>
               <option value="effectiveness">Sort by Effectiveness</option>
               <option value="interviews">Sort by Interviews</option>
-              <option value="date">Sort by Date</option>
             </select>
             <div className="flex border border-border rounded-lg">
               <button
