@@ -139,68 +139,12 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
 
   return (
     <div className="space-y-8">
-      {/* Search and Controls */}
+      {/* Header Section */}
       <div className="bg-card border border-border rounded-xl p-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
           <div>
             <h3 className="text-lg font-semibold text-foreground">Template Report</h3>
             <p className="text-sm text-muted-foreground">Interview Template Performance & Analytics</p>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-3">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-              <input
-                type="text"
-                placeholder="Search templates..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-4 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary w-64"
-              />
-            </div>
-            <select 
-              value={filterBy}
-              onChange={(e) => setFilterBy(e.target.value)}
-              className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <option value="all">All Departments</option>
-              <option value="engineering">Engineering</option>
-              <option value="product">Product</option>
-              <option value="design">Design</option>
-              <option value="data">Data</option>
-            </select>
-            <select 
-              value={dateFilter}
-              onChange={(e) => setDateFilter(e.target.value)}
-              className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <option value="all">All Dates</option>
-              <option value="recent">Recent (2024+)</option>
-              <option value="older">Older</option>
-            </select>
-            <select 
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <option value="alphabet">Alphabetical Order</option>
-              <option value="date">Sort by Creation Date</option>
-              <option value="effectiveness">Sort by Effectiveness</option>
-              <option value="interviews">Sort by Interviews</option>
-            </select>
-            <div className="flex border border-border rounded-lg">
-              <button
-                onClick={() => setViewMode('card')}
-                className={`px-3 py-2 text-sm ${viewMode === 'card' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
-              >
-                Cards
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={`px-3 py-2 text-sm border-l border-border ${viewMode === 'list' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
-              >
-                List
-              </button>
-            </div>
           </div>
         </div>
       </div>
@@ -236,7 +180,67 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
 
       {/* Template List/Cards */}
       <div className="bg-card border border-border rounded-xl p-6">
-        <h3 className="text-lg font-semibold text-foreground mb-4">All Templates</h3>
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
+          <div>
+            <h3 className="text-lg font-semibold text-foreground">All Templates</h3>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+              <input
+                type="text"
+                placeholder="Search templates..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 pr-4 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary w-64"
+              />
+            </div>
+            <select
+              value={filterBy}
+              onChange={(e) => setFilterBy(e.target.value)}
+              className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="all">All Departments</option>
+              <option value="engineering">Engineering</option>
+              <option value="product">Product</option>
+              <option value="design">Design</option>
+              <option value="data">Data</option>
+            </select>
+            <select
+              value={dateFilter}
+              onChange={(e) => setDateFilter(e.target.value)}
+              className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="all">All Dates</option>
+              <option value="recent">Recent (2024+)</option>
+              <option value="older">Older</option>
+            </select>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="alphabet">Alphabetical Order</option>
+              <option value="date">Sort by Creation Date</option>
+              <option value="effectiveness">Sort by Effectiveness</option>
+              <option value="interviews">Sort by Interviews</option>
+            </select>
+            <div className="flex border border-border rounded-lg">
+              <button
+                onClick={() => setViewMode('card')}
+                className={`px-3 py-2 text-sm ${viewMode === 'card' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+              >
+                Cards
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className={`px-3 py-2 text-sm border-l border-border ${viewMode === 'list' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+              >
+                List
+              </button>
+            </div>
+          </div>
+        </div>
         
         {viewMode === 'card' ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
