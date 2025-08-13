@@ -155,25 +155,26 @@ export default function TemplateDetailView({ template, onBack }: TemplateDetailV
         </div>
       </div>
 
-      {/* Trend Over Time */}
-      <div className="bg-card border border-border rounded-xl p-6">
-        <h3 className="text-lg font-semibold text-foreground mb-4">Trend Over Time</h3>
-        <div className="h-64">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={trendData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-              <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
-              <Tooltip />
-              <Line type="monotone" dataKey="evaluated" stroke="#8b5cf6" strokeWidth={2} name="Evaluated" />
-              <Line type="monotone" dataKey="recommended" stroke="#22c55e" strokeWidth={2} name="Recommended" />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* Competency Trends */}
+      {/* Analytics Overview */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Trend Over Time */}
+        <div className="bg-card border border-border rounded-xl p-6">
+          <h3 className="text-lg font-semibold text-foreground mb-4">Trend Over Time</h3>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={trendData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                <Tooltip />
+                <Line type="monotone" dataKey="evaluated" stroke="#8b5cf6" strokeWidth={2} name="Evaluated" />
+                <Line type="monotone" dataKey="recommended" stroke="#22c55e" strokeWidth={2} name="Recommended" />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Competency Weight vs Performance */}
         <div className="bg-card border border-border rounded-xl p-6">
           <h3 className="text-lg font-semibold text-foreground mb-4">Competency Weight vs Performance</h3>
           <div className="h-64">
@@ -189,11 +190,11 @@ export default function TemplateDetailView({ template, onBack }: TemplateDetailV
             </ResponsiveContainer>
           </div>
         </div>
-
       </div>
 
-      {/* Outcome Quality */}
+      {/* Performance Analysis */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Interview Funnel */}
         <div className="bg-card border border-border rounded-xl p-6">
           <h3 className="text-lg font-semibold text-foreground mb-4">Interview Funnel</h3>
           <div className="h-64">
