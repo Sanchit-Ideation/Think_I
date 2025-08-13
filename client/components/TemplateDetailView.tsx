@@ -6,12 +6,6 @@ interface TemplateDetailViewProps {
   onBack: () => void;
 }
 
-const usageByRole = [
-  { role: "Senior Engineer", usage: 45, department: "Engineering" },
-  { role: "Product Manager", usage: 32, department: "Product" },
-  { role: "Designer", usage: 28, department: "Design" },
-  { role: "Data Scientist", usage: 22, department: "Data" }
-];
 
 const trendData = [
   { month: "Jul", evaluated: 15, recommended: 8 },
@@ -292,13 +286,6 @@ export default function TemplateDetailView({ template, onBack }: TemplateDetailV
               </div>
               <p className="text-sm text-green-600 mt-1">Top candidate scores consistently above 90%</p>
             </div>
-            <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-              <div className="flex items-center justify-between">
-                <span className="font-medium text-blue-700">Average Performance</span>
-                <span className="text-blue-600 font-bold">{template.avgCandidateScore}%</span>
-              </div>
-              <p className="text-sm text-blue-600 mt-1">Consistent evaluation across all interviews</p>
-            </div>
             <div className="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
               <div className="flex items-center justify-between">
                 <span className="font-medium text-yellow-700">Skill Gaps</span>
@@ -310,46 +297,6 @@ export default function TemplateDetailView({ template, onBack }: TemplateDetailV
         </div>
       </div>
 
-      {/* Template Comparison */}
-      <div className="bg-card border border-border rounded-xl p-6">
-        <h3 className="text-lg font-semibold text-foreground mb-4">Template Comparison</h3>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-border">
-                <th className="text-left py-3 px-4 font-medium text-foreground">Template</th>
-                <th className="text-left py-3 px-4 font-medium text-foreground">Interviews</th>
-                <th className="text-left py-3 px-4 font-medium text-foreground">Success Rate</th>
-                <th className="text-left py-3 px-4 font-medium text-foreground">Effectiveness</th>
-                <th className="text-left py-3 px-4 font-medium text-foreground">Adoption</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="border-b border-border bg-primary/5">
-                <td className="py-3 px-4 font-medium text-foreground">{template.template} (Current)</td>
-                <td className="py-3 px-4">{template.interviews}</td>
-                <td className="py-3 px-4">{template.success_rate}%</td>
-                <td className="py-3 px-4">{template.effectivenessScore}%</td>
-                <td className="py-3 px-4">{template.adoptionRate}%</td>
-              </tr>
-              <tr className="border-b border-border hover:bg-muted/50">
-                <td className="py-3 px-4 text-muted-foreground">Software Engineer V1</td>
-                <td className="py-3 px-4 text-muted-foreground">189</td>
-                <td className="py-3 px-4 text-muted-foreground">68%</td>
-                <td className="py-3 px-4 text-muted-foreground">72%</td>
-                <td className="py-3 px-4 text-muted-foreground">78%</td>
-              </tr>
-              <tr className="border-b border-border hover:bg-muted/50">
-                <td className="py-3 px-4 text-muted-foreground">Product Manager V2</td>
-                <td className="py-3 px-4 text-muted-foreground">145</td>
-                <td className="py-3 px-4 text-muted-foreground">71%</td>
-                <td className="py-3 px-4 text-muted-foreground">79%</td>
-                <td className="py-3 px-4 text-muted-foreground">82%</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
     </div>
   );
 }
