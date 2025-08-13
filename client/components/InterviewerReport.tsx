@@ -261,25 +261,26 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
                   <p className="text-sm font-medium text-foreground mb-2">Recent Interview History</p>
                   <div className="space-y-2">
                     {interviewer.recentInterviews.slice(0, 2).map((interview, idx) => (
-                      <Link
-                        key={idx}
-                        to={`/candidate/${interview.candidate.toLowerCase().replace(' ', '-')}`}
-                        className="flex items-center justify-between p-2 bg-background rounded-lg hover:bg-muted transition-colors"
-                      >
+                      <div key={idx} className="flex items-center justify-between p-2 bg-background rounded-lg">
                         <div>
                           <p className="text-xs font-medium text-foreground">{interview.candidate}</p>
                           <p className="text-xs text-muted-foreground">{interview.role}</p>
                         </div>
                         <div className="flex items-center space-x-2">
                           <span className={`text-xs px-2 py-1 rounded-full ${
-                            interview.score >= 85 ? 'bg-green-500/10 text-green-600' : 
+                            interview.score >= 85 ? 'bg-green-500/10 text-green-600' :
                             interview.score >= 70 ? 'bg-blue-500/10 text-blue-600' : 'bg-red-500/10 text-red-600'
                           }`}>
                             {interview.score}%
                           </span>
-                          <Eye className="w-3 h-3 text-muted-foreground" />
+                          <Link
+                            to={`/candidate/${interview.candidate.toLowerCase().replace(' ', '-')}`}
+                            className="px-2 py-1 bg-primary text-primary-foreground rounded text-xs hover:bg-primary/90 transition-colors"
+                          >
+                            View Report
+                          </Link>
                         </div>
-                      </Link>
+                      </div>
                     ))}
                   </div>
                 </div>
