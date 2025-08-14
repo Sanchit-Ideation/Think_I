@@ -63,6 +63,7 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
   const [sortBy, setSortBy] = useState("name");
   const [viewMode, setViewMode] = useState<"card" | "list">("card");
   const [topRecruiterRoleFilter, setTopRecruiterRoleFilter] = useState("all");
+  const [departmentFilter, setDepartmentFilter] = useState("all");
   const [roleFilter, setRoleFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
@@ -74,6 +75,7 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
         interviewer.name
           .toLowerCase()
           .includes(searchTerm.toLowerCase()) &&
+        (departmentFilter === "all" || interviewer.name.toLowerCase().includes(departmentFilter.toLowerCase())) &&
         (roleFilter === "all" || interviewer.name.toLowerCase().includes(roleFilter.toLowerCase()))
     );
 
@@ -176,6 +178,19 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
               <option value="score">Sort by Avg Score</option>
               <option value="interviews">Sort by Interviews</option>
               <option value="consistency">Sort by Consistency</option>
+            </select>
+            <select
+              value={departmentFilter}
+              onChange={(e) => setDepartmentFilter(e.target.value)}
+              className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="all">All Departments</option>
+              <option value="engineering">Engineering</option>
+              <option value="product">Product</option>
+              <option value="design">Design</option>
+              <option value="data">Data</option>
+              <option value="marketing">Marketing</option>
+              <option value="sales">Sales</option>
             </select>
             <select
               value={roleFilter}
