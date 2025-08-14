@@ -63,7 +63,7 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
   const [sortBy, setSortBy] = useState("name");
   const [viewMode, setViewMode] = useState<"card" | "list">("card");
   const [topRecruiterDepartmentFilter, setTopRecruiterDepartmentFilter] = useState("all");
-  const [departmentFilter, setDepartmentFilter] = useState("all");
+  const [topRecruiterRoleFilter, setTopRecruiterRoleFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
@@ -74,7 +74,7 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
         interviewer.name
           .toLowerCase()
           .includes(searchTerm.toLowerCase()) &&
-        (departmentFilter === "all" || interviewer.name.toLowerCase().includes(departmentFilter.toLowerCase()))
+        true
     );
 
     filtered.sort((a, b) => {
@@ -115,19 +115,37 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
         <div className="mb-6">
           <div className="flex items-center justify-between mb-3">
             <h4 className="text-md font-semibold text-foreground">🏆 Top Recruiters - Hires</h4>
-            <select
-              value={topRecruiterDepartmentFilter}
-              onChange={(e) => setTopRecruiterDepartmentFilter(e.target.value)}
-              className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <option value="all">All Departments</option>
-              <option value="engineering">Engineering</option>
-              <option value="product">Product</option>
-              <option value="design">Design</option>
-              <option value="data">Data</option>
-              <option value="marketing">Marketing</option>
-              <option value="sales">Sales</option>
-            </select>
+            <div className="flex space-x-2">
+              <select
+                value={topRecruiterDepartmentFilter}
+                onChange={(e) => setTopRecruiterDepartmentFilter(e.target.value)}
+                className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+              >
+                <option value="all">All Departments</option>
+                <option value="engineering">Engineering</option>
+                <option value="product">Product</option>
+                <option value="design">Design</option>
+                <option value="data">Data</option>
+                <option value="marketing">Marketing</option>
+                <option value="sales">Sales</option>
+              </select>
+              <select
+                value={topRecruiterRoleFilter}
+                onChange={(e) => setTopRecruiterRoleFilter(e.target.value)}
+                className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+              >
+                <option value="all">All Roles</option>
+                <option value="senior-engineer">Senior Engineer</option>
+                <option value="product-manager">Product Manager</option>
+                <option value="designer">Designer</option>
+                <option value="data-scientist">Data Scientist</option>
+                <option value="frontend-dev">Frontend Dev</option>
+                <option value="devops-engineer">DevOps Engineer</option>
+                <option value="qa-engineer">QA Engineer</option>
+                <option value="tech-lead">Tech Lead</option>
+                <option value="mobile-dev">Mobile Dev</option>
+              </select>
+            </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {filteredInterviewers.slice(0, 3).map((interviewer, index) => (
@@ -140,7 +158,7 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
                 <div>
                   <p className="font-medium text-foreground">{interviewer.name}</p>
                   <p className="text-xs text-muted-foreground">
-                    {topRecruiterDepartmentFilter === 'all' ? 'All Departments' : topRecruiterDepartmentFilter.charAt(0).toUpperCase() + topRecruiterDepartmentFilter.slice(1)} - {interviewer.avg_score}% avg score
+                    {topRecruiterDepartmentFilter === 'all' ? 'All Departments' : topRecruiterDepartmentFilter.charAt(0).toUpperCase() + topRecruiterDepartmentFilter.slice(1)} | {topRecruiterRoleFilter === 'all' ? 'All Roles' : topRecruiterRoleFilter.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} - {interviewer.avg_score}% avg score
                   </p>
                 </div>
               </div>
@@ -176,19 +194,6 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
               <option value="score">Sort by Avg Score</option>
               <option value="interviews">Sort by Interviews</option>
               <option value="consistency">Sort by Consistency</option>
-            </select>
-            <select
-              value={departmentFilter}
-              onChange={(e) => setDepartmentFilter(e.target.value)}
-              className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <option value="all">All Departments</option>
-              <option value="engineering">Engineering</option>
-              <option value="product">Product</option>
-              <option value="design">Design</option>
-              <option value="data">Data</option>
-              <option value="marketing">Marketing</option>
-              <option value="sales">Sales</option>
             </select>
             <div className="flex border border-border rounded-lg">
               <button
