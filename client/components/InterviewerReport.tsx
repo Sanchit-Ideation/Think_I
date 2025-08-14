@@ -64,7 +64,6 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
   const [viewMode, setViewMode] = useState<"card" | "list">("card");
   const [topRecruiterDepartmentFilter, setTopRecruiterDepartmentFilter] = useState("all");
   const [departmentFilter, setDepartmentFilter] = useState("all");
-  const [roleFilter, setRoleFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
