@@ -8,12 +8,12 @@ interface TemplateDetailViewProps {
 
 
 const trendData = [
-  { month: "Jul", evaluated: 15, recommended: 8 },
-  { month: "Aug", evaluated: 22, recommended: 14 },
-  { month: "Sep", evaluated: 28, recommended: 18 },
-  { month: "Oct", evaluated: 35, recommended: 24 },
-  { month: "Nov", evaluated: 31, recommended: 21 },
-  { month: "Dec", evaluated: 38, recommended: 27 }
+  { month: "Jul", evaluated: 15 },
+  { month: "Aug", evaluated: 22 },
+  { month: "Sep", evaluated: 28 },
+  { month: "Oct", evaluated: 35 },
+  { month: "Nov", evaluated: 31 },
+  { month: "Dec", evaluated: 38 }
 ];
 
 const competencyTrends = [
@@ -28,8 +28,7 @@ const funnelData = [
   { name: "Scheduled", value: 234, fill: "#8b5cf6" },
   { name: "Interviewed", value: 198, fill: "#7c3aed" },
   { name: "Cancelled", value: 36, fill: "#ef4444" },
-  { name: "Evaluated", value: 178, fill: "#6d28d9" },
-  { name: "Recommended", value: 67, fill: "#5b21b6" }
+  { name: "Evaluated", value: 178, fill: "#6d28d9" }
 ];
 
 const topQuestions = [
@@ -137,15 +136,6 @@ export default function TemplateDetailView({ template, onBack }: TemplateDetailV
         </div>
         <div className="bg-card border border-border rounded-xl p-6">
           <div className="flex items-center space-x-3">
-            <Target className="w-8 h-8 text-emerald-500" />
-            <div>
-              <p className="text-2xl font-bold text-foreground">{template.percentRecommended}%</p>
-              <p className="text-sm text-muted-foreground">% Recommended</p>
-            </div>
-          </div>
-        </div>
-        <div className="bg-card border border-border rounded-xl p-6">
-          <div className="flex items-center space-x-3">
             <Brain className="w-8 h-8 text-indigo-500" />
             <div>
               <p className="text-2xl font-bold text-foreground">{template.effectivenessScore}%</p>
@@ -168,7 +158,6 @@ export default function TemplateDetailView({ template, onBack }: TemplateDetailV
                 <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
                 <Tooltip />
                 <Line type="monotone" dataKey="evaluated" stroke="#8b5cf6" strokeWidth={2} name="Evaluated" />
-                <Line type="monotone" dataKey="recommended" stroke="#22c55e" strokeWidth={2} name="Recommended" />
               </LineChart>
             </ResponsiveContainer>
           </div>
