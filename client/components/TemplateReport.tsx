@@ -233,7 +233,7 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
                   </span>
                 </div>
 
-                <div className="grid grid-cols-3 gap-4 mb-4">
+                <div className="grid grid-cols-2 gap-4 mb-4">
                   <div className="text-center">
                     <div className="text-lg font-bold text-foreground">{template.interviews}</div>
                     <div className="text-xs text-muted-foreground">Interviews</div>
@@ -241,10 +241,6 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
                   <div className="text-center">
                     <div className="text-lg font-bold text-foreground">{template.hired}</div>
                     <div className="text-xs text-muted-foreground">Hired</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-lg font-bold text-foreground">{template.success_rate}%</div>
-                    <div className="text-xs text-muted-foreground">Success Rate</div>
                   </div>
                 </div>
 
@@ -275,7 +271,6 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
                   <th className="text-left py-3 px-4 font-medium text-foreground">Template</th>
                   <th className="text-left py-3 px-4 font-medium text-foreground">Department</th>
                   <th className="text-left py-3 px-4 font-medium text-foreground">Interviews</th>
-                  <th className="text-left py-3 px-4 font-medium text-foreground">Success Rate</th>
                   <th className="text-left py-3 px-4 font-medium text-foreground">Effectiveness</th>
                   <th className="text-left py-3 px-4 font-medium text-foreground">Created</th>
                 </tr>
@@ -293,14 +288,6 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
                       <span className="px-2 py-1 bg-secondary rounded-full text-xs">{template.department}</span>
                     </td>
                     <td className="py-3 px-4 text-muted-foreground">{template.interviews}</td>
-                    <td className="py-3 px-4">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-16 bg-muted rounded-full h-2">
-                          <div className="bg-primary h-2 rounded-full" style={{ width: `${template.success_rate}%` }} />
-                        </div>
-                        <span className="text-foreground text-sm">{template.success_rate}%</span>
-                      </div>
-                    </td>
                     <td className="py-3 px-4">
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                         template.effectivenessScore >= 85 ? 'bg-green-500/10 text-green-500' :
