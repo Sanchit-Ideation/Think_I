@@ -62,7 +62,7 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("name");
   const [viewMode, setViewMode] = useState<"card" | "list">("card");
-  const [topRecruiterRoleFilter, setTopRecruiterRoleFilter] = useState("all");
+  const [topRecruiterDepartmentFilter, setTopRecruiterDepartmentFilter] = useState("all");
   const [departmentFilter, setDepartmentFilter] = useState("all");
   const [roleFilter, setRoleFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
@@ -75,8 +75,7 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
         interviewer.name
           .toLowerCase()
           .includes(searchTerm.toLowerCase()) &&
-        (departmentFilter === "all" || interviewer.name.toLowerCase().includes(departmentFilter.toLowerCase())) &&
-        (roleFilter === "all" || interviewer.name.toLowerCase().includes(roleFilter.toLowerCase()))
+        (departmentFilter === "all" || interviewer.name.toLowerCase().includes(departmentFilter.toLowerCase()))
     );
 
     filtered.sort((a, b) => {
@@ -113,22 +112,22 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
           </div>
         </div>
 
-        {/* Top Recruiters - Hires by Role */}
+        {/* Top Recruiters - Hires by Department */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-3">
             <h4 className="text-md font-semibold text-foreground">🏆 Top Recruiters - Hires</h4>
             <select
-              value={topRecruiterRoleFilter}
-              onChange={(e) => setTopRecruiterRoleFilter(e.target.value)}
+              value={topRecruiterDepartmentFilter}
+              onChange={(e) => setTopRecruiterDepartmentFilter(e.target.value)}
               className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
             >
-              <option value="all">All Roles</option>
-              <option value="data-analyst">Data Analyst</option>
-              <option value="software-developer">Software Developer</option>
-              <option value="senior-manager">Senior Manager</option>
-              <option value="product-manager">Product Manager</option>
-              <option value="designer">Designer</option>
-              <option value="qa-engineer">QA Engineer</option>
+              <option value="all">All Departments</option>
+              <option value="engineering">Engineering</option>
+              <option value="product">Product</option>
+              <option value="design">Design</option>
+              <option value="data">Data</option>
+              <option value="marketing">Marketing</option>
+              <option value="sales">Sales</option>
             </select>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -142,7 +141,7 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
                 <div>
                   <p className="font-medium text-foreground">{interviewer.name}</p>
                   <p className="text-xs text-muted-foreground">
-                    {topRecruiterRoleFilter === 'all' ? 'All Roles' : topRecruiterRoleFilter.replace('-', ' ')} - {interviewer.avg_score}% avg score
+                    {topRecruiterDepartmentFilter === 'all' ? 'All Departments' : topRecruiterDepartmentFilter.charAt(0).toUpperCase() + topRecruiterDepartmentFilter.slice(1)} - {interviewer.avg_score}% avg score
                   </p>
                 </div>
               </div>
@@ -191,19 +190,6 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
               <option value="data">Data</option>
               <option value="marketing">Marketing</option>
               <option value="sales">Sales</option>
-            </select>
-            <select
-              value={roleFilter}
-              onChange={(e) => setRoleFilter(e.target.value)}
-              className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <option value="all">All Roles</option>
-              <option value="data-analyst">Data Analyst</option>
-              <option value="software-developer">Software Developer</option>
-              <option value="senior-manager">Senior Manager</option>
-              <option value="product-manager">Product Manager</option>
-              <option value="designer">Designer</option>
-              <option value="qa-engineer">QA Engineer</option>
             </select>
             <div className="flex border border-border rounded-lg">
               <button
