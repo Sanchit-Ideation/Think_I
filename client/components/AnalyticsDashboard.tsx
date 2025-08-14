@@ -39,41 +39,47 @@ import {
 
 // Mock data for the dashboard
 const kpiData = [
-  { 
-    title: 'Total Interviews Scheduled', 
-    value: '1,247', 
-    change: 12.5, 
-    icon: Calendar 
+  {
+    title: 'Total Interviews Scheduled',
+    value: '1,247',
+    change: 12.5,
+    icon: Calendar
   },
-  { 
-    title: 'Total Interviews Completed', 
-    value: '1,089', 
-    change: 8.3, 
-    icon: CheckCircle2 
+  {
+    title: 'Cancelled Interviews',
+    value: '78',
+    change: -8.4,
+    icon: AlertTriangle
   },
-  { 
-    title: 'Pending Evaluations', 
-    value: '158', 
-    change: -5.2, 
-    icon: Clock 
+  {
+    title: 'Total Interviews Completed',
+    value: '1,089',
+    change: 8.3,
+    icon: CheckCircle2
   },
-  { 
-    title: 'Average Integrity Score', 
-    value: '87.4%', 
-    change: 2.1, 
-    icon: Shield 
+  {
+    title: 'Pending Evaluations',
+    value: '158',
+    change: -5.2,
+    icon: Clock
   },
-  { 
-    title: 'Average AI Score', 
-    value: '82.8%', 
-    change: 4.7, 
-    icon: Brain 
+  {
+    title: 'Average Integrity Score',
+    value: '87.4%',
+    change: 2.1,
+    icon: Shield
   },
-  { 
-    title: 'Average Interviewer Score', 
-    value: '85.6%', 
-    change: 1.9, 
-    icon: Award 
+  {
+    title: 'Average AI Score',
+    value: '82.8%',
+    change: 4.7,
+    icon: Brain
+  },
+  {
+    title: 'Average Interviewer Score',
+    value: '85.6%',
+    change: 1.9,
+    icon: Award
   }
 ];
 
@@ -84,12 +90,11 @@ const recommendationData = [
 ];
 
 const funnelData = [
-  { name: 'Applications', value: 2500, fill: '#8884d8' },
-  { name: 'Screening', value: 1800, fill: '#83a6ed' },
-  { name: 'Interview Scheduled', value: 1247, fill: '#8dd1e1' },
-  { name: 'Interview Completed', value: 1089, fill: '#82ca9d' },
-  { name: 'Final Evaluation', value: 892, fill: '#a4de6c' },
-  { name: 'Hired', value: 276, fill: '#ffc658' }
+  { name: 'Scheduled', value: 1247, fill: '#8884d8' },
+  { name: 'Cancelled', value: 78, fill: '#ff6b6b' },
+  { name: 'Interviewed', value: 1089, fill: '#8dd1e1' },
+  { name: 'Evaluated', value: 892, fill: '#82ca9d' },
+  { name: 'Recommended', value: 342, fill: '#ffc658' }
 ];
 
 const outcomeData = [
@@ -102,10 +107,11 @@ const outcomeData = [
 ];
 
 const violationData = [
-  { name: 'Audio Quality Issues', value: 35, color: '#ff6b6b' },
-  { name: 'Screen Sharing Violations', value: 28, color: '#4ecdc4' },
-  { name: 'Multiple Persons Detected', value: 22, color: '#45b7d1' },
-  { name: 'Unauthorized Resources', value: 15, color: '#96ceb4' }
+  { name: 'Lip-sync Detected', value: 12, color: '#ff6b6b' },
+  { name: 'Long Silence', value: 28, color: '#4ecdc4' },
+  { name: 'Tab Switching', value: 45, color: '#45b7d1' },
+  { name: 'Other Device Detected', value: 18, color: '#96ceb4' },
+  { name: 'Looking Away Repeatedly', value: 22, color: '#f39c12' }
 ];
 
 const competencyData = [
@@ -118,38 +124,38 @@ const competencyData = [
 ];
 
 const topInterviewers = [
-  { 
-    name: 'Sarah Johnson', 
-    interviews: 89, 
+  {
+    name: 'Sarah Johnson',
+    interviews: 89,
     interviewChange: 12.3,
     avgEvalTime: '45m',
     timeChange: -8.2,
     aiAlignment: 94.2,
     alignmentChange: 3.1,
     missedElements: 2,
-    rating: 4.8
+    avgScore: 87.4
   },
-  { 
-    name: 'Michael Chen', 
-    interviews: 76, 
+  {
+    name: 'Michael Chen',
+    interviews: 76,
     interviewChange: 8.9,
     avgEvalTime: '52m',
     timeChange: 5.1,
     aiAlignment: 91.8,
     alignmentChange: 1.4,
     missedElements: 1,
-    rating: 4.9
+    avgScore: 89.2
   },
-  { 
-    name: 'Emily Rodriguez', 
-    interviews: 82, 
+  {
+    name: 'Emily Rodriguez',
+    interviews: 82,
     interviewChange: -2.1,
     avgEvalTime: '38m',
     timeChange: -12.4,
     aiAlignment: 89.5,
     alignmentChange: -1.8,
     missedElements: 3,
-    rating: 4.6
+    avgScore: 84.7
   }
 ];
 
@@ -158,49 +164,49 @@ const topTemplates = [
     name: 'Senior Software Engineer',
     interviews: 156,
     interviewChange: 18.2,
-    recommended: 68.4,
+    effectiveness: 91.4,
+    adoptionRate: 68.2,
     integrity: 91.2,
-    avgScore: 84.7,
     performance: 'up'
   },
   {
     name: 'Product Manager',
     interviews: 132,
     interviewChange: 12.1,
-    recommended: 72.1,
+    effectiveness: 94.8,
+    adoptionRate: 72.1,
     integrity: 93.8,
-    avgScore: 87.3,
     performance: 'up'
   },
   {
     name: 'Data Scientist',
     interviews: 94,
     interviewChange: -5.3,
-    recommended: 64.9,
+    effectiveness: 87.3,
+    adoptionRate: 64.9,
     integrity: 88.6,
-    avgScore: 82.1,
     performance: 'down'
   }
 ];
 
 const recentAlerts = [
-  { 
-    type: 'warning', 
-    message: 'High rejection rate in Product Manager interviews', 
+  {
+    type: 'warning',
+    message: 'High rejection rate in Product Manager interviews',
     time: '2 hours ago',
     icon: AlertTriangle
   },
-  { 
-    type: 'info', 
-    message: 'New interviewer Sarah Kim completed onboarding', 
-    time: '4 hours ago',
-    icon: Users
-  },
-  { 
-    type: 'success', 
-    message: 'Template "Frontend Developer" updated successfully', 
+  {
+    type: 'success',
+    message: 'Template "Frontend Developer" updated successfully',
     time: '6 hours ago',
     icon: CheckCircle2
+  },
+  {
+    type: 'info',
+    message: 'Weekly performance report generated',
+    time: '1 day ago',
+    icon: FileText
   }
 ];
 
