@@ -210,6 +210,38 @@ const recentAlerts = [
   }
 ];
 
+// Upcoming interviews data
+const upcomingInterviews = [
+  {
+    candidate: 'Alex Thompson',
+    role: 'Senior Frontend Developer',
+    interviewer: 'Sarah Johnson',
+    time: 'Today, 2:30 PM',
+    status: 'confirmed'
+  },
+  {
+    candidate: 'Maria Lopez',
+    role: 'Product Manager',
+    interviewer: 'Michael Chen',
+    time: 'Today, 4:00 PM',
+    status: 'confirmed'
+  },
+  {
+    candidate: 'David Kim',
+    role: 'Data Scientist',
+    interviewer: 'Emily Rodriguez',
+    time: 'Tomorrow, 10:00 AM',
+    status: 'pending'
+  },
+  {
+    candidate: 'Lisa Wang',
+    role: 'UX Designer',
+    interviewer: 'Sarah Johnson',
+    time: 'Tomorrow, 3:00 PM',
+    status: 'confirmed'
+  }
+];
+
 const ChangeIndicator = ({ value }: { value: number }) => {
   if (value > 0) {
     return (
@@ -265,7 +297,7 @@ export default function AnalyticsDashboard() {
       </div>
 
       {/* KPI Row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-6">
         {kpiData.map((kpi, index) => {
           const Icon = kpi.icon;
           return (
@@ -283,18 +315,51 @@ export default function AnalyticsDashboard() {
         })}
       </div>
 
-      {/* Recommendation Summary */}
-      <div className="bg-card border border-border rounded-xl p-6">
-        <h3 className="text-lg font-semibold text-foreground mb-6">Recommendation Summary</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {recommendationData.map((item, index) => (
-            <div key={index} className="text-center p-4 bg-muted rounded-lg">
-              <div className="text-3xl font-bold text-foreground mb-2">{item.count}</div>
-              <div className="text-lg font-medium text-muted-foreground mb-2">{item.title}</div>
-              <div className="text-sm text-muted-foreground mb-2">{item.percentage}% of total</div>
-              <ChangeIndicator value={item.change} />
-            </div>
-          ))}
+      {/* Upcoming Interviews and Recommendation Summary */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Upcoming Interviews */}
+        <div className="bg-card border border-border rounded-xl p-6">
+          <h3 className="text-lg font-semibold text-foreground mb-6">Upcoming Interviews</h3>
+          <div className="space-y-4">
+            {upcomingInterviews.map((interview, index) => (
+              <div key={index} className="flex items-center justify-between p-4 bg-muted rounded-lg">
+                <div className="flex-1">
+                  <div className="font-medium text-foreground">{interview.candidate}</div>
+                  <div className="text-sm text-muted-foreground">{interview.role}</div>
+                  <div className="text-sm text-muted-foreground">with {interview.interviewer}</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-sm font-medium text-foreground">{interview.time}</div>
+                  <div className={`text-xs px-2 py-1 rounded-full ${
+                    interview.status === 'confirmed'
+                      ? 'bg-green-500/10 text-green-600'
+                      : 'bg-yellow-500/10 text-yellow-600'
+                  }`}>
+                    {interview.status}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Recommendation Summary */}
+        <div className="bg-card border border-border rounded-xl p-6">
+          <h3 className="text-lg font-semibold text-foreground mb-6">Recommendation Summary</h3>
+          <div className="grid grid-cols-1 gap-4">
+            {recommendationData.map((item, index) => (
+              <div key={index} className="flex items-center justify-between p-4 bg-muted rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <div className="text-2xl font-bold text-foreground">{item.count}</div>
+                  <div>
+                    <div className="font-medium text-foreground">{item.title}</div>
+                    <div className="text-sm text-muted-foreground">{item.percentage}% of total</div>
+                  </div>
+                </div>
+                <ChangeIndicator value={item.change} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -393,7 +458,7 @@ export default function AnalyticsDashboard() {
                   <th className="text-left py-3 px-2 font-medium text-foreground">Interviews</th>
                   <th className="text-left py-3 px-2 font-medium text-foreground">Avg. Time</th>
                   <th className="text-left py-3 px-2 font-medium text-foreground">AI Alignment</th>
-                  <th className="text-left py-3 px-2 font-medium text-foreground">Rating</th>
+                  <th className="text-left py-3 px-2 font-medium text-foreground">Avg Score</th>
                 </tr>
               </thead>
               <tbody>
@@ -416,10 +481,7 @@ export default function AnalyticsDashboard() {
                       <ChangeIndicator value={interviewer.alignmentChange} />
                     </td>
                     <td className="py-3 px-2">
-                      <div className="flex items-center">
-                        <Award className="w-4 h-4 text-yellow-500 mr-1" />
-                        <span className="font-medium text-foreground">{interviewer.rating}</span>
-                      </div>
+                      <div className="font-medium text-foreground">{interviewer.avgScore}%</div>
                     </td>
                   </tr>
                 ))}
@@ -437,8 +499,8 @@ export default function AnalyticsDashboard() {
                 <tr className="border-b border-border">
                   <th className="text-left py-3 px-2 font-medium text-foreground">Template</th>
                   <th className="text-left py-3 px-2 font-medium text-foreground">Interviews</th>
-                  <th className="text-left py-3 px-2 font-medium text-foreground">Recommended %</th>
-                  <th className="text-left py-3 px-2 font-medium text-foreground">Avg Score</th>
+                  <th className="text-left py-3 px-2 font-medium text-foreground">Effectiveness</th>
+                <th className="text-left py-3 px-2 font-medium text-foreground">Adoption Rate</th>
                   <th className="text-left py-3 px-2 font-medium text-foreground">Performance</th>
                 </tr>
               </thead>
@@ -454,10 +516,10 @@ export default function AnalyticsDashboard() {
                       <ChangeIndicator value={template.interviewChange} />
                     </td>
                     <td className="py-3 px-2">
-                      <div className="font-medium text-foreground">{template.recommended}%</div>
+                      <div className="font-medium text-foreground">{template.effectiveness}%</div>
                     </td>
                     <td className="py-3 px-2">
-                      <div className="font-medium text-foreground">{template.avgScore}%</div>
+                      <div className="font-medium text-foreground">{template.adoptionRate}%</div>
                     </td>
                     <td className="py-3 px-2">
                       {template.performance === 'up' ? (
