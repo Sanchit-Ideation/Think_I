@@ -76,6 +76,7 @@ const candidateOverview = [
     integrity_score: 90,
     overall_score: 95,
     suggestion: "Consider",
+    status: "Evaluated",
     recommendation:
       "Strong technical skills but minor integrity concerns need review",
   },
