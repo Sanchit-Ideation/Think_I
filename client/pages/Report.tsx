@@ -2610,9 +2610,6 @@ export default function Report() {
                   <p className="font-semibold text-foreground">
                     Avg Score: {selectedInterviewer.avg_score}
                   </p>
-                  <p className="text-sm text-muted-foreground">
-                    Consistency: {selectedInterviewer.consistency}%
-                  </p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground mb-1">Activity</p>
