@@ -377,6 +377,10 @@ export default function CandidateDetail() {
                 <button className="p-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition-colors">
                   <Volume2 className="w-4 h-4" />
                 </button>
+                <button className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                  <Download className="w-4 h-4" />
+                  <span>Download Recording</span>
+                </button>
               </div>
               <div className="bg-background rounded-full h-2">
                 <div className="bg-primary h-2 rounded-full" style={{ width: '35%' }} />

@@ -62,30 +62,13 @@ const kpiData = [
     value: '158',
     change: -5.2,
     icon: Clock
-  },
-  {
-    title: 'Average Integrity Score',
-    value: '87.4%',
-    change: 2.1,
-    icon: Shield
-  },
-  {
-    title: 'Average AI Score',
-    value: '82.8%',
-    change: 4.7,
-    icon: Brain
-  },
-  {
-    title: 'Average Interviewer Score',
-    value: '85.6%',
-    change: 1.9,
-    icon: Award
   }
 ];
 
 const recommendationData = [
   { title: 'Highly Recommended', count: 342, percentage: 31.4, change: 8.2 },
-  { title: 'Consider', count: 486, percentage: 44.6, change: -2.1 },
+  { title: 'Recommended', count: 287, percentage: 26.3, change: 3.5 },
+  { title: 'Consider', count: 199, percentage: 18.3, change: -2.1 },
   { title: 'Not Recommended', count: 261, percentage: 24.0, change: -12.3 }
 ];
 
@@ -192,7 +175,7 @@ const topTemplates = [
 const recentAlerts = [
   {
     type: 'warning',
-    message: 'High rejection rate in Product Manager interviews',
+    message: 'Template "Product Manager V1" has highest not recommended rate (45%)',
     time: '2 hours ago',
     icon: AlertTriangle
   },
@@ -203,10 +186,10 @@ const recentAlerts = [
     icon: CheckCircle2
   },
   {
-    type: 'info',
-    message: 'Weekly performance report generated',
+    type: 'warning',
+    message: 'Template "Data Scientist V2" showing increased rejection trend (38%)',
     time: '1 day ago',
-    icon: FileText
+    icon: AlertTriangle
   }
 ];
 
@@ -279,7 +262,12 @@ export default function AnalyticsDashboard() {
           <p className="text-muted-foreground">Real-time insights and performance metrics</p>
         </div>
         <div className="flex items-center space-x-3">
-          <select 
+          <input
+            type="date"
+            className="bg-card border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            title="Select specific date for insights"
+          />
+          <select
             value={timePeriod}
             onChange={(e) => setTimePeriod(e.target.value)}
             className="bg-card border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -287,17 +275,12 @@ export default function AnalyticsDashboard() {
             <option value="7d">Last 7 days</option>
             <option value="30d">Last 30 days</option>
             <option value="90d">Last 90 days</option>
-            <option value="1y">Last year</option>
           </select>
-          <button className="flex items-center space-x-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
-            <FileText className="w-4 h-4" />
-            <span>Detailed Reports</span>
-          </button>
         </div>
       </div>
 
       {/* KPI Row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {kpiData.map((kpi, index) => {
           const Icon = kpi.icon;
           return (
@@ -330,13 +313,6 @@ export default function AnalyticsDashboard() {
                 </div>
                 <div className="text-right">
                   <div className="text-sm font-medium text-foreground">{interview.time}</div>
-                  <div className={`text-xs px-2 py-1 rounded-full ${
-                    interview.status === 'confirmed'
-                      ? 'bg-green-500/10 text-green-600'
-                      : 'bg-yellow-500/10 text-yellow-600'
-                  }`}>
-                    {interview.status}
-                  </div>
                 </div>
               </div>
             ))}
@@ -574,10 +550,6 @@ export default function AnalyticsDashboard() {
             <button className="flex items-center space-x-3 p-4 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition-colors">
               <Calendar className="w-5 h-5" />
               <span className="font-medium">Schedule Interview</span>
-            </button>
-            <button className="flex items-center space-x-3 p-4 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition-colors">
-              <Download className="w-5 h-5" />
-              <span className="font-medium">Generate Report</span>
             </button>
           </div>
         </div>

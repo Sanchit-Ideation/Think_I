@@ -76,6 +76,7 @@ const candidateOverview = [
     integrity_score: 90,
     overall_score: 95,
     suggestion: "Consider",
+    status: "Evaluated",
     recommendation:
       "Strong technical skills but minor integrity concerns need review",
   },
@@ -103,6 +104,7 @@ const candidateOverview = [
     integrity_score: 75,
     overall_score: 89,
     suggestion: "Recommended",
+    status: "Interviewed",
     recommendation:
       "Excellent potential despite integrity violations - recommend with monitoring",
   },
@@ -124,6 +126,7 @@ const candidateOverview = [
     integrity_score: 98,
     overall_score: 92,
     suggestion: "Highly Recommended",
+    status: "Evaluated",
     recommendation:
       "Outstanding candidate with perfect integrity and strong design skills",
   },
@@ -145,6 +148,7 @@ const candidateOverview = [
     integrity_score: 82,
     overall_score: 78,
     suggestion: "Consider",
+    status: "Interviewed",
     recommendation:
       "Good analytical skills but technical setup issues affected performance",
   },
@@ -166,6 +170,7 @@ const candidateOverview = [
     integrity_score: 88,
     overall_score: 85,
     suggestion: "Recommended",
+    status: "Evaluated",
     recommendation:
       "Strong marketing background with excellent communication skills",
   },
@@ -192,6 +197,7 @@ const candidateOverview = [
     integrity_score: 65,
     overall_score: 72,
     suggestion: "Not Recommended",
+    status: "Evaluated",
     recommendation:
       "Multiple integrity violations overshadow technical competency",
   },
@@ -213,6 +219,7 @@ const candidateOverview = [
     integrity_score: 100,
     overall_score: 96,
     suggestion: "Highly Recommended",
+    status: "Interviewed",
     recommendation:
       "Exceptional candidate with perfect integrity and outstanding analytical skills",
   },
@@ -300,7 +307,6 @@ const interviewerMetrics = [
     name: "John Smith",
     interviews: 234,
     avg_score: 82,
-    consistency: 94,
     candidate_feedback: 4.7,
     improvement_areas: ["Time Management", "Technical Depth"],
   },
@@ -308,7 +314,6 @@ const interviewerMetrics = [
     name: "Emily Davis",
     interviews: 189,
     avg_score: 85,
-    consistency: 91,
     candidate_feedback: 4.8,
     improvement_areas: ["Question Variety"],
   },
@@ -316,7 +321,6 @@ const interviewerMetrics = [
     name: "Alex Wilson",
     interviews: 156,
     avg_score: 79,
-    consistency: 88,
     candidate_feedback: 4.5,
     improvement_areas: ["Communication Clarity", "Follow-up Questions"],
   },
@@ -324,7 +328,6 @@ const interviewerMetrics = [
     name: "Lisa Brown",
     interviews: 198,
     avg_score: 87,
-    consistency: 96,
     candidate_feedback: 4.9,
     improvement_areas: ["None - Excellent Performance"],
   },
@@ -332,7 +335,6 @@ const interviewerMetrics = [
     name: "Mark Johnson",
     interviews: 167,
     avg_score: 81,
-    consistency: 89,
     candidate_feedback: 4.6,
     improvement_areas: ["Bias Awareness", "Note Taking"],
   },
@@ -389,22 +391,30 @@ export default function Report() {
   const [interviewerSortBy, setInterviewerSortBy] = useState("name");
   const [showTemplateDetail, setShowTemplateDetail] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState<any>(null);
+  const [pendingEvaluationFilter, setPendingEvaluationFilter] = useState(false);
 
   // Filter and sort candidates
   const getFilteredCandidates = () => {
     let filtered = candidateOverview.filter(
-      (candidate) =>
-        candidate.candidate_name
+      (candidate) => {
+        // Search filter
+        const matchesSearch = candidate.candidate_name
           .toLowerCase()
           .includes(searchTerm.toLowerCase()) ||
         candidate.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        candidate.applied_role.toLowerCase().includes(searchTerm.toLowerCase()),
+        candidate.applied_role.toLowerCase().includes(searchTerm.toLowerCase());
+
+        // Pending evaluation filter
+        const matchesPendingFilter = pendingEvaluationFilter ? candidate.status === "Interviewed" : true;
+
+        return matchesSearch && matchesPendingFilter;
+      }
     );
 
     // Sort candidates
     filtered.sort((a, b) => {
       switch (sortBy) {
-        case "score":
+        case "overall_score":
           return b.overall_score - a.overall_score;
         case "date":
           return (
@@ -413,8 +423,6 @@ export default function Report() {
           );
         case "integrity":
           return b.integrity_score - a.integrity_score;
-        case "experience":
-          return parseInt(b.experience) - parseInt(a.experience);
         default:
           return b.overall_score - a.overall_score;
       }
@@ -445,8 +453,6 @@ export default function Report() {
           return b.avg_score - a.avg_score;
         case "interviews":
           return b.interviews - a.interviews;
-        case "consistency":
-          return b.consistency - a.consistency;
         default:
           return a.name.localeCompare(b.name);
       }
@@ -550,6 +556,16 @@ export default function Report() {
                     className="w-full pl-10 pr-4 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
+                <div
+                  onClick={() => setPendingEvaluationFilter(!pendingEvaluationFilter)}
+                  className={`px-3 py-2 rounded-lg text-sm cursor-pointer transition-colors ${
+                    pendingEvaluationFilter
+                      ? "bg-yellow-500/20 text-yellow-800 border border-yellow-500/30"
+                      : "bg-yellow-500/10 text-yellow-700 hover:bg-yellow-500/20"
+                  }`}
+                >
+                  {pendingEvaluationFilter ? "✓ " : ""}Pending Evaluation
+                </div>
                 <select
                   value={topFilter}
                   onChange={(e) => setTopFilter(e.target.value)}
@@ -558,6 +574,7 @@ export default function Report() {
                   <option value="all">All Candidates</option>
                   <option value="3">Top 3</option>
                   <option value="5">Top 5</option>
+                  <option value="7">Top 7</option>
                   <option value="10">Top 10</option>
                   <option value="50">Top 50</option>
                   <option value="100">Top 100</option>
@@ -567,15 +584,10 @@ export default function Report() {
                   onChange={(e) => setSortBy(e.target.value)}
                   className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                 >
-                  <option value="score">Sort by Score</option>
+                  <option value="overall_score">Sort by Overall Score</option>
                   <option value="date">Sort by Date</option>
                   <option value="integrity">Sort by Integrity</option>
-                  <option value="experience">Sort by Experience</option>
                 </select>
-                <button className="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg text-sm hover:bg-secondary/80 transition-colors">
-                  <Filter className="w-4 h-4 inline mr-2" />
-                  Filters
-                </button>
 
                 {/* View Toggle */}
                 <div className="flex items-center bg-muted rounded-lg p-1">
@@ -635,6 +647,11 @@ export default function Report() {
                           <p className="text-xs text-muted-foreground">
                             ID: {candidate.candidate_id}
                           </p>
+                          {candidate.status === "Interviewed" && (
+                            <span className="inline-block px-2 py-1 bg-orange-500/10 text-orange-600 text-xs rounded-full mt-1">
+                              Pending Evaluation
+                            </span>
+                          )}
                         </div>
                       </div>
                       <span
@@ -879,9 +896,14 @@ export default function Report() {
                                   .join("")}
                               </span>
                             </div>
-                            <span className="font-medium text-foreground text-xs">
-                              {candidate.candidate_name}
-                            </span>
+                            <div>
+                              <span className="font-medium text-foreground text-xs">
+                                {candidate.candidate_name}
+                              </span>
+                              {candidate.status === "Interviewed" && (
+                                <div className="text-xs text-orange-600">Pending Evaluation</div>
+                              )}
+                            </div>
                           </div>
                         </td>
                         <td className="py-2 px-2 text-xs text-foreground">
@@ -1136,7 +1158,7 @@ export default function Report() {
                     }`}
                   />
                   <p className="text-xs text-muted-foreground mb-1">
-                    Final Status
+                    Final Suggestion
                   </p>
                   <p
                     className={`text-sm font-bold mb-2 ${
@@ -1150,6 +1172,9 @@ export default function Report() {
                     }`}
                   >
                     {selectedCandidate.suggestion}
+                  </p>
+                  <p className="text-xs text-muted-foreground mb-2">
+                    Overall Score: {Math.round((selectedCandidate.overall_score + (selectedCandidate.overall_score - 3) + (selectedCandidate.overall_score - 5) + selectedCandidate.integrity_score) / 4)}
                   </p>
                   <p className="text-xs text-muted-foreground leading-tight">
                     {selectedCandidate.recommendation}
@@ -1328,8 +1353,71 @@ export default function Report() {
                       </div>
                     </div>
 
-                    {/* Skills Assessment */}
-                    <div className="bg-muted rounded-lg p-6">
+                    {/* Detailed Competency Breakdown with AI Comments */}
+                    <div className="space-y-3 mt-6">
+                      <h5 className="font-medium text-foreground">
+                        Detailed Assessment
+                      </h5>
+                      {[
+                        {
+                          name: "Communication Clarity",
+                          aiScore: 7.5,
+                          aiComment:
+                            "Clear articulation of ideas, well-structured responses, appropriate technical language usage",
+                        },
+                        {
+                          name: "Cognitive Thinking & Reasoning",
+                          aiScore: 8.2,
+                          aiComment:
+                            "Strong analytical skills, logical problem decomposition, excellent pattern recognition",
+                        },
+                        {
+                          name: "Technical / Domain Expertise",
+                          aiScore: 7.8,
+                          aiComment:
+                            "Solid technical foundation, good understanding of best practices, practical application skills",
+                        },
+                        {
+                          name: "Adaptability & Learning Agility",
+                          aiScore: 8.1,
+                          aiComment:
+                            "Quick to grasp new concepts, flexible thinking approach, embraces challenging scenarios",
+                        },
+                        {
+                          name: "Execution Ownership",
+                          aiScore: 7.3,
+                          aiComment:
+                            "Takes responsibility for outcomes, demonstrates accountability, follows through on commitments",
+                        },
+                      ].map((competency, index) => (
+                        <div
+                          key={index}
+                          className="p-4 bg-background rounded-lg border border-border"
+                        >
+                          <div className="flex items-center justify-between mb-3">
+                            <h6 className="font-medium text-foreground">
+                              {competency.name}
+                            </h6>
+                            <div className="flex items-center space-x-4 text-sm">
+                              <span className="text-purple-600">
+                                AI Score: {competency.aiScore}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="p-3 bg-purple-500/5 border border-purple-500/20 rounded">
+                            <p className="text-xs text-purple-700">
+                              <strong>
+                                AI Analysis ({competency.aiScore}):
+                              </strong>{" "}
+                              {competency.aiComment}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Skills Assessment - moved below Detailed Assessment */}
+                    <div className="bg-muted rounded-lg p-6 mt-6">
                       <h5 className="font-medium text-foreground mb-4 text-center">
                         Skills Assessment
                       </h5>
@@ -1356,98 +1444,6 @@ export default function Report() {
                           </div>
                         ))}
                       </div>
-                    </div>
-
-                    {/* Detailed Competency Breakdown with AI/Interviewer Comments */}
-                    <div className="space-y-3 mt-6">
-                      <h5 className="font-medium text-foreground">
-                        Detailed Assessment
-                      </h5>
-                      {[
-                        {
-                          name: "Communication Clarity",
-                          aiScore: 7.5,
-                          interviewerScore: 7.2,
-                          aiComment:
-                            "Clear articulation of ideas, well-structured responses, appropriate technical language usage",
-                          interviewerComment:
-                            "Excellent at explaining concepts, confident presentation style, good listening skills",
-                        },
-                        {
-                          name: "Cognitive Thinking & Reasoning",
-                          aiScore: 8.2,
-                          interviewerScore: 8.0,
-                          aiComment:
-                            "Strong analytical skills, logical problem decomposition, excellent pattern recognition",
-                          interviewerComment:
-                            "Demonstrates systematic thinking, good at connecting concepts, creative problem solving",
-                        },
-                        {
-                          name: "Technical / Domain Expertise",
-                          aiScore: 7.8,
-                          interviewerScore: 8.1,
-                          aiComment:
-                            "Solid technical foundation, good understanding of best practices, practical application skills",
-                          interviewerComment:
-                            "Strong domain knowledge, hands-on experience evident, good depth in core areas",
-                        },
-                        {
-                          name: "Adaptability & Learning Agility",
-                          aiScore: 8.1,
-                          interviewerScore: 7.9,
-                          aiComment:
-                            "Quick to grasp new concepts, flexible thinking approach, embraces challenging scenarios",
-                          interviewerComment:
-                            "Shows curiosity and willingness to learn, adapts well to changing requirements",
-                        },
-                        {
-                          name: "Execution Ownership",
-                          aiScore: 7.3,
-                          interviewerScore: 7.6,
-                          aiComment:
-                            "Takes responsibility for outcomes, demonstrates accountability, follows through on commitments",
-                          interviewerComment:
-                            "Good sense of ownership, proactive approach, reliable in execution and delivery",
-                        },
-                      ].map((competency, index) => (
-                        <div
-                          key={index}
-                          className="p-4 bg-background rounded-lg border border-border"
-                        >
-                          <div className="flex items-center justify-between mb-3">
-                            <h6 className="font-medium text-foreground">
-                              {competency.name}
-                            </h6>
-                            <div className="flex items-center space-x-4 text-sm">
-                              <span className="text-purple-600">
-                                AI: {competency.aiScore}
-                              </span>
-                              <span className="text-blue-600">
-                                Interviewer: {competency.interviewerScore}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="p-3 bg-purple-500/5 border border-purple-500/20 rounded">
-                              <p className="text-xs text-purple-700">
-                                <strong>
-                                  AI Analysis ({competency.aiScore}):
-                                </strong>{" "}
-                                {competency.aiComment}
-                              </p>
-                            </div>
-                            <div className="p-3 bg-blue-500/5 border border-blue-500/20 rounded">
-                              <p className="text-xs text-blue-700">
-                                <strong>
-                                  Interviewer Assessment (
-                                  {competency.interviewerScore}):
-                                </strong>{" "}
-                                {competency.interviewerComment}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
                     </div>
                   </div>
 
@@ -2635,9 +2631,6 @@ export default function Report() {
                   <p className="font-semibold text-foreground">
                     Avg Score: {selectedInterviewer.avg_score}
                   </p>
-                  <p className="text-sm text-muted-foreground">
-                    Consistency: {selectedInterviewer.consistency}%
-                  </p>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground mb-1">Activity</p>
@@ -2933,56 +2926,6 @@ export default function Report() {
               </div>
             </div>
 
-            {/* Actionable Recommendations */}
-            <div className="bg-card border border-border rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">
-                Actionable Insights & Recommendations
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-3">
-                  <h4 className="font-medium text-foreground">
-                    Strengths to Leverage
-                  </h4>
-                  <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
-                    <p className="text-sm text-green-700">
-                      • Excellent at building rapport with candidates
-                    </p>
-                    <p className="text-sm text-green-700">
-                      • Strong technical assessment capabilities
-                    </p>
-                    <p className="text-sm text-green-700">
-                      • Consistent scoring patterns
-                    </p>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <h4 className="font-medium text-foreground">
-                    Development Areas
-                  </h4>
-                  <div className="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
-                    <p className="text-sm text-yellow-700">
-                      • Time management during interviews
-                    </p>
-                    <p className="text-sm text-yellow-700">
-                      • Cultural fit assessment techniques
-                    </p>
-                    <p className="text-sm text-yellow-700">
-                      • Unconscious bias awareness
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-4 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                <h4 className="font-medium text-blue-700 mb-2">
-                  Recommended Training
-                </h4>
-                <p className="text-sm text-blue-600">
-                  Consider enrolling in the "Advanced Interview Techniques"
-                  workshop focusing on time management and structured behavioral
-                  assessments.
-                </p>
-              </div>
-            </div>
           </div>
         )}
 
@@ -3014,9 +2957,6 @@ export default function Report() {
                     </th>
                     <th className="text-left py-3 px-4 font-medium text-foreground">
                       Avg Score
-                    </th>
-                    <th className="text-left py-3 px-4 font-medium text-foreground">
-                      Consistency
                     </th>
                     <th className="text-left py-3 px-4 font-medium text-foreground">
                       Feedback
@@ -3064,19 +3004,6 @@ export default function Report() {
                           </div>
                           <span className="text-foreground text-sm">
                             {interviewer.avg_score}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="py-3 px-4">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-12 bg-muted rounded-full h-2">
-                            <div
-                              className="bg-green-500 h-2 rounded-full"
-                              style={{ width: `${interviewer.consistency}%` }}
-                            />
-                          </div>
-                          <span className="text-foreground text-sm">
-                            {interviewer.consistency}%
                           </span>
                         </div>
                       </td>
