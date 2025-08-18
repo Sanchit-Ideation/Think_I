@@ -1371,47 +1371,32 @@ export default function Report() {
                         {
                           name: "Communication Clarity",
                           aiScore: 7.5,
-                          interviewerScore: 7.2,
                           aiComment:
                             "Clear articulation of ideas, well-structured responses, appropriate technical language usage",
-                          interviewerComment:
-                            "Excellent at explaining concepts, confident presentation style, good listening skills",
                         },
                         {
                           name: "Cognitive Thinking & Reasoning",
                           aiScore: 8.2,
-                          interviewerScore: 8.0,
                           aiComment:
                             "Strong analytical skills, logical problem decomposition, excellent pattern recognition",
-                          interviewerComment:
-                            "Demonstrates systematic thinking, good at connecting concepts, creative problem solving",
                         },
                         {
                           name: "Technical / Domain Expertise",
                           aiScore: 7.8,
-                          interviewerScore: 8.1,
                           aiComment:
                             "Solid technical foundation, good understanding of best practices, practical application skills",
-                          interviewerComment:
-                            "Strong domain knowledge, hands-on experience evident, good depth in core areas",
                         },
                         {
                           name: "Adaptability & Learning Agility",
                           aiScore: 8.1,
-                          interviewerScore: 7.9,
                           aiComment:
                             "Quick to grasp new concepts, flexible thinking approach, embraces challenging scenarios",
-                          interviewerComment:
-                            "Shows curiosity and willingness to learn, adapts well to changing requirements",
                         },
                         {
                           name: "Execution Ownership",
                           aiScore: 7.3,
-                          interviewerScore: 7.6,
                           aiComment:
                             "Takes responsibility for outcomes, demonstrates accountability, follows through on commitments",
-                          interviewerComment:
-                            "Good sense of ownership, proactive approach, reliable in execution and delivery",
                         },
                       ].map((competency, index) => (
                         <div
@@ -1424,31 +1409,17 @@ export default function Report() {
                             </h6>
                             <div className="flex items-center space-x-4 text-sm">
                               <span className="text-purple-600">
-                                AI: {competency.aiScore}
-                              </span>
-                              <span className="text-blue-600">
-                                Interviewer: {competency.interviewerScore}
+                                AI Score: {competency.aiScore}
                               </span>
                             </div>
                           </div>
-                          <div className="space-y-2">
-                            <div className="p-3 bg-purple-500/5 border border-purple-500/20 rounded">
-                              <p className="text-xs text-purple-700">
-                                <strong>
-                                  AI Analysis ({competency.aiScore}):
-                                </strong>{" "}
-                                {competency.aiComment}
-                              </p>
-                            </div>
-                            <div className="p-3 bg-blue-500/5 border border-blue-500/20 rounded">
-                              <p className="text-xs text-blue-700">
-                                <strong>
-                                  Interviewer Assessment (
-                                  {competency.interviewerScore}):
-                                </strong>{" "}
-                                {competency.interviewerComment}
-                              </p>
-                            </div>
+                          <div className="p-3 bg-purple-500/5 border border-purple-500/20 rounded">
+                            <p className="text-xs text-purple-700">
+                              <strong>
+                                AI Analysis ({competency.aiScore}):
+                              </strong>{" "}
+                              {competency.aiComment}
+                            </p>
                           </div>
                         </div>
                       ))}
