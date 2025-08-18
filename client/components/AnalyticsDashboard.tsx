@@ -62,12 +62,6 @@ const kpiData = [
     value: '158',
     change: -5.2,
     icon: Clock
-  },
-  {
-    title: 'Average Integrity Score',
-    value: '87.4%',
-    change: 2.1,
-    icon: Shield
   }
 ];
 
