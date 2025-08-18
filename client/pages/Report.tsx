@@ -626,6 +626,11 @@ export default function Report() {
                           <p className="text-xs text-muted-foreground">
                             ID: {candidate.candidate_id}
                           </p>
+                          {candidate.status === "Interviewed" && (
+                            <span className="inline-block px-2 py-1 bg-orange-500/10 text-orange-600 text-xs rounded-full mt-1">
+                              Pending Evaluation
+                            </span>
+                          )}
                         </div>
                       </div>
                       <span
