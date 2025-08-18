@@ -445,8 +445,6 @@ export default function Report() {
           return b.avg_score - a.avg_score;
         case "interviews":
           return b.interviews - a.interviews;
-        case "consistency":
-          return b.consistency - a.consistency;
         default:
           return a.name.localeCompare(b.name);
       }
