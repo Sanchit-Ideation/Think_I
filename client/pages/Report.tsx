@@ -2908,56 +2908,6 @@ export default function Report() {
               </div>
             </div>
 
-            {/* Actionable Recommendations */}
-            <div className="bg-card border border-border rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">
-                Actionable Insights & Recommendations
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-3">
-                  <h4 className="font-medium text-foreground">
-                    Strengths to Leverage
-                  </h4>
-                  <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
-                    <p className="text-sm text-green-700">
-                      • Excellent at building rapport with candidates
-                    </p>
-                    <p className="text-sm text-green-700">
-                      • Strong technical assessment capabilities
-                    </p>
-                    <p className="text-sm text-green-700">
-                      • Consistent scoring patterns
-                    </p>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <h4 className="font-medium text-foreground">
-                    Development Areas
-                  </h4>
-                  <div className="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
-                    <p className="text-sm text-yellow-700">
-                      • Time management during interviews
-                    </p>
-                    <p className="text-sm text-yellow-700">
-                      • Cultural fit assessment techniques
-                    </p>
-                    <p className="text-sm text-yellow-700">
-                      • Unconscious bias awareness
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-4 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                <h4 className="font-medium text-blue-700 mb-2">
-                  Recommended Training
-                </h4>
-                <p className="text-sm text-blue-600">
-                  Consider enrolling in the "Advanced Interview Techniques"
-                  workshop focusing on time management and structured behavioral
-                  assessments.
-                </p>
-              </div>
-            </div>
           </div>
         )}
 
