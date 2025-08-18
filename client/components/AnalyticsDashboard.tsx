@@ -73,7 +73,8 @@ const kpiData = [
 
 const recommendationData = [
   { title: 'Highly Recommended', count: 342, percentage: 31.4, change: 8.2 },
-  { title: 'Consider', count: 486, percentage: 44.6, change: -2.1 },
+  { title: 'Recommended', count: 287, percentage: 26.3, change: 3.5 },
+  { title: 'Consider', count: 199, percentage: 18.3, change: -2.1 },
   { title: 'Not Recommended', count: 261, percentage: 24.0, change: -12.3 }
 ];
 
