@@ -1332,37 +1332,7 @@ export default function Report() {
                       </div>
                     </div>
 
-                    {/* Skills Assessment */}
-                    <div className="bg-muted rounded-lg p-6">
-                      <h5 className="font-medium text-foreground mb-4 text-center">
-                        Skills Assessment
-                      </h5>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {[
-                          { skill: "Python", score: 8.5 },
-                          { skill: "SQL", score: 9.0 },
-                          { skill: "System Design", score: 7.8 },
-                          { skill: "Data Warehousing", score: 8.2 },
-                          { skill: "AWS", score: 7.5 },
-                          { skill: "Machine Learning", score: 8.0 }
-                        ].map((item, index) => (
-                          <div key={index} className="flex items-center justify-between p-3 bg-background rounded-lg">
-                            <span className="font-medium text-foreground">{item.skill}</span>
-                            <div className="flex items-center space-x-2">
-                              <div className="w-16 bg-muted rounded-full h-2">
-                                <div
-                                  className="bg-primary h-2 rounded-full"
-                                  style={{ width: `${(item.score / 10) * 100}%` }}
-                                />
-                              </div>
-                              <span className="text-sm font-bold text-primary min-w-[2rem]">{item.score}</span>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Detailed Competency Breakdown with AI/Interviewer Comments */}
+                    {/* Detailed Competency Breakdown with AI Comments */}
                     <div className="space-y-3 mt-6">
                       <h5 className="font-medium text-foreground">
                         Detailed Assessment
