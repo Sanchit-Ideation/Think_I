@@ -68,18 +68,6 @@ const kpiData = [
     value: '87.4%',
     change: 2.1,
     icon: Shield
-  },
-  {
-    title: 'Average AI Score',
-    value: '82.8%',
-    change: 4.7,
-    icon: Brain
-  },
-  {
-    title: 'Average Interviewer Score',
-    value: '85.6%',
-    change: 1.9,
-    icon: Award
   }
 ];
 
@@ -297,7 +285,7 @@ export default function AnalyticsDashboard() {
       </div>
 
       {/* KPI Row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
         {kpiData.map((kpi, index) => {
           const Icon = kpi.icon;
           return (
