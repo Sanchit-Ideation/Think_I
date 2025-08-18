@@ -2990,19 +2990,6 @@ export default function Report() {
                         </div>
                       </td>
                       <td className="py-3 px-4">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-12 bg-muted rounded-full h-2">
-                            <div
-                              className="bg-green-500 h-2 rounded-full"
-                              style={{ width: `${interviewer.consistency}%` }}
-                            />
-                          </div>
-                          <span className="text-foreground text-sm">
-                            {interviewer.consistency}%
-                          </span>
-                        </div>
-                      </td>
-                      <td className="py-3 px-4">
                         <div className="flex items-center space-x-1">
                           <span className="text-foreground text-sm">
                             {interviewer.candidate_feedback}
