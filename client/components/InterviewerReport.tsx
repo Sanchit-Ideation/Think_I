@@ -183,7 +183,6 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
               <option value="name">Sort by Name</option>
               <option value="score">Sort by Avg Score</option>
               <option value="interviews">Sort by Interviews</option>
-              <option value="consistency">Sort by Consistency</option>
             </select>
             <div className="flex border border-border rounded-lg">
               <button
