@@ -404,7 +404,7 @@ export default function Report() {
     // Sort candidates
     filtered.sort((a, b) => {
       switch (sortBy) {
-        case "score":
+        case "overall_score":
           return b.overall_score - a.overall_score;
         case "date":
           return (
@@ -413,8 +413,6 @@ export default function Report() {
           );
         case "integrity":
           return b.integrity_score - a.integrity_score;
-        case "experience":
-          return parseInt(b.experience) - parseInt(a.experience);
         default:
           return b.overall_score - a.overall_score;
       }
@@ -550,32 +548,18 @@ export default function Report() {
                     className="w-full pl-10 pr-4 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
-                <select
-                  value={topFilter}
-                  onChange={(e) => setTopFilter(e.target.value)}
-                  className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                >
-                  <option value="all">All Candidates</option>
-                  <option value="3">Top 3</option>
-                  <option value="5">Top 5</option>
-                  <option value="10">Top 10</option>
-                  <option value="50">Top 50</option>
-                  <option value="100">Top 100</option>
-                </select>
+                <div className="px-3 py-2 bg-yellow-500/10 text-yellow-700 rounded-lg text-sm cursor-pointer hover:bg-yellow-500/20 transition-colors">
+                  Pending Evaluation
+                </div>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
                   className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                 >
-                  <option value="score">Sort by Score</option>
+                  <option value="overall_score">Sort by Overall Score</option>
                   <option value="date">Sort by Date</option>
                   <option value="integrity">Sort by Integrity</option>
-                  <option value="experience">Sort by Experience</option>
                 </select>
-                <button className="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg text-sm hover:bg-secondary/80 transition-colors">
-                  <Filter className="w-4 h-4 inline mr-2" />
-                  Filters
-                </button>
 
                 {/* View Toggle */}
                 <div className="flex items-center bg-muted rounded-lg p-1">
