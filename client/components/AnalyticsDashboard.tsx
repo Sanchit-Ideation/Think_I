@@ -181,7 +181,7 @@ const topTemplates = [
 const recentAlerts = [
   {
     type: 'warning',
-    message: 'High rejection rate in Product Manager interviews',
+    message: 'Template "Product Manager V1" has highest not recommended rate (45%)',
     time: '2 hours ago',
     icon: AlertTriangle
   },
@@ -192,10 +192,10 @@ const recentAlerts = [
     icon: CheckCircle2
   },
   {
-    type: 'info',
-    message: 'Weekly performance report generated',
+    type: 'warning',
+    message: 'Template "Data Scientist V2" showing increased rejection trend (38%)',
     time: '1 day ago',
-    icon: FileText
+    icon: AlertTriangle
   }
 ];
 
