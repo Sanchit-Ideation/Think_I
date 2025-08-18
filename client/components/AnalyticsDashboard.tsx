@@ -276,10 +276,6 @@ export default function AnalyticsDashboard() {
             <option value="30d">Last 30 days</option>
             <option value="90d">Last 90 days</option>
           </select>
-          <button className="flex items-center space-x-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
-            <FileText className="w-4 h-4" />
-            <span>Detailed Reports</span>
-          </button>
         </div>
       </div>
 
