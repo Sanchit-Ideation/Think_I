@@ -1137,7 +1137,7 @@ export default function Report() {
                     }`}
                   />
                   <p className="text-xs text-muted-foreground mb-1">
-                    Final Status
+                    Final Suggestion
                   </p>
                   <p
                     className={`text-sm font-bold mb-2 ${
@@ -1151,6 +1151,9 @@ export default function Report() {
                     }`}
                   >
                     {selectedCandidate.suggestion}
+                  </p>
+                  <p className="text-xs text-muted-foreground mb-2">
+                    Overall Score: {Math.round((selectedCandidate.overall_score + (selectedCandidate.overall_score - 3) + (selectedCandidate.overall_score - 5) + selectedCandidate.integrity_score) / 4)}
                   </p>
                   <p className="text-xs text-muted-foreground leading-tight">
                     {selectedCandidate.recommendation}
