@@ -567,6 +567,19 @@ export default function Report() {
                   {pendingEvaluationFilter ? "✓ " : ""}Pending Evaluation
                 </div>
                 <select
+                  value={topFilter}
+                  onChange={(e) => setTopFilter(e.target.value)}
+                  className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  <option value="all">All Candidates</option>
+                  <option value="3">Top 3</option>
+                  <option value="5">Top 5</option>
+                  <option value="7">Top 7</option>
+                  <option value="10">Top 10</option>
+                  <option value="50">Top 50</option>
+                  <option value="100">Top 100</option>
+                </select>
+                <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
                   className="px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
