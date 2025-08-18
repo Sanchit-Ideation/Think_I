@@ -7,8 +7,6 @@ const interviewerMetrics = [
     name: "John Smith",
     interviews: 234,
     avg_score: 82,
-    consistency: 94,
-    candidate_feedback: 4.7,
     improvement_areas: ["Time Management", "Technical Depth"],
     recentInterviews: [
       { candidate: "Sarah Johnson", role: "Senior Engineer", score: 85, date: "2024-12-15" },
@@ -20,8 +18,6 @@ const interviewerMetrics = [
     name: "Emily Davis",
     interviews: 187,
     avg_score: 89,
-    consistency: 91,
-    candidate_feedback: 4.8,
     improvement_areas: ["Cultural Assessment"],
     recentInterviews: [
       { candidate: "David Kim", role: "Data Scientist", score: 91, date: "2024-12-15" },
@@ -32,8 +28,6 @@ const interviewerMetrics = [
     name: "Alex Wilson",
     interviews: 156,
     avg_score: 85,
-    consistency: 88,
-    candidate_feedback: 4.6,
     improvement_areas: ["Technical Questions", "Follow-up"],
     recentInterviews: [
       { candidate: "James Brown", role: "DevOps Engineer", score: 82, date: "2024-12-15" },
@@ -44,8 +38,6 @@ const interviewerMetrics = [
     name: "Lisa Brown",
     interviews: 203,
     avg_score: 91,
-    consistency: 96,
-    candidate_feedback: 4.9,
     improvement_areas: [],
     recentInterviews: [
       { candidate: "Tom Wilson", role: "Tech Lead", score: 94, date: "2024-12-15" },
