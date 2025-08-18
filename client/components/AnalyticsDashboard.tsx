@@ -317,13 +317,6 @@ export default function AnalyticsDashboard() {
                 </div>
                 <div className="text-right">
                   <div className="text-sm font-medium text-foreground">{interview.time}</div>
-                  <div className={`text-xs px-2 py-1 rounded-full ${
-                    interview.status === 'confirmed'
-                      ? 'bg-green-500/10 text-green-600'
-                      : 'bg-yellow-500/10 text-yellow-600'
-                  }`}>
-                    {interview.status}
-                  </div>
                 </div>
               </div>
             ))}
