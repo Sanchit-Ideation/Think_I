@@ -104,6 +104,7 @@ const candidateOverview = [
     integrity_score: 75,
     overall_score: 89,
     suggestion: "Recommended",
+    status: "Interviewed",
     recommendation:
       "Excellent potential despite integrity violations - recommend with monitoring",
   },
@@ -125,6 +126,7 @@ const candidateOverview = [
     integrity_score: 98,
     overall_score: 92,
     suggestion: "Highly Recommended",
+    status: "Evaluated",
     recommendation:
       "Outstanding candidate with perfect integrity and strong design skills",
   },
@@ -146,6 +148,7 @@ const candidateOverview = [
     integrity_score: 82,
     overall_score: 78,
     suggestion: "Consider",
+    status: "Interviewed",
     recommendation:
       "Good analytical skills but technical setup issues affected performance",
   },
@@ -167,6 +170,7 @@ const candidateOverview = [
     integrity_score: 88,
     overall_score: 85,
     suggestion: "Recommended",
+    status: "Evaluated",
     recommendation:
       "Strong marketing background with excellent communication skills",
   },
@@ -193,6 +197,7 @@ const candidateOverview = [
     integrity_score: 65,
     overall_score: 72,
     suggestion: "Not Recommended",
+    status: "Evaluated",
     recommendation:
       "Multiple integrity violations overshadow technical competency",
   },
@@ -214,6 +219,7 @@ const candidateOverview = [
     integrity_score: 100,
     overall_score: 96,
     suggestion: "Highly Recommended",
+    status: "Interviewed",
     recommendation:
       "Exceptional candidate with perfect integrity and outstanding analytical skills",
   },
