@@ -875,9 +875,14 @@ export default function Report() {
                                   .join("")}
                               </span>
                             </div>
-                            <span className="font-medium text-foreground text-xs">
-                              {candidate.candidate_name}
-                            </span>
+                            <div>
+                              <span className="font-medium text-foreground text-xs">
+                                {candidate.candidate_name}
+                              </span>
+                              {candidate.status === "Interviewed" && (
+                                <div className="text-xs text-orange-600">Pending Evaluation</div>
+                              )}
+                            </div>
                           </div>
                         </td>
                         <td className="py-2 px-2 text-xs text-foreground">
