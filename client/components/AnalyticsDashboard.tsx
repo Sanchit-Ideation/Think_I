@@ -268,7 +268,12 @@ export default function AnalyticsDashboard() {
           <p className="text-muted-foreground">Real-time insights and performance metrics</p>
         </div>
         <div className="flex items-center space-x-3">
-          <select 
+          <input
+            type="date"
+            className="bg-card border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            title="Select specific date for insights"
+          />
+          <select
             value={timePeriod}
             onChange={(e) => setTimePeriod(e.target.value)}
             className="bg-card border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -276,7 +281,6 @@ export default function AnalyticsDashboard() {
             <option value="7d">Last 7 days</option>
             <option value="30d">Last 30 days</option>
             <option value="90d">Last 90 days</option>
-            <option value="1y">Last year</option>
           </select>
           <button className="flex items-center space-x-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
             <FileText className="w-4 h-4" />
@@ -563,10 +567,6 @@ export default function AnalyticsDashboard() {
             <button className="flex items-center space-x-3 p-4 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition-colors">
               <Calendar className="w-5 h-5" />
               <span className="font-medium">Schedule Interview</span>
-            </button>
-            <button className="flex items-center space-x-3 p-4 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/80 transition-colors">
-              <Download className="w-5 h-5" />
-              <span className="font-medium">Generate Report</span>
             </button>
           </div>
         </div>
