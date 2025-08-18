@@ -2941,9 +2941,6 @@ export default function Report() {
                       Avg Score
                     </th>
                     <th className="text-left py-3 px-4 font-medium text-foreground">
-                      Consistency
-                    </th>
-                    <th className="text-left py-3 px-4 font-medium text-foreground">
                       Feedback
                     </th>
                     <th className="text-left py-3 px-4 font-medium text-foreground">
