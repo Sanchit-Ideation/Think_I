@@ -76,12 +76,19 @@ const interviewStages = [
   { stage: 'Q&A Session', ai_score: 86, interviewer_score: 84, duration: 2, status: 'completed' }
 ];
 
+const technicalSkills = [
+  { skill: 'SQL', candidate_score: 88, role_average: 82, explanation: 'Strong database querying and optimization skills' },
+  { skill: 'Tableau', candidate_score: 76, role_average: 79, explanation: 'Good visualization skills, room for advanced features' },
+  { skill: 'Data Analysis', candidate_score: 92, role_average: 85, explanation: 'Excellent analytical thinking and pattern recognition' },
+  { skill: 'Python', candidate_score: 85, role_average: 80, explanation: 'Solid programming fundamentals and data manipulation' },
+  { skill: 'AWS', candidate_score: 74, role_average: 77, explanation: 'Basic cloud knowledge, needs more hands-on experience' }
+];
+
 const competencyComparison = [
-  { skill: 'Technical Knowledge', ai_score: 85, interviewer_score: 87, explanation: 'AI noted strong fundamentals, interviewer appreciated practical experience' },
-  { skill: 'Problem Solving', skill: 'Communication', ai_score: 89, interviewer_score: 91, explanation: 'Excellent communication throughout, clear explanations' },
-  { skill: 'System Design', ai_score: 82, interviewer_score: 85, explanation: 'Good understanding of architecture, room for improvement in scalability' },
-  { skill: 'Code Quality', ai_score: 88, interviewer_score: 86, explanation: 'Clean, readable code with good practices' },
-  { skill: 'Adaptability', ai_score: 91, interviewer_score: 89, explanation: 'Quick to adjust approach based on feedback' }
+  { skill: 'Critical Reasoning', ai_score: 85, interviewer_score: 87, explanation: 'Strong logical thinking and problem decomposition abilities' },
+  { skill: 'Domain Knowledge', ai_score: 89, interviewer_score: 91, explanation: 'Deep understanding of technical concepts and industry practices' },
+  { skill: 'Analytical Thinking', ai_score: 82, interviewer_score: 85, explanation: 'Good analytical approach, methodical problem solving' },
+  { skill: 'Conciseness', ai_score: 88, interviewer_score: 86, explanation: 'Clear and concise communication, well-structured responses' }
 ];
 
 const behavioralScores = [
@@ -442,6 +449,78 @@ export default function CandidateDetail() {
 
       {activeTab === 'competencies' && (
         <div className="space-y-8">
+          {/* Technical Skills Analysis */}
+          <div className="bg-card border border-border rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-foreground mb-4">Key Technical Skills Analysis</h3>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                {technicalSkills.map((skill, index) => (
+                  <div key={index} className="p-4 bg-muted rounded-lg">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-medium text-foreground">{skill.skill}</h4>
+                      <div className="flex items-center space-x-4 text-sm">
+                        <span className="text-blue-600">Score: {skill.candidate_score}%</span>
+                        <span className="text-orange-600">Avg: {skill.role_average}%</span>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 mb-3">
+                      <div>
+                        <div className="text-xs text-muted-foreground mb-1">Candidate Score</div>
+                        <div className="bg-background rounded-full h-3">
+                          <div
+                            className="bg-blue-500 h-3 rounded-full"
+                            style={{ width: `${skill.candidate_score}%` }}
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-xs text-muted-foreground mb-1">Role Average</div>
+                        <div className="bg-background rounded-full h-3">
+                          <div
+                            className="bg-orange-500 h-3 rounded-full"
+                            style={{ width: `${skill.role_average}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-sm text-muted-foreground">{skill.explanation}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="bg-card border border-border rounded-xl p-6">
+                <h4 className="text-lg font-semibold text-foreground mb-4">Technical Skills Overview</h4>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={technicalSkills}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                      <XAxis dataKey="skill" tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }} />
+                      <YAxis tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }} />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: 'hsl(var(--card))',
+                          border: '1px solid hsl(var(--border))',
+                          borderRadius: '8px',
+                        }}
+                      />
+                      <Bar dataKey="candidate_score" fill="#3b82f6" name="Candidate Score" />
+                      <Bar dataKey="role_average" fill="#f97316" name="Role Average" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="flex justify-center space-x-6 mt-4 text-sm">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-3 h-3 bg-blue-500 rounded" />
+                    <span>Candidate Score</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-3 h-3 bg-orange-500 rounded" />
+                    <span>Role Average</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* AI vs Interviewer Comparison */}
           <div className="bg-card border border-border rounded-xl p-6">
             <h3 className="text-lg font-semibold text-foreground mb-4">AI vs Interviewer Score Comparison</h3>

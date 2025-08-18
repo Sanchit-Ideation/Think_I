@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import InterviewerReport from "../components/InterviewerReport";
+import TemplateReport from "../components/TemplateReport";
+import TemplateDetailView from "../components/TemplateDetailView";
 import {
   BarChart,
   Bar,
@@ -381,6 +384,11 @@ export default function Report() {
   const [searchTerm, setSearchTerm] = useState("");
   const [candidateGraphFilter, setCandidateGraphFilter] = useState("30");
   const [viewMode, setViewMode] = useState<"card" | "sheet">("card");
+  const [interviewerViewMode, setInterviewerViewMode] = useState<"card" | "list">("card");
+  const [interviewerSearchTerm, setInterviewerSearchTerm] = useState("");
+  const [interviewerSortBy, setInterviewerSortBy] = useState("name");
+  const [showTemplateDetail, setShowTemplateDetail] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState<any>(null);
 
   // Filter and sort candidates
   const getFilteredCandidates = () => {
@@ -417,6 +425,32 @@ export default function Report() {
       const limit = parseInt(topFilter);
       filtered = filtered.slice(0, limit);
     }
+
+    return filtered;
+  };
+
+  // Filter and sort interviewers
+  const getFilteredInterviewers = () => {
+    let filtered = interviewerMetrics.filter(
+      (interviewer) =>
+        interviewer.name
+          .toLowerCase()
+          .includes(interviewerSearchTerm.toLowerCase())
+    );
+
+    // Sort interviewers
+    filtered.sort((a, b) => {
+      switch (interviewerSortBy) {
+        case "score":
+          return b.avg_score - a.avg_score;
+        case "interviews":
+          return b.interviews - a.interviews;
+        case "consistency":
+          return b.consistency - a.consistency;
+        default:
+          return a.name.localeCompare(b.name);
+      }
+    });
 
     return filtered;
   };
@@ -630,14 +664,6 @@ export default function Report() {
                       </div>
                       <div className="flex items-center space-x-2">
                         <span className="text-xs text-muted-foreground min-w-[60px]">
-                          Current:
-                        </span>
-                        <span className="text-xs text-foreground">
-                          {candidate.current_role} at {candidate.company}
-                        </span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <span className="text-xs text-muted-foreground min-w-[60px]">
                           Applied:
                         </span>
                         <span className="text-xs text-foreground font-medium">
@@ -798,12 +824,6 @@ export default function Report() {
                         Email
                       </th>
                       <th className="text-left py-3 px-2 font-medium text-foreground text-xs">
-                        Current Role
-                      </th>
-                      <th className="text-left py-3 px-2 font-medium text-foreground text-xs">
-                        Company
-                      </th>
-                      <th className="text-left py-3 px-2 font-medium text-foreground text-xs">
                         Experience
                       </th>
                       <th className="text-left py-3 px-2 font-medium text-foreground text-xs">
@@ -866,12 +886,6 @@ export default function Report() {
                         </td>
                         <td className="py-2 px-2 text-xs text-foreground">
                           {candidate.email}
-                        </td>
-                        <td className="py-2 px-2 text-xs text-foreground">
-                          {candidate.current_role}
-                        </td>
-                        <td className="py-2 px-2 text-xs text-foreground">
-                          {candidate.company}
                         </td>
                         <td className="py-2 px-2 text-xs text-foreground">
                           {candidate.experience} yrs
@@ -1208,10 +1222,10 @@ export default function Report() {
                     </div>
                   </div>
 
-                  {/* Competency Analysis */}
+                  {/* Core Competency Analysis */}
                   <div className="space-y-4">
                     <h4 className="font-medium text-foreground">
-                      Competency Analysis
+                      Core Competency Analysis
                     </h4>
                     <div className="bg-muted rounded-lg p-6">
                       <h5 className="font-medium text-foreground mb-4 text-center">
@@ -1222,33 +1236,33 @@ export default function Report() {
                           <RadarChart
                             data={[
                               {
-                                competency: "Python",
+                                competency: "Communication Clarity",
                                 required: 8,
-                                achieved: 7,
+                                achieved: 7.5,
                                 fullMark: 10,
                               },
                               {
-                                competency: "SQL",
+                                competency: "Cognitive Thinking & Reasoning",
                                 required: 9,
-                                achieved: 8.5,
+                                achieved: 8.2,
                                 fullMark: 10,
                               },
                               {
-                                competency: "Data Visualization",
+                                competency: "Technical / Domain Expertise",
+                                required: 8.5,
+                                achieved: 7.8,
+                                fullMark: 10,
+                              },
+                              {
+                                competency: "Adaptability & Learning Agility",
                                 required: 7,
-                                achieved: 8,
+                                achieved: 8.1,
                                 fullMark: 10,
                               },
                               {
-                                competency: "Problem Solving",
+                                competency: "Execution Ownership",
                                 required: 8,
-                                achieved: 7.5,
-                                fullMark: 10,
-                              },
-                              {
-                                competency: "Communication",
-                                required: 6,
-                                achieved: 7.5,
+                                achieved: 7.3,
                                 fullMark: 10,
                               },
                             ]}
@@ -1257,7 +1271,7 @@ export default function Report() {
                             <PolarAngleAxis
                               dataKey="competency"
                               tick={{
-                                fontSize: 12,
+                                fontSize: 10,
                                 fill: "hsl(var(--foreground))",
                               }}
                             />
@@ -1280,7 +1294,7 @@ export default function Report() {
                               strokeDasharray="5 5"
                             />
                             <Radar
-                              name="Candidate Avg"
+                              name="Candidate Score"
                               dataKey="achieved"
                               stroke="#1f2937"
                               fill="#1f2937"
@@ -1308,9 +1322,39 @@ export default function Report() {
                         <div className="flex items-center space-x-2">
                           <div className="w-4 h-1 bg-gray-800" />
                           <span className="text-sm text-muted-foreground">
-                            Candidate Avg
+                            Candidate Score
                           </span>
                         </div>
+                      </div>
+                    </div>
+
+                    {/* Skills Assessment */}
+                    <div className="bg-muted rounded-lg p-6">
+                      <h5 className="font-medium text-foreground mb-4 text-center">
+                        Skills Assessment
+                      </h5>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {[
+                          { skill: "Python", score: 8.5 },
+                          { skill: "SQL", score: 9.0 },
+                          { skill: "System Design", score: 7.8 },
+                          { skill: "Data Warehousing", score: 8.2 },
+                          { skill: "AWS", score: 7.5 },
+                          { skill: "Machine Learning", score: 8.0 }
+                        ].map((item, index) => (
+                          <div key={index} className="flex items-center justify-between p-3 bg-background rounded-lg">
+                            <span className="font-medium text-foreground">{item.skill}</span>
+                            <div className="flex items-center space-x-2">
+                              <div className="w-16 bg-muted rounded-full h-2">
+                                <div
+                                  className="bg-primary h-2 rounded-full"
+                                  style={{ width: `${(item.score / 10) * 100}%` }}
+                                />
+                              </div>
+                              <span className="text-sm font-bold text-primary min-w-[2rem]">{item.score}</span>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
 
@@ -1321,49 +1365,49 @@ export default function Report() {
                       </h5>
                       {[
                         {
-                          name: "Python",
-                          aiScore: 7.0,
-                          interviewerScore: 6.8,
-                          aiComment:
-                            "Strong fundamentals in Python programming, good use of libraries and data structures",
-                          interviewerComment:
-                            "Solid coding skills but could improve efficiency in complex algorithms, good problem-solving approach",
-                        },
-                        {
-                          name: "SQL",
-                          aiScore: 8.5,
-                          interviewerScore: 8.2,
-                          aiComment:
-                            "Excellent database querying skills, understands complex joins and optimization",
-                          interviewerComment:
-                            "Very strong SQL knowledge, handled optimization questions well, great understanding of indexing",
-                        },
-                        {
-                          name: "Data Visualization",
-                          aiScore: 8.0,
-                          interviewerScore: 8.3,
-                          aiComment:
-                            "Exceeds expectations in creating clear, insightful visualizations with proper chart selection",
-                          interviewerComment:
-                            "Great design sense and storytelling with data, understands audience needs well",
-                        },
-                        {
-                          name: "Problem Solving",
-                          aiScore: 7.5,
-                          interviewerScore: 7.8,
-                          aiComment:
-                            "Systematic approach to breaking down complex problems, good logical thinking",
-                          interviewerComment:
-                            "Good analytical thinking, sometimes needs more creative approaches but solid methodology",
-                        },
-                        {
-                          name: "Communication",
+                          name: "Communication Clarity",
                           aiScore: 7.5,
                           interviewerScore: 7.2,
                           aiComment:
-                            "Clear explanations and good technical communication skills, appropriate pace",
+                            "Clear articulation of ideas, well-structured responses, appropriate technical language usage",
                           interviewerComment:
-                            "Excellent at explaining complex concepts, could improve confidence in presentation",
+                            "Excellent at explaining concepts, confident presentation style, good listening skills",
+                        },
+                        {
+                          name: "Cognitive Thinking & Reasoning",
+                          aiScore: 8.2,
+                          interviewerScore: 8.0,
+                          aiComment:
+                            "Strong analytical skills, logical problem decomposition, excellent pattern recognition",
+                          interviewerComment:
+                            "Demonstrates systematic thinking, good at connecting concepts, creative problem solving",
+                        },
+                        {
+                          name: "Technical / Domain Expertise",
+                          aiScore: 7.8,
+                          interviewerScore: 8.1,
+                          aiComment:
+                            "Solid technical foundation, good understanding of best practices, practical application skills",
+                          interviewerComment:
+                            "Strong domain knowledge, hands-on experience evident, good depth in core areas",
+                        },
+                        {
+                          name: "Adaptability & Learning Agility",
+                          aiScore: 8.1,
+                          interviewerScore: 7.9,
+                          aiComment:
+                            "Quick to grasp new concepts, flexible thinking approach, embraces challenging scenarios",
+                          interviewerComment:
+                            "Shows curiosity and willingness to learn, adapts well to changing requirements",
+                        },
+                        {
+                          name: "Execution Ownership",
+                          aiScore: 7.3,
+                          interviewerScore: 7.6,
+                          aiComment:
+                            "Takes responsibility for outcomes, demonstrates accountability, follows through on commitments",
+                          interviewerComment:
+                            "Good sense of ownership, proactive approach, reliable in execution and delivery",
                         },
                       ].map((competency, index) => (
                         <div
@@ -2326,8 +2370,24 @@ export default function Report() {
           </div>
         )}
 
-      {/* Template Report Tab */}
-      {activeTab === "template" && (
+      {/* Template Report Tab - New Components */}
+      {activeTab === "template" && !showTemplateDetail && (
+        <TemplateReport onTemplateSelect={(template) => {
+          setSelectedTemplate(template);
+          setShowTemplateDetail(true);
+        }} />
+      )}
+
+      {/* Template Detail View */}
+      {activeTab === "template" && showTemplateDetail && selectedTemplate && (
+        <TemplateDetailView
+          template={selectedTemplate}
+          onBack={() => setShowTemplateDetail(false)}
+        />
+      )}
+
+      {/* Template Report Tab - Original (Hidden) */}
+      {false && activeTab === "template" && (
         <div className="space-y-8">
           {/* Template Comparison */}
           <div className="bg-card border border-border rounded-xl p-6">
@@ -2615,11 +2675,6 @@ export default function Report() {
                       score: 85,
                       feedback: "Good at evaluating technical skills",
                     },
-                    {
-                      metric: "Bias Mitigation",
-                      score: 78,
-                      feedback: "Room for improvement in unconscious bias",
-                    },
                   ].map((item, index) => (
                     <div key={index} className="p-3 bg-muted rounded-lg">
                       <div className="flex items-center justify-between mb-2">
@@ -2682,7 +2737,7 @@ export default function Report() {
               </div>
             </div>
 
-            {/* Enhanced Behavioral Analysis */}
+            {/* Enhanced Analysis */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Behavioral Tag Trends */}
               <div className="bg-card border border-border rounded-xl p-6">
@@ -2728,88 +2783,6 @@ export default function Report() {
                       </div>
                     </div>
                   ))}
-                </div>
-              </div>
-
-              {/* Session Integrity Handling */}
-              <div className="bg-card border border-border rounded-xl p-6">
-                <h3 className="text-lg font-semibold text-foreground mb-4">
-                  Session Integrity Handling
-                </h3>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4 text-center">
-                    <div className="p-3 bg-muted rounded-lg">
-                      <p className="text-2xl font-bold text-red-600">12</p>
-                      <p className="text-xs text-muted-foreground">
-                        Sessions Flagged
-                      </p>
-                    </div>
-                    <div className="p-3 bg-muted rounded-lg">
-                      <p className="text-2xl font-bold text-green-600">8</p>
-                      <p className="text-xs text-muted-foreground">
-                        Properly Handled
-                      </p>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="p-3 bg-green-500/10 border border-green-500/20 rounded">
-                      <p className="text-sm font-medium text-green-700">
-                        Good Responses:
-                      </p>
-                      <p className="text-xs text-green-600">
-                        • Paused interview to address technical issues
-                      </p>
-                      <p className="text-xs text-green-600">
-                        • Documented integrity concerns properly
-                      </p>
-                    </div>
-                    <div className="p-3 bg-red-500/10 border border-red-500/20 rounded">
-                      <p className="text-sm font-medium text-red-700">
-                        Missed Issues:
-                      </p>
-                      <p className="text-xs text-red-600">
-                        • 4 cases of obvious tab switching ignored
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Bias Detection and Follow-up Quality */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Bias Detection */}
-              <div className="bg-card border border-border rounded-xl p-6">
-                <h3 className="text-lg font-semibold text-foreground mb-4">
-                  Bias Detection (AI vs Human Delta)
-                </h3>
-                <div className="space-y-4">
-                  <div className="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
-                    <h4 className="font-medium text-yellow-700 mb-2">
-                      Significant Score Gaps
-                    </h4>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span>Female Candidates:</span>
-                        <span className="text-red-600">-12 points vs AI</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Non-native Speakers:</span>
-                        <span className="text-red-600">-8 points vs AI</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Junior Experience:</span>
-                        <span className="text-green-600">+6 points vs AI</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded">
-                    <p className="text-sm text-blue-700">
-                      <strong>Pattern:</strong> Tends to be harder on
-                      communication skills, more lenient on technical depth for
-                      junior candidates
-                    </p>
-                  </div>
                 </div>
               </div>
 
@@ -3013,8 +2986,16 @@ export default function Report() {
           </div>
         )}
 
-      {/* Interviewer Report Tab - Main List */}
+      {/* Interviewer Report Tab - New Component */}
       {activeTab === "interviewer" && !showInterviewerDetail && (
+        <InterviewerReport onInterviewerSelect={(interviewer) => {
+          setSelectedInterviewer(interviewer);
+          setShowInterviewerDetail(true);
+        }} />
+      )}
+
+      {/* Interviewer Report Tab - Original (Hidden) */}
+      {false && activeTab === "interviewer" && !showInterviewerDetail && (
         <div className="space-y-8">
           {/* Interviewer Performance Overview */}
           <div className="bg-card border border-border rounded-xl p-6">

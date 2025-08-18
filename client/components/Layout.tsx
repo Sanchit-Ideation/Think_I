@@ -1,14 +1,18 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { 
-  BarChart3, 
-  FileText, 
-  Calendar, 
-  TrendingUp, 
-  Users, 
+import { usePlatform } from '../contexts/PlatformContext';
+import {
+  BarChart3,
+  FileText,
+  Calendar,
+  TrendingUp,
+  Users,
   Settings,
   Bell,
-  Search
+  Search,
+  Cloud,
+  Server,
+  ChevronDown
 } from 'lucide-react';
 
 interface LayoutProps {
@@ -25,6 +29,21 @@ const navigation = [
 
 export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
+  const { selectedPlatform, setSelectedPlatform, isDropdownOpen, setIsDropdownOpen } = usePlatform();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -39,14 +58,50 @@ export default function Layout({ children }: LayoutProps) {
                   <span className="text-lg font-bold text-white">Σ</span>
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-foreground">Think_Int_2</h1>
+                  <div className="flex items-center space-x-2">
+                    <h1 className="text-xl font-bold text-foreground">Think_Int_2</h1>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      selectedPlatform === 'SAAS'
+                        ? 'bg-blue-500/10 text-blue-600'
+                        : 'bg-purple-500/10 text-purple-600'
+                    }`}>
+                      {selectedPlatform} ✓
+                    </span>
+                  </div>
                   <p className="text-xs text-muted-foreground">Interview Analytics Platform</p>
                 </div>
               </div>
 
+              {/* Platform Toggle */}
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => {
+                    console.log('Switching platform from', selectedPlatform);
+                    setSelectedPlatform(selectedPlatform === 'SAAS' ? 'PAAS' : 'SAAS');
+                  }}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    selectedPlatform === 'SAAS'
+                      ? 'bg-blue-500 text-white hover:bg-blue-600'
+                      : 'bg-purple-500 text-white hover:bg-purple-600'
+                  }`}
+                >
+                  {selectedPlatform === 'SAAS' ? (
+                    <Cloud className="w-4 h-4" />
+                  ) : (
+                    <Server className="w-4 h-4" />
+                  )}
+                  <span>{selectedPlatform} Platform</span>
+                </button>
+                <span className="text-xs text-muted-foreground">Click to switch</span>
+              </div>
+
               {/* Navigation */}
               <nav className="hidden md:flex space-x-1">
-                {navigation.map((item) => {
+                {navigation.filter(item => {
+                  const shouldShow = selectedPlatform === 'SAAS' || item.name !== 'Schedule';
+                  console.log(`Item: ${item.name}, Platform: ${selectedPlatform}, Show: ${shouldShow}`);
+                  return shouldShow;
+                }).map((item) => {
                   const IconComponent = item.icon;
                   const isActive = location.pathname === item.href;
                   return (
@@ -94,8 +149,33 @@ export default function Layout({ children }: LayoutProps) {
         {/* Mobile Navigation */}
         <div className="md:hidden border-t border-border">
           <div className="px-4 py-2">
+            {/* Mobile Platform Toggle */}
+            <div className="mb-2">
+              <button
+                onClick={() => {
+                  console.log('Mobile: Switching platform from', selectedPlatform);
+                  setSelectedPlatform(selectedPlatform === 'SAAS' ? 'PAAS' : 'SAAS');
+                }}
+                className={`w-full flex items-center justify-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                  selectedPlatform === 'SAAS'
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-purple-500 text-white'
+                }`}
+              >
+                {selectedPlatform === 'SAAS' ? (
+                  <Cloud className="w-4 h-4" />
+                ) : (
+                  <Server className="w-4 h-4" />
+                )}
+                <span>{selectedPlatform} Platform - Tap to Switch</span>
+              </button>
+            </div>
             <div className="flex space-x-1 overflow-x-auto">
-              {navigation.map((item) => {
+              {navigation.filter(item => {
+                const shouldShow = selectedPlatform === 'SAAS' || item.name !== 'Schedule';
+                console.log(`Mobile Item: ${item.name}, Platform: ${selectedPlatform}, Show: ${shouldShow}`);
+                return shouldShow;
+              }).map((item) => {
                 const IconComponent = item.icon;
                 const isActive = location.pathname === item.href;
                 return (
