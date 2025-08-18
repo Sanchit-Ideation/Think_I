@@ -391,16 +391,24 @@ export default function Report() {
   const [interviewerSortBy, setInterviewerSortBy] = useState("name");
   const [showTemplateDetail, setShowTemplateDetail] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState<any>(null);
+  const [pendingEvaluationFilter, setPendingEvaluationFilter] = useState(false);
 
   // Filter and sort candidates
   const getFilteredCandidates = () => {
     let filtered = candidateOverview.filter(
-      (candidate) =>
-        candidate.candidate_name
+      (candidate) => {
+        // Search filter
+        const matchesSearch = candidate.candidate_name
           .toLowerCase()
           .includes(searchTerm.toLowerCase()) ||
         candidate.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        candidate.applied_role.toLowerCase().includes(searchTerm.toLowerCase()),
+        candidate.applied_role.toLowerCase().includes(searchTerm.toLowerCase());
+
+        // Pending evaluation filter
+        const matchesPendingFilter = pendingEvaluationFilter ? candidate.status === "Interviewed" : true;
+
+        return matchesSearch && matchesPendingFilter;
+      }
     );
 
     // Sort candidates
@@ -548,8 +556,15 @@ export default function Report() {
                     className="w-full pl-10 pr-4 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
-                <div className="px-3 py-2 bg-yellow-500/10 text-yellow-700 rounded-lg text-sm cursor-pointer hover:bg-yellow-500/20 transition-colors">
-                  Pending Evaluation
+                <div
+                  onClick={() => setPendingEvaluationFilter(!pendingEvaluationFilter)}
+                  className={`px-3 py-2 rounded-lg text-sm cursor-pointer transition-colors ${
+                    pendingEvaluationFilter
+                      ? "bg-yellow-500/20 text-yellow-800 border border-yellow-500/30"
+                      : "bg-yellow-500/10 text-yellow-700 hover:bg-yellow-500/20"
+                  }`}
+                >
+                  {pendingEvaluationFilter ? "✓ " : ""}Pending Evaluation
                 </div>
                 <select
                   value={sortBy}
