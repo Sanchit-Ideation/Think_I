@@ -281,28 +281,32 @@ const calendarHeatmapData = [
   // ... more dates
 ];
 
-// Recent alerts and notifications
+// Recent alerts and notifications with priority levels
 const recentAlerts = [
   {
     type: 'update',
+    priority: 'medium',
     message: 'Template "Senior Software Engineer V3" updated 5 hrs ago',
     time: '5 hours ago',
     icon: FileText
   },
   {
     type: 'warning',
+    priority: 'high',
     message: 'Evaluation pending for "Data Scientist Lead" interviews',
     time: '8 hours ago',
     icon: Clock
   },
   {
     type: 'success',
+    priority: 'low',
     message: 'Weekly report generated successfully',
     time: '1 day ago',
     icon: CheckCircle2
   },
   {
     type: 'alert',
+    priority: 'high',
     message: 'High UFM detected in recent interviews',
     time: '2 days ago',
     icon: AlertTriangle
