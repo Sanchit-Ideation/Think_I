@@ -958,16 +958,31 @@ export default function EnhancedDashboard() {
                 })}
               </div>
 
-              {/* Legend */}
-              <div className="flex items-center justify-between text-xs text-muted-foreground">
-                <span>Less</span>
-                <div className="flex space-x-1">
-                  <div className="w-3 h-3 bg-muted rounded-sm" title="0 interviews" />
-                  <div className="w-3 h-3 bg-blue-100 rounded-sm" title="1-2 interviews" />
-                  <div className="w-3 h-3 bg-blue-300 rounded-sm" title="3-5 interviews" />
-                  <div className="w-3 h-3 bg-blue-500 rounded-sm" title="6+ interviews" />
+              {/* Enhanced Legend */}
+              <div className="space-y-2">
+                <h4 className="text-sm font-medium text-foreground">Interview Intensity:</h4>
+                <div className="flex items-center justify-between text-xs text-muted-foreground">
+                  <span>Less</span>
+                  <div className="flex space-x-1">
+                    <div className="flex flex-col items-center">
+                      <div className="w-3 h-3 bg-muted rounded-sm" title="0 interviews" />
+                      <span className="text-xs mt-1">0</span>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <div className="w-3 h-3 bg-blue-100 rounded-sm" title="1-2 interviews" />
+                      <span className="text-xs mt-1">1-2</span>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <div className="w-3 h-3 bg-blue-300 rounded-sm" title="3-5 interviews" />
+                      <span className="text-xs mt-1">3-5</span>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <div className="w-3 h-3 bg-blue-500 rounded-sm" title="6+ interviews" />
+                      <span className="text-xs mt-1">6+</span>
+                    </div>
+                  </div>
+                  <span>More</span>
                 </div>
-                <span>More</span>
               </div>
 
               <div className="text-xs text-muted-foreground text-center">
