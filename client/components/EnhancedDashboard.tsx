@@ -776,7 +776,7 @@ export default function EnhancedDashboard() {
         </div>
       </div>
 
-      {/* Section 7: Recent Alerts and Notifications */}
+      {/* Section 7: Recent Alerts and Notifications with Priority Tags */}
       <div className="bg-card border border-border rounded-xl p-6">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-semibold text-foreground">Recent Alerts & Notifications</h3>
@@ -785,6 +785,19 @@ export default function EnhancedDashboard() {
         <div className="space-y-4">
           {recentAlerts.map((alert, index) => {
             const Icon = alert.icon;
+            const getPriorityStyle = (priority: string) => {
+              switch (priority) {
+                case 'high':
+                  return 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-800';
+                case 'medium':
+                  return 'bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-300 dark:border-yellow-800';
+                case 'low':
+                  return 'bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-800';
+                default:
+                  return 'bg-gray-100 text-gray-800 border-gray-200 dark:bg-gray-900/30 dark:text-gray-300 dark:border-gray-800';
+              }
+            };
+
             return (
               <div key={index} className="flex items-start space-x-3 p-4 bg-muted rounded-lg">
                 <Icon className={`w-5 h-5 mt-0.5 ${
@@ -792,7 +805,12 @@ export default function EnhancedDashboard() {
                   alert.type === 'success' ? 'text-green-500' : 'text-blue-500'
                 }`} />
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-foreground">{alert.message}</p>
+                  <div className="flex items-center space-x-2 mb-1">
+                    <p className="text-sm font-medium text-foreground">{alert.message}</p>
+                    <span className={`px-2 py-1 text-xs font-medium rounded-full border ${getPriorityStyle(alert.priority)}`}>
+                      {alert.priority.toUpperCase()}
+                    </span>
+                  </div>
                   <p className="text-xs text-muted-foreground">{alert.time}</p>
                 </div>
               </div>
