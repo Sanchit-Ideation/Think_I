@@ -19,7 +19,7 @@ import {
   Cell
 } from 'recharts';
 
-// Interview funnel data with detailed breakdown
+// Simplified funnel data with stacked bar chart data
 const interviewFunnelData = [
   {
     name: 'Scheduled',
@@ -34,7 +34,13 @@ const interviewFunnelData = [
         rescheduled: 32,
         upcoming: 1092
       }
-    }
+    },
+    stackedData: [
+      { name: 'No Show', value: 45, fill: '#ef4444', percentage: 3.6 },
+      { name: 'Cancelled', value: 78, fill: '#f97316', percentage: 6.3 },
+      { name: 'Rescheduled', value: 32, fill: '#eab308', percentage: 2.6 },
+      { name: 'Upcoming', value: 1092, fill: '#22c55e', percentage: 87.6 }
+    ]
   },
   {
     name: 'Interviewed',
@@ -57,30 +63,6 @@ const interviewFunnelData = [
       evaluationRate: 81.7,
       pendingEvaluations: 200,
       avgEvaluationTime: '2.3 days'
-    }
-  },
-  {
-    name: 'Highly Recommended',
-    value: 187,
-    fill: '#22c55e',
-    percentage: 21.0,
-    details: {
-      total: 187,
-      conversionRate: 21.0,
-      avgScore: 8.5,
-      topPerformers: 23
-    }
-  },
-  {
-    name: 'Recommended',
-    value: 155,
-    fill: '#8b5cf6',
-    percentage: 17.4,
-    details: {
-      total: 155,
-      conversionRate: 17.4,
-      avgScore: 7.2,
-      potentialHires: 98
     }
   }
 ];
