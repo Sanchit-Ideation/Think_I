@@ -85,82 +85,21 @@ const interviewFunnelData = [
   }
 ];
 
-interface FunnelStageProps {
-  stage: typeof interviewFunnelData[0];
-  index: number;
-  onHover: (stage: typeof interviewFunnelData[0] | null) => void;
-}
-
-const FunnelStage = ({ stage, index, onHover }: FunnelStageProps) => {
-  const getIcon = (stageName: string) => {
-    switch (stageName) {
-      case 'Scheduled':
-        return <Calendar className="w-5 h-5" />;
-      case 'Interviewed':
-        return <Users className="w-5 h-5" />;
-      case 'Evaluated':
-        return <CheckCircle2 className="w-5 h-5" />;
-      case 'Highly Recommended':
-        return <Star className="w-5 h-5" />;
-      case 'Recommended':
-        return <Award className="w-5 h-5" />;
-      default:
-        return <Users className="w-5 h-5" />;
-    }
-  };
-
-  const stageWidth = Math.max(20, (stage.percentage / 100) * 80);
-
-  return (
-    <div
-      className="relative group cursor-pointer"
-      onMouseEnter={() => onHover(stage)}
-      onMouseLeave={() => onHover(null)}
-    >
-      <div
-        className="relative mx-auto transition-all duration-300 group-hover:scale-105"
-        style={{
-          width: `${stageWidth}%`,
-          height: '60px',
-          background: `linear-gradient(135deg, ${stage.fill}, ${stage.fill}dd)`,
-          clipPath: index === 0 
-            ? 'polygon(0 0, 100% 0, 90% 100%, 0% 100%)'
-            : index === interviewFunnelData.length - 1
-            ? 'polygon(10% 0, 100% 0, 100% 100%, 0% 100%)'
-            : 'polygon(10% 0, 100% 0, 90% 100%, 0% 100%)'
-        }}
-      >
-        {/* Stage Content */}
-        <div className="absolute inset-0 flex items-center justify-center text-white">
-          <div className="text-center">
-            <div className="flex items-center justify-center mb-1">
-              {getIcon(stage.name)}
-            </div>
-            <div className="text-xs font-medium">{stage.name}</div>
-            <div className="text-sm font-bold">{stage.value}</div>
-          </div>
-        </div>
-
-        {/* Hover Border */}
-        <div className="absolute inset-0 border-2 border-transparent group-hover:border-white/50 transition-colors duration-200"
-             style={{
-               clipPath: index === 0 
-                 ? 'polygon(0 0, 100% 0, 90% 100%, 0% 100%)'
-                 : index === interviewFunnelData.length - 1
-                 ? 'polygon(10% 0, 100% 0, 100% 100%, 0% 100%)'
-                 : 'polygon(10% 0, 100% 0, 90% 100%, 0% 100%)'
-             }}
-        />
-      </div>
-
-      {/* Percentage Label */}
-      <div className="text-center mt-2">
-        <span className="text-sm font-medium text-foreground">
-          {stage.percentage.toFixed(1)}%
-        </span>
-      </div>
-    </div>
-  );
+const getIcon = (stageName: string) => {
+  switch (stageName) {
+    case 'Scheduled':
+      return <Calendar className="w-5 h-5" />;
+    case 'Interviewed':
+      return <Users className="w-5 h-5" />;
+    case 'Evaluated':
+      return <CheckCircle2 className="w-5 h-5" />;
+    case 'Highly Recommended':
+      return <Star className="w-5 h-5" />;
+    case 'Recommended':
+      return <Award className="w-5 h-5" />;
+    default:
+      return <Users className="w-5 h-5" />;
+  }
 };
 
 interface HoverDetailsProps {
