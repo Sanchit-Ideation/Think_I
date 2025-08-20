@@ -556,7 +556,7 @@ export default function EnhancedDashboard() {
           </ResponsiveContainer>
         </div>
 
-        {/* Graph 4: Competency Radar Chart */}
+        {/* Graph 4: Top & Least Competencies */}
         <div className="bg-card border border-border rounded-xl p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-foreground">Competency Analysis</h3>
@@ -571,21 +571,56 @@ export default function EnhancedDashboard() {
               <option value="design">Design</option>
             </select>
           </div>
-          <ResponsiveContainer width="100%" height={300}>
-            <RadarChart data={competencyData}>
-              <PolarGrid />
-              <PolarAngleAxis dataKey="competency" />
-              <PolarRadiusAxis angle={90} domain={[0, 100]} />
-              <Radar 
-                name={competencyFilter.charAt(0).toUpperCase() + competencyFilter.slice(1)} 
-                dataKey={competencyFilter} 
-                stroke="#8884d8" 
-                fill="#8884d8" 
-                fillOpacity={0.6} 
-              />
-              <Tooltip />
-            </RadarChart>
-          </ResponsiveContainer>
+
+          <div className="space-y-6">
+            {/* Top 3 Competencies */}
+            <div>
+              <h4 className="text-sm font-semibold text-green-600 mb-3 flex items-center">
+                <TrendingUp className="w-4 h-4 mr-2" />
+                Top 3 Competencies
+              </h4>
+              <div className="space-y-2">
+                {competencyData
+                  .sort((a, b) => b[competencyFilter as keyof typeof a] - a[competencyFilter as keyof typeof a])
+                  .slice(0, 3)
+                  .map((item, index) => (
+                    <div key={item.competency} className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                      <div className="flex items-center space-x-3">
+                        <span className="text-lg font-bold text-green-600">#{index + 1}</span>
+                        <span className="font-medium text-foreground">{item.competency}</span>
+                      </div>
+                      <span className="text-xl font-bold text-green-600">
+                        {item[competencyFilter as keyof typeof item]}%
+                      </span>
+                    </div>
+                  ))}
+              </div>
+            </div>
+
+            {/* Least 3 Competencies */}
+            <div>
+              <h4 className="text-sm font-semibold text-red-600 mb-3 flex items-center">
+                <TrendingDown className="w-4 h-4 mr-2" />
+                Areas for Improvement
+              </h4>
+              <div className="space-y-2">
+                {competencyData
+                  .sort((a, b) => a[competencyFilter as keyof typeof a] - b[competencyFilter as keyof typeof a])
+                  .slice(0, 3)
+                  .map((item, index) => (
+                    <div key={item.competency} className="flex items-center justify-between p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                      <div className="flex items-center space-x-3">
+                        <span className="text-lg font-bold text-red-600">#{index + 1}</span>
+                        <span className="font-medium text-foreground">{item.competency}</span>
+                      </div>
+                      <span className="text-xl font-bold text-red-600">
+                        {item[competencyFilter as keyof typeof item]}%
+                      </span>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
