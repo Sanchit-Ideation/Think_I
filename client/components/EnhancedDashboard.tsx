@@ -619,47 +619,41 @@ export default function EnhancedDashboard() {
         </div>
       </div>
 
-      {/* Section 5: Trending Templates */}
-      <div className="bg-card border border-border rounded-xl p-6">
-        <h3 className="text-lg font-semibold text-foreground mb-6">Trending Templates</h3>
+      {/* Section 5: Trending Templates - Compact */}
+      <div className="bg-card border border-border rounded-xl p-4">
+        <h3 className="text-md font-semibold text-foreground mb-4">Trending Templates</h3>
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border">
-                <th className="text-left py-3 px-2 font-medium text-foreground">Template Name</th>
-                <th className="text-left py-3 px-2 font-medium text-foreground">Total Interviews</th>
-                <th className="text-left py-3 px-2 font-medium text-foreground">Average Adeptness</th>
-                <th className="text-left py-3 px-2 font-medium text-foreground">Average Effectiveness</th>
-                <th className="text-left py-3 px-2 font-medium text-foreground">Trend</th>
+                <th className="text-left py-2 px-2 font-medium text-foreground">Template Name</th>
+                <th className="text-left py-2 px-2 font-medium text-foreground">Interviews</th>
+                <th className="text-left py-2 px-2 font-medium text-foreground">Adeptness</th>
+                <th className="text-left py-2 px-2 font-medium text-foreground">Effectiveness</th>
+                <th className="text-left py-2 px-2 font-medium text-foreground">Integrity Rate</th>
               </tr>
             </thead>
             <tbody>
-              {trendingTemplates.map((template, index) => (
-                <tr key={index} className="border-b border-border">
-                  <td className="py-3 px-2">
-                    <div className="font-medium text-foreground">{template.name}</div>
+              {trendingTemplates.slice(0, 4).map((template, index) => (
+                <tr key={index} className="border-b border-border hover:bg-muted/50">
+                  <td className="py-2 px-2">
+                    <div className="font-medium text-foreground text-sm">{template.name}</div>
                   </td>
-                  <td className="py-3 px-2">
+                  <td className="py-2 px-2">
                     <div className="font-medium text-foreground">{template.totalInterviews}</div>
                   </td>
-                  <td className="py-3 px-2">
+                  <td className="py-2 px-2">
                     <div className="font-medium text-foreground">{template.averageAdeptness}%</div>
                   </td>
-                  <td className="py-3 px-2">
+                  <td className="py-2 px-2">
                     <div className="font-medium text-foreground">{template.averageEffectiveness}%</div>
                   </td>
-                  <td className="py-3 px-2">
-                    <div className="flex items-center space-x-2">
-                      {template.trend === 'up' ? (
-                        <TrendingUp className="w-4 h-4 text-green-600" />
-                      ) : (
-                        <TrendingDown className="w-4 h-4 text-red-600" />
-                      )}
-                      <span className={`text-sm font-medium ${
-                        template.trend === 'up' ? 'text-green-600' : 'text-red-600'
-                      }`}>
-                        {template.change > 0 ? '+' : ''}{template.change}%
-                      </span>
+                  <td className="py-2 px-2">
+                    <div className={`font-medium ${
+                      template.integrityRate >= 95 ? 'text-green-600' :
+                      template.integrityRate >= 90 ? 'text-yellow-600' : 'text-red-600'
+                    }`}>
+                      {template.integrityRate}%
                     </div>
                   </td>
                 </tr>
