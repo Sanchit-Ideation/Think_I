@@ -189,8 +189,15 @@ const HoverDetails = ({ stage }: HoverDetailsProps) => {
   );
 };
 
-export default function InterviewFunnel() {
+interface InterviewFunnelProps {
+  data?: typeof interviewFunnelData;
+}
+
+export default function InterviewFunnel({ data = interviewFunnelData }: InterviewFunnelProps) {
   const [hoveredStage, setHoveredStage] = useState<typeof interviewFunnelData[0] | null>(null);
+
+  // Use provided data or default data
+  const funnelData = data;
 
   return (
     <div className="space-y-6">
