@@ -280,15 +280,55 @@ export default function InterviewFunnel() {
         </div>
       </div>
 
-      {/* Custom Funnel Visualization */}
-      <div className="space-y-4">
+      {/* Horizontal Bar Chart Funnel */}
+      <div className="space-y-3">
         {interviewFunnelData.map((stage, index) => (
-          <FunnelStage
+          <div
             key={stage.name}
-            stage={stage}
-            index={index}
-            onHover={setHoveredStage}
-          />
+            className="relative group cursor-pointer"
+            onMouseEnter={() => setHoveredStage(stage)}
+            onMouseLeave={() => setHoveredStage(null)}
+          >
+            <div className="flex items-center space-x-4">
+              {/* Stage Icon and Label */}
+              <div className="w-32 flex items-center space-x-2">
+                {getIcon(stage.name)}
+                <span className="text-sm font-medium text-foreground">{stage.name}</span>
+              </div>
+
+              {/* Progress Bar */}
+              <div className="flex-1 relative">
+                <div className="h-12 bg-muted rounded-lg overflow-hidden">
+                  <div
+                    className="h-full transition-all duration-700 ease-out group-hover:brightness-110 flex items-center justify-end pr-4"
+                    style={{
+                      width: `${stage.percentage}%`,
+                      background: `linear-gradient(90deg, ${stage.fill}, ${stage.fill}dd)`
+                    }}
+                  >
+                    <div className="text-white font-semibold text-sm">
+                      {stage.value.toLocaleString()}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Percentage Label */}
+                <div className="absolute -right-16 top-1/2 transform -translate-y-1/2">
+                  <span className="text-sm font-medium text-foreground">
+                    {stage.percentage.toFixed(1)}%
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Connecting Line */}
+            {index < interviewFunnelData.length - 1 && (
+              <div className="ml-36 mt-2 mb-2">
+                <div className="w-8 h-px bg-border"></div>
+                <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[6px] border-t-border ml-6"></div>
+              </div>
+            )}
+          </div>
         ))}
       </div>
 
