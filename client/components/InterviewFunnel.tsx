@@ -210,7 +210,7 @@ export default function InterviewFunnel({ data = interviewFunnelData }: Intervie
 
       {/* Stacked Bar Chart Funnel */}
       <div className="space-y-3">
-        {interviewFunnelData.map((stage, index) => (
+        {funnelData.map((stage, index) => (
           <div
             key={stage.name}
             className="relative group cursor-pointer"
