@@ -453,42 +453,47 @@ export default function EnhancedDashboard() {
           <InterviewFunnel />
         </div>
 
-        {/* Graph 2: Timeline for Recommendation Stages */}
+        {/* Graph 2: Recommendation Timeline */}
         <div className="bg-card border border-border rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-foreground mb-6">Recommendation Timeline</h3>
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-semibold text-foreground">Recommendation Timeline</h3>
+            <div className="text-sm text-muted-foreground">
+              Current Rate: 38.4% <span className="text-green-600">(+7.2%)</span>
+            </div>
+          </div>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={recommendationTimeline}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Line 
-                type="monotone" 
-                dataKey="highlyRecommended" 
-                stroke="#22c55e" 
-                strokeWidth={3}
-                name="Highly Recommended"
+              <YAxis yAxisId="left" orientation="left" />
+              <YAxis yAxisId="right" orientation="right" />
+              <Tooltip
+                content={({ active, payload, label }) => {
+                  if (active && payload && payload[0]) {
+                    return (
+                      <div className="bg-card border border-border rounded-lg p-3 shadow-lg">
+                        <p className="font-medium">{label}</p>
+                        <p className="text-sm text-primary">
+                          Total Recommended: {payload[0].value}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          Rate: {payload[0].payload.percentage}%
+                        </p>
+                      </div>
+                    );
+                  }
+                  return null;
+                }}
               />
-              <Line 
-                type="monotone" 
-                dataKey="recommended" 
-                stroke="#3b82f6" 
-                strokeWidth={3}
-                name="Recommended"
-              />
-              <Line 
-                type="monotone" 
-                dataKey="consider" 
-                stroke="#f59e0b" 
-                strokeWidth={3}
-                name="Consider"
-              />
-              <Line 
-                type="monotone" 
-                dataKey="notRecommended" 
-                stroke="#ef4444" 
-                strokeWidth={3}
-                name="Not Recommended"
+              <Line
+                yAxisId="left"
+                type="monotone"
+                dataKey="totalRecommended"
+                stroke="#8b5cf6"
+                strokeWidth={4}
+                name="Total Recommended"
+                dot={{ fill: '#8b5cf6', strokeWidth: 2, r: 6 }}
+                activeDot={{ r: 8, stroke: '#8b5cf6', strokeWidth: 2 }}
               />
             </LineChart>
           </ResponsiveContainer>
