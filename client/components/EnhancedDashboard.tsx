@@ -356,11 +356,54 @@ export default function EnhancedDashboard() {
 
   // Function to get filtered data based on selected filters
   const getFilteredData = (baseData: any, filterType: string = 'default') => {
-    // Apply time period filter logic here
-    // Apply role and department filters here
-    // For now, returning base data - will be enhanced with actual filtering logic
-    return baseData;
+    let filteredData = [...baseData];
+
+    // Apply time period filter - simulate different data for different periods
+    const timeMultiplier = timePeriod === '7d' ? 0.3 : timePeriod === '30d' ? 1 : timePeriod === '90d' ? 2.5 : 1;
+
+    // Apply role filter
+    if (roleFilter !== 'all' && filterType === 'competency') {
+      // For competency data, adjust based on role
+      filteredData = filteredData.map(item => ({
+        ...item,
+        [competencyFilter]: Math.max(60, Math.min(95, item[competencyFilter] + (roleFilter === 'engineer' ? 5 : roleFilter === 'manager' ? -3 : 0)))
+      }));
+    }
+
+    // Apply department filter
+    if (departmentFilter !== 'all') {
+      if (filterType === 'interviews') {
+        // Reduce data if specific department selected
+        filteredData = filteredData.map(item => ({
+          ...item,
+          value: Math.floor(item.value * (departmentFilter === 'engineering' ? 0.6 : departmentFilter === 'sales' ? 0.3 : 0.1))
+        }));
+      }
+    }
+
+    // Apply time period adjustments
+    if (filterType === 'timeline' || filterType === 'interviews') {
+      filteredData = filteredData.map(item => ({
+        ...item,
+        ...(item.value && { value: Math.floor(item.value * timeMultiplier) }),
+        ...(item.highlyRecommended && {
+          highlyRecommended: Math.floor(item.highlyRecommended * timeMultiplier),
+          recommended: Math.floor(item.recommended * timeMultiplier),
+          consider: Math.floor(item.consider * timeMultiplier),
+          notRecommended: Math.floor(item.notRecommended * timeMultiplier)
+        })
+      }));
+    }
+
+    return filteredData;
   };
+
+  // Get filtered datasets
+  const filteredFunnelData = getFilteredData(interviewFunnelData, 'interviews');
+  const filteredTimelineData = getFilteredData(recommendationTimeline, 'timeline');
+  const filteredCompetencyData = getFilteredData(competencyData, 'competency');
+  const filteredUFMData = getFilteredData(ufmTrendsData, 'timeline');
+  const filteredTemplatesData = getFilteredData(trendingTemplates, 'templates');
 
   return (
     <div className="space-y-8">
