@@ -575,6 +575,29 @@ export default function EnhancedDashboard() {
               {timePeriodOptions.find(option => option.value === timePeriod)?.label} - All stages
             </div>
           </div>
+
+          {/* Legend */}
+          <div className="mb-4">
+            <div className="flex flex-wrap gap-4 text-sm">
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-0.5 bg-green-500"></div>
+                <span className="text-muted-foreground">Highly Recommended</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-0.5 bg-blue-500"></div>
+                <span className="text-muted-foreground">Recommended</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-0.5 bg-yellow-500"></div>
+                <span className="text-muted-foreground">Consider</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-0.5 bg-red-500"></div>
+                <span className="text-muted-foreground">Not Recommended</span>
+              </div>
+            </div>
+          </div>
+
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={filteredTimelineData}>
               <CartesianGrid strokeDasharray="3 3" />
