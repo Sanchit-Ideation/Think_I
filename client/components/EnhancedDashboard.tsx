@@ -698,11 +698,11 @@ export default function EnhancedDashboard() {
             </div>
           </div>
 
-          {/* All Competencies */}
-          <div className="space-y-2">
+          {/* All Competencies - Compact */}
+          <div className="space-y-1">
             {filteredCompetencyData
               .sort((a, b) => b[competencyFilter as keyof typeof a] - a[competencyFilter as keyof typeof a])
-              .map((item, index) => {
+              .map((item) => {
                 const score = item[competencyFilter as keyof typeof item];
                 const getScoreColor = (score: number) => {
                   if (score >= 85) return 'bg-green-100 border-green-200 text-green-800 dark:bg-green-900/20';
@@ -712,12 +712,9 @@ export default function EnhancedDashboard() {
                 };
 
                 return (
-                  <div key={item.competency} className={`flex items-center justify-between p-3 border rounded-lg ${getScoreColor(score)}`}>
-                    <div className="flex items-center space-x-3">
-                      <span className="text-lg font-bold">#{index + 1}</span>
-                      <span className="font-medium">{item.competency}</span>
-                    </div>
-                    <span className="text-xl font-bold">
+                  <div key={item.competency} className={`flex items-center justify-between p-2 border rounded ${getScoreColor(score)}`}>
+                    <span className="font-medium text-sm">{item.competency}</span>
+                    <span className="text-lg font-bold">
                       {score}%
                     </span>
                   </div>
