@@ -651,6 +651,33 @@ export default function EnhancedDashboard() {
               {timePeriodOptions.find(option => option.value === timePeriod)?.label}
             </div>
           </div>
+
+          {/* Legend */}
+          <div className="mb-4">
+            <div className="flex flex-wrap gap-4 text-sm">
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-0.5 bg-red-500"></div>
+                <span className="text-muted-foreground">Lip Sync</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-0.5 bg-orange-500"></div>
+                <span className="text-muted-foreground">Tab Switching</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-0.5 bg-purple-500"></div>
+                <span className="text-muted-foreground">Multi Face</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-0.5 bg-cyan-500"></div>
+                <span className="text-muted-foreground">Audio Issues</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-0.5 bg-lime-500"></div>
+                <span className="text-muted-foreground">Copy Paste</span>
+              </div>
+            </div>
+          </div>
+
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={filteredUFMData}>
               <CartesianGrid strokeDasharray="3 3" />
