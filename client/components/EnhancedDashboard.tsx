@@ -655,89 +655,9 @@ export default function EnhancedDashboard() {
         </div>
       </div>
 
-      {/* Main Insights Section - Row 2 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Graph 3: UFM Trends */}
-        <div className="bg-card border border-border rounded-xl p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-foreground">UFM (Unfair Means) Trends</h3>
-            <div className="text-sm text-muted-foreground">
-              {timePeriodOptions.find(option => option.value === timePeriod)?.label}
-            </div>
-          </div>
-
-          {/* Legend */}
-          <div className="mb-4">
-            <div className="flex flex-wrap gap-4 text-sm">
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-0.5 bg-red-500"></div>
-                <span className="text-muted-foreground">Lip Sync</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-0.5 bg-orange-500"></div>
-                <span className="text-muted-foreground">Tab Switching</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-0.5 bg-purple-500"></div>
-                <span className="text-muted-foreground">Multi Face</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-0.5 bg-cyan-500"></div>
-                <span className="text-muted-foreground">Audio Issues</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-0.5 bg-lime-500"></div>
-                <span className="text-muted-foreground">Copy Paste</span>
-              </div>
-            </div>
-          </div>
-
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={filteredUFMData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Line
-                type="monotone"
-                dataKey="lipSync"
-                stroke="#ef4444"
-                strokeWidth={2}
-                name="Lip Sync"
-              />
-              <Line
-                type="monotone"
-                dataKey="tabSwitching"
-                stroke="#f59e0b"
-                strokeWidth={2}
-                name="Tab Switching"
-              />
-              <Line
-                type="monotone"
-                dataKey="multiFace"
-                stroke="#8b5cf6"
-                strokeWidth={2}
-                name="Multi Face"
-              />
-              <Line
-                type="monotone"
-                dataKey="audioIssues"
-                stroke="#06b6d4"
-                strokeWidth={2}
-                name="Audio Issues"
-              />
-              <Line
-                type="monotone"
-                dataKey="copyPaste"
-                stroke="#84cc16"
-                strokeWidth={2}
-                name="Copy Paste"
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Graph 4: Top & Least Competencies */}
+      {/* Competency Analysis Section - Full Width */}
+      <div className="grid grid-cols-1 gap-6">
+        {/* Competency Analysis */}
         <div className="bg-card border border-border rounded-xl p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-foreground">Competency Analysis</h3>
