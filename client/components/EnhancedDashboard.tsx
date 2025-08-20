@@ -758,67 +758,52 @@ export default function EnhancedDashboard() {
 
           {/* Legend */}
           <div className="mb-4 p-3 bg-muted/30 rounded-lg">
-            <h4 className="text-sm font-medium text-foreground mb-2">Color Legend:</h4>
+            <h4 className="text-sm font-medium text-foreground mb-2">Score Legend:</h4>
             <div className="flex flex-wrap gap-4 text-xs">
               <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded bg-green-50 border border-green-200"></div>
-                <span className="text-green-600 font-medium">Top Performers</span>
+                <div className="w-3 h-3 rounded bg-green-500"></div>
+                <span className="text-muted-foreground">≥85% (Excellent)</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded bg-red-50 border border-red-200"></div>
-                <span className="text-red-600 font-medium">Areas for Improvement</span>
+                <div className="w-3 h-3 rounded bg-blue-500"></div>
+                <span className="text-muted-foreground">75-84% (Good)</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 rounded bg-yellow-500"></div>
+                <span className="text-muted-foreground">65-74% (Average)</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 rounded bg-red-500"></div>
+                <span className="text-muted-foreground">&lt;65% (Needs Improvement)</span>
               </div>
             </div>
           </div>
 
-          <div className="space-y-6">
-            {/* Top 3 Competencies */}
-            <div>
-              <h4 className="text-sm font-semibold text-green-600 mb-3 flex items-center">
-                <TrendingUp className="w-4 h-4 mr-2" />
-                Top 3 Competencies
-              </h4>
-              <div className="space-y-2">
-                {filteredCompetencyData
-                  .sort((a, b) => b[competencyFilter as keyof typeof a] - a[competencyFilter as keyof typeof a])
-                  .slice(0, 3)
-                  .map((item, index) => (
-                    <div key={item.competency} className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                      <div className="flex items-center space-x-3">
-                        <span className="text-lg font-bold text-green-600">#{index + 1}</span>
-                        <span className="font-medium text-foreground">{item.competency}</span>
-                      </div>
-                      <span className="text-xl font-bold text-green-600">
-                        {item[competencyFilter as keyof typeof item]}%
-                      </span>
-                    </div>
-                  ))}
-              </div>
-            </div>
+          {/* All Competencies */}
+          <div className="space-y-2">
+            {filteredCompetencyData
+              .sort((a, b) => b[competencyFilter as keyof typeof a] - a[competencyFilter as keyof typeof a])
+              .map((item, index) => {
+                const score = item[competencyFilter as keyof typeof item];
+                const getScoreColor = (score: number) => {
+                  if (score >= 85) return 'bg-green-100 border-green-200 text-green-800 dark:bg-green-900/20';
+                  if (score >= 75) return 'bg-blue-100 border-blue-200 text-blue-800 dark:bg-blue-900/20';
+                  if (score >= 65) return 'bg-yellow-100 border-yellow-200 text-yellow-800 dark:bg-yellow-900/20';
+                  return 'bg-red-100 border-red-200 text-red-800 dark:bg-red-900/20';
+                };
 
-            {/* Least 3 Competencies */}
-            <div>
-              <h4 className="text-sm font-semibold text-red-600 mb-3 flex items-center">
-                <TrendingDown className="w-4 h-4 mr-2" />
-                Areas for Improvement
-              </h4>
-              <div className="space-y-2">
-                {filteredCompetencyData
-                  .sort((a, b) => a[competencyFilter as keyof typeof a] - b[competencyFilter as keyof typeof a])
-                  .slice(0, 3)
-                  .map((item, index) => (
-                    <div key={item.competency} className="flex items-center justify-between p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
-                      <div className="flex items-center space-x-3">
-                        <span className="text-lg font-bold text-red-600">#{index + 1}</span>
-                        <span className="font-medium text-foreground">{item.competency}</span>
-                      </div>
-                      <span className="text-xl font-bold text-red-600">
-                        {item[competencyFilter as keyof typeof item]}%
-                      </span>
+                return (
+                  <div key={item.competency} className={`flex items-center justify-between p-3 border rounded-lg ${getScoreColor(score)}`}>
+                    <div className="flex items-center space-x-3">
+                      <span className="text-lg font-bold">#{index + 1}</span>
+                      <span className="font-medium">{item.competency}</span>
                     </div>
-                  ))}
-              </div>
-            </div>
+                    <span className="text-xl font-bold">
+                      {score}%
+                    </span>
+                  </div>
+                );
+              })}
           </div>
         </div>
       </div>
