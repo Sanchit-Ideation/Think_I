@@ -219,8 +219,8 @@ export default function InterviewFunnel() {
         </div>
       </div>
 
-      {/* Horizontal Bar Chart Funnel */}
-      <div className="space-y-3">
+      {/* Compact Horizontal Bar Chart Funnel */}
+      <div className="space-y-2">
         {interviewFunnelData.map((stage, index) => (
           <div
             key={stage.name}
@@ -228,77 +228,53 @@ export default function InterviewFunnel() {
             onMouseEnter={() => setHoveredStage(stage)}
             onMouseLeave={() => setHoveredStage(null)}
           >
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
               {/* Stage Icon and Label */}
-              <div className="w-32 flex items-center space-x-2">
+              <div className="w-24 flex items-center space-x-1">
                 {getIcon(stage.name)}
-                <span className="text-sm font-medium text-foreground">{stage.name}</span>
+                <span className="text-xs font-medium text-foreground">{stage.name}</span>
               </div>
 
               {/* Progress Bar */}
               <div className="flex-1 relative">
-                <div className="h-12 bg-muted rounded-lg overflow-hidden">
+                <div className="h-6 bg-muted rounded overflow-hidden">
                   <div
-                    className="h-full transition-all duration-700 ease-out group-hover:brightness-110 flex items-center justify-end pr-4"
+                    className="h-full transition-all duration-500 ease-out group-hover:brightness-110 flex items-center justify-end pr-2"
                     style={{
                       width: `${stage.percentage}%`,
                       background: `linear-gradient(90deg, ${stage.fill}, ${stage.fill}dd)`
                     }}
                   >
-                    <div className="text-white font-semibold text-sm">
+                    <div className="text-white font-medium text-xs">
                       {stage.value.toLocaleString()}
                     </div>
                   </div>
                 </div>
 
                 {/* Percentage Label */}
-                <div className="absolute -right-16 top-1/2 transform -translate-y-1/2">
-                  <span className="text-sm font-medium text-foreground">
+                <div className="absolute -right-12 top-1/2 transform -translate-y-1/2">
+                  <span className="text-xs font-medium text-foreground">
                     {stage.percentage.toFixed(1)}%
                   </span>
                 </div>
               </div>
             </div>
-
-            {/* Connecting Line */}
-            {index < interviewFunnelData.length - 1 && (
-              <div className="ml-36 mt-2 mb-2">
-                <div className="w-8 h-px bg-border"></div>
-                <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[6px] border-t-border ml-6"></div>
-              </div>
-            )}
           </div>
         ))}
       </div>
 
-      {/* Hover Details Panel */}
-      <div className="min-h-[200px]">
+      {/* Compact Hover Details Panel */}
+      <div className="min-h-[120px] mt-4">
         {hoveredStage ? (
           <HoverDetails stage={hoveredStage} />
         ) : (
-          <div className="bg-muted/30 border border-dashed border-border rounded-xl p-8 text-center">
-            <Users className="w-8 h-8 text-muted-foreground mx-auto mb-3" />
-            <p className="text-muted-foreground">
-              Hover over any stage above to see detailed breakdown
+          <div className="bg-muted/30 border border-dashed border-border rounded-lg p-4 text-center">
+            <Users className="w-5 h-5 text-muted-foreground mx-auto mb-2" />
+            <p className="text-xs text-muted-foreground">
+              Hover over any stage above to see details
             </p>
           </div>
         )}
-      </div>
-
-      {/* Summary Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-border">
-        <div className="text-center">
-          <div className="text-2xl font-bold text-primary">87.6%</div>
-          <div className="text-sm text-muted-foreground">Interview Completion Rate</div>
-        </div>
-        <div className="text-center">
-          <div className="text-2xl font-bold text-green-600">38.4%</div>
-          <div className="text-sm text-muted-foreground">Overall Recommendation Rate</div>
-        </div>
-        <div className="text-center">
-          <div className="text-2xl font-bold text-orange-600">6.3%</div>
-          <div className="text-sm text-muted-foreground">Cancellation Rate</div>
-        </div>
       </div>
     </div>
   );
