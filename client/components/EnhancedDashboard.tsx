@@ -742,6 +742,21 @@ export default function EnhancedDashboard() {
             </div>
           </div>
 
+          {/* Legend */}
+          <div className="mb-4 p-3 bg-muted/30 rounded-lg">
+            <h4 className="text-sm font-medium text-foreground mb-2">Color Legend:</h4>
+            <div className="flex flex-wrap gap-4 text-xs">
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 rounded bg-green-50 border border-green-200"></div>
+                <span className="text-green-600 font-medium">Top Performers</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 rounded bg-red-50 border border-red-200"></div>
+                <span className="text-red-600 font-medium">Areas for Improvement</span>
+              </div>
+            </div>
+          </div>
+
           <div className="space-y-6">
             {/* Top 3 Competencies */}
             <div>
