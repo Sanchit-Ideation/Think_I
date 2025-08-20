@@ -516,7 +516,7 @@ export default function EnhancedDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Enhanced Interview Funnel */}
         <div className="bg-card border border-border rounded-xl p-6">
-          <InterviewFunnel />
+          <InterviewFunnel data={filteredFunnelData} />
         </div>
 
         {/* Graph 2: Recommendation Timeline - All Stages */}
@@ -524,11 +524,11 @@ export default function EnhancedDashboard() {
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-foreground">Recommendation Timeline</h3>
             <div className="text-sm text-muted-foreground">
-              All recommendation stages over time
+              {timePeriodOptions.find(option => option.value === timePeriod)?.label} - All stages
             </div>
           </div>
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={recommendationTimeline}>
+            <LineChart data={filteredTimelineData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
               <YAxis />
