@@ -292,6 +292,29 @@ export default function InterviewFunnel({ data = defaultFunnelData }: InterviewF
         ))}
       </div>
 
+      {/* Legend for Scheduled Stage */}
+      <div className="mt-4">
+        <h4 className="text-sm font-medium text-foreground mb-2">Scheduled Stage Legend:</h4>
+        <div className="flex flex-wrap gap-3 text-xs">
+          <div className="flex items-center space-x-1">
+            <div className="w-3 h-3 rounded" style={{backgroundColor: '#ef4444'}}></div>
+            <span className="text-muted-foreground">No Show</span>
+          </div>
+          <div className="flex items-center space-x-1">
+            <div className="w-3 h-3 rounded" style={{backgroundColor: '#f97316'}}></div>
+            <span className="text-muted-foreground">Cancelled</span>
+          </div>
+          <div className="flex items-center space-x-1">
+            <div className="w-3 h-3 rounded" style={{backgroundColor: '#eab308'}}></div>
+            <span className="text-muted-foreground">Rescheduled</span>
+          </div>
+          <div className="flex items-center space-x-1">
+            <div className="w-3 h-3 rounded" style={{backgroundColor: '#22c55e'}}></div>
+            <span className="text-muted-foreground">Upcoming</span>
+          </div>
+        </div>
+      </div>
+
       {/* Compact Hover Details Panel */}
       <div className="min-h-[120px] mt-4">
         {hoveredStage ? (
