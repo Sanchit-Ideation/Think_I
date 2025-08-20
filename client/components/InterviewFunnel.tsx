@@ -201,8 +201,8 @@ export default function InterviewFunnel() {
         </div>
       </div>
 
-      {/* Compact Horizontal Bar Chart Funnel */}
-      <div className="space-y-2">
+      {/* Stacked Bar Chart Funnel */}
+      <div className="space-y-3">
         {interviewFunnelData.map((stage, index) => (
           <div
             key={stage.name}
@@ -212,25 +212,50 @@ export default function InterviewFunnel() {
           >
             <div className="flex items-center space-x-3">
               {/* Stage Icon and Label */}
-              <div className="w-24 flex items-center space-x-1">
+              <div className="w-20 flex items-center space-x-1">
                 {getIcon(stage.name)}
                 <span className="text-xs font-medium text-foreground">{stage.name}</span>
               </div>
 
-              {/* Progress Bar */}
+              {/* Stacked or Regular Progress Bar */}
               <div className="flex-1 relative">
-                <div className="h-6 bg-muted rounded overflow-hidden">
-                  <div
-                    className="h-full transition-all duration-500 ease-out group-hover:brightness-110 flex items-center justify-end pr-2"
-                    style={{
-                      width: `${stage.percentage}%`,
-                      background: `linear-gradient(90deg, ${stage.fill}, ${stage.fill}dd)`
-                    }}
-                  >
-                    <div className="text-white font-medium text-xs">
-                      {stage.value.toLocaleString()}
+                <div className="h-8 bg-muted rounded overflow-hidden">
+                  {stage.stackedData ? (
+                    // Stacked bar for Scheduled stage
+                    <div className="h-full flex">
+                      {stage.stackedData.map((segment, segmentIndex) => (
+                        <div
+                          key={segment.name}
+                          className="h-full transition-all duration-500 ease-out group-hover:brightness-110 flex items-center justify-center relative overflow-hidden"
+                          style={{
+                            width: `${segment.percentage}%`,
+                            backgroundColor: segment.fill,
+                            minWidth: segment.percentage > 5 ? 'auto' : '20px'
+                          }}
+                          title={`${segment.name}: ${segment.value} (${segment.percentage.toFixed(1)}%)`}
+                        >
+                          {segment.percentage > 8 && (
+                            <div className="text-white font-medium text-xs truncate px-1">
+                              {segment.value}
+                            </div>
+                          )}
+                        </div>
+                      ))}
                     </div>
-                  </div>
+                  ) : (
+                    // Regular bar for other stages
+                    <div
+                      className="h-full transition-all duration-500 ease-out group-hover:brightness-110 flex items-center justify-end pr-2"
+                      style={{
+                        width: `${stage.percentage}%`,
+                        background: `linear-gradient(90deg, ${stage.fill}, ${stage.fill}dd)`
+                      }}
+                    >
+                      <div className="text-white font-medium text-xs">
+                        {stage.value.toLocaleString()}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Percentage Label */}
