@@ -198,49 +198,63 @@ const ufmTrendsData = [
   { month: 'Jun', lipSync: 8, tabSwitching: 20, multiFace: 12, audioIssues: 5, copyPaste: 10 }
 ];
 
-// Competency radar data with department/role filters
+// All competency data with department/role filters
 const competencyData = [
-  { 
-    competency: 'Critical Reasoning', 
-    engineering: 85, 
-    sales: 72, 
-    marketing: 78, 
-    design: 80 
+  {
+    competency: 'Communication Clarity',
+    engineering: 78,
+    sales: 92,
+    marketing: 88,
+    design: 87
   },
-  { 
-    competency: 'Domain Knowledge', 
-    engineering: 88, 
-    sales: 85, 
-    marketing: 75, 
-    design: 82 
+  {
+    competency: 'Cognitive Thinking & Reasoning',
+    engineering: 85,
+    sales: 72,
+    marketing: 78,
+    design: 80
   },
-  { 
-    competency: 'Analytical Thinking', 
-    engineering: 90, 
-    sales: 78, 
-    marketing: 82, 
-    design: 85 
+  {
+    competency: 'Technical / Domain Expertise',
+    engineering: 88,
+    sales: 85,
+    marketing: 75,
+    design: 82
   },
-  { 
-    competency: 'Conciseness', 
-    engineering: 75, 
-    sales: 88, 
-    marketing: 90, 
-    design: 85 
+  {
+    competency: 'Adaptability & Learning',
+    engineering: 82,
+    sales: 86,
+    marketing: 84,
+    design: 88
   },
-  { 
-    competency: 'Communication', 
-    engineering: 78, 
-    sales: 92, 
-    marketing: 88, 
-    design: 87 
+  {
+    competency: 'Agility Execution',
+    engineering: 90,
+    sales: 78,
+    marketing: 82,
+    design: 85
   },
-  { 
-    competency: 'Problem Solving', 
-    engineering: 92, 
-    sales: 80, 
-    marketing: 76, 
-    design: 88 
+  {
+    competency: 'Ownership Team & Social Collaboration',
+    engineering: 75,
+    sales: 88,
+    marketing: 90,
+    design: 85
+  },
+  {
+    competency: 'Strategic Thinking',
+    engineering: 77,
+    sales: 83,
+    marketing: 89,
+    design: 81
+  },
+  {
+    competency: 'Operational Execution',
+    engineering: 92,
+    sales: 80,
+    marketing: 76,
+    design: 88
   }
 ];
 
