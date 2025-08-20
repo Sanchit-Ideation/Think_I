@@ -19,53 +19,20 @@ import {
   Cell
 } from 'recharts';
 
-// Simplified funnel data with stacked bar chart data
-const interviewFunnelData = [
-  {
-    name: 'Scheduled',
-    value: 1247,
-    fill: '#3b82f6',
-    percentage: 100,
-    details: {
-      total: 1247,
-      substates: {
-        noShow: 45,
-        cancelled: 78,
-        rescheduled: 32,
-        upcoming: 1092
-      }
-    },
-    stackedData: [
-      { name: 'No Show', value: 45, fill: '#ef4444', percentage: 3.6 },
-      { name: 'Cancelled', value: 78, fill: '#f97316', percentage: 6.3 },
-      { name: 'Rescheduled', value: 32, fill: '#eab308', percentage: 2.6 },
-      { name: 'Upcoming', value: 1092, fill: '#22c55e', percentage: 87.6 }
-    ]
-  },
-  {
-    name: 'Interviewed',
-    value: 1092,
-    fill: '#06b6d4',
-    percentage: 87.6,
-    details: {
-      total: 1092,
-      completionRate: 87.6,
-      avgDuration: '45 mins'
-    }
-  },
-  {
-    name: 'Evaluated',
-    value: 892,
-    fill: '#10b981',
-    percentage: 81.7,
-    details: {
-      total: 892,
-      evaluationRate: 81.7,
-      pendingEvaluations: 200,
-      avgEvaluationTime: '2.3 days'
-    }
-  }
-];
+// Funnel data type definition
+type FunnelStageData = {
+  name: string;
+  value: number;
+  fill: string;
+  percentage: number;
+  details: any;
+  stackedData?: Array<{
+    name: string;
+    value: number;
+    fill: string;
+    percentage: number;
+  }>;
+};
 
 const getIcon = (stageName: string) => {
   switch (stageName) {
