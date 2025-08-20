@@ -448,47 +448,9 @@ export default function EnhancedDashboard() {
 
       {/* Main Insights Section - Row 1 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Graph 1: Interview Funnel */}
+        {/* Enhanced Interview Funnel */}
         <div className="bg-card border border-border rounded-xl p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-foreground">Interview Funnel</h3>
-            <div className="text-sm text-muted-foreground">
-              Cancel Rate: 6.3% <span className="text-red-600">(-8.4%)</span>
-            </div>
-          </div>
-          <ResponsiveContainer width="100%" height={300}>
-            <FunnelChart>
-              <Tooltip 
-                content={({ active, payload }) => {
-                  if (active && payload && payload[0]) {
-                    const data = payload[0].payload;
-                    return (
-                      <div className="bg-card border border-border rounded-lg p-3 shadow-lg">
-                        <p className="font-medium">{data.name}</p>
-                        <p className="text-sm text-primary">Count: {data.value}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {data.percentage?.toFixed(1)}% of scheduled
-                        </p>
-                        {data.name === 'Scheduled' && data.cancelled && (
-                          <p className="text-sm text-red-600">
-                            Cancelled: {data.cancelled} ({data.cancelPercentage}%)
-                          </p>
-                        )}
-                      </div>
-                    );
-                  }
-                  return null;
-                }}
-              />
-              <Funnel
-                dataKey="value"
-                data={funnelData}
-                isAnimationActive
-              >
-                <LabelList position="center" fill="#fff" stroke="none" />
-              </Funnel>
-            </FunnelChart>
-          </ResponsiveContainer>
+          <InterviewFunnel />
         </div>
 
         {/* Graph 2: Timeline for Recommendation Stages */}
