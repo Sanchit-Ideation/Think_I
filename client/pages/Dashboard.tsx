@@ -1,5 +1,5 @@
-import AnalyticsDashboard from "../components/AnalyticsDashboard";
+import EnhancedDashboard from "../components/EnhancedDashboard";
 
 export default function Dashboard() {
-  return <AnalyticsDashboard />;
+  return <EnhancedDashboard />;
 }
