@@ -130,14 +130,14 @@ const funnelData = [
   }
 ];
 
-// Timeline data for recommendation stages
+// Timeline data for recommendation trends
 const recommendationTimeline = [
-  { month: 'Jan', highlyRecommended: 45, recommended: 38, consider: 25, notRecommended: 17 },
-  { month: 'Feb', highlyRecommended: 52, recommended: 42, consider: 28, notRecommended: 13 },
-  { month: 'Mar', highlyRecommended: 48, recommended: 39, consider: 31, notRecommended: 18 },
-  { month: 'Apr', highlyRecommended: 61, recommended: 45, consider: 29, notRecommended: 15 },
-  { month: 'May', highlyRecommended: 58, recommended: 41, consider: 33, notRecommended: 12 },
-  { month: 'Jun', highlyRecommended: 65, recommended: 47, consider: 28, notRecommended: 10 }
+  { month: 'Jan', totalRecommended: 83, percentage: 31.2 },
+  { month: 'Feb', totalRecommended: 94, percentage: 33.8 },
+  { month: 'Mar', totalRecommended: 87, percentage: 32.1 },
+  { month: 'Apr', totalRecommended: 106, percentage: 36.4 },
+  { month: 'May', totalRecommended: 99, percentage: 34.7 },
+  { month: 'Jun', totalRecommended: 112, percentage: 38.4 }
 ];
 
 // UFM (Unfair Means) trends data
