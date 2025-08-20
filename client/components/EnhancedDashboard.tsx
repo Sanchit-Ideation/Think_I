@@ -656,44 +656,40 @@ export default function EnhancedDashboard() {
 
       {/* Competency Analysis Section - Full Width */}
       <div className="grid grid-cols-1 gap-6">
-        {/* Competency Analysis */}
-        <div className="bg-card border border-border rounded-xl p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-foreground">Competency Analysis</h3>
-            <div className="flex items-center space-x-2">
-              <span className="text-xs text-muted-foreground">Department:</span>
-              <select
-                value={competencyFilter}
-                onChange={(e) => setCompetencyFilter(e.target.value)}
-                className="bg-muted border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-              >
-                <option value="engineering">Engineering</option>
-                <option value="sales">Sales</option>
-                <option value="marketing">Marketing</option>
-                <option value="design">Design</option>
-              </select>
-            </div>
+        {/* Competency Analysis - Compact */}
+        <div className="bg-card border border-border rounded-xl p-4">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-md font-semibold text-foreground">Competency Analysis</h3>
+            <select
+              value={competencyFilter}
+              onChange={(e) => setCompetencyFilter(e.target.value)}
+              className="bg-muted border border-border rounded px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="engineering">Engineering</option>
+              <option value="sales">Sales</option>
+              <option value="marketing">Marketing</option>
+              <option value="design">Design</option>
+            </select>
           </div>
 
-          {/* Legend */}
-          <div className="mb-4 p-3 bg-muted/30 rounded-lg">
-            <h4 className="text-sm font-medium text-foreground mb-2">Score Legend:</h4>
-            <div className="flex flex-wrap gap-4 text-xs">
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded bg-green-500"></div>
-                <span className="text-muted-foreground">≥85% (Excellent)</span>
+          {/* Compact Legend */}
+          <div className="mb-3 p-2 bg-muted/30 rounded">
+            <div className="flex flex-wrap gap-3 text-xs">
+              <div className="flex items-center space-x-1">
+                <div className="w-2 h-2 rounded bg-green-500"></div>
+                <span className="text-muted-foreground">≥85%</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded bg-blue-500"></div>
-                <span className="text-muted-foreground">75-84% (Good)</span>
+              <div className="flex items-center space-x-1">
+                <div className="w-2 h-2 rounded bg-blue-500"></div>
+                <span className="text-muted-foreground">75-84%</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded bg-yellow-500"></div>
-                <span className="text-muted-foreground">65-74% (Average)</span>
+              <div className="flex items-center space-x-1">
+                <div className="w-2 h-2 rounded bg-yellow-500"></div>
+                <span className="text-muted-foreground">65-74%</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded bg-red-500"></div>
-                <span className="text-muted-foreground">&lt;65% (Needs Improvement)</span>
+              <div className="flex items-center space-x-1">
+                <div className="w-2 h-2 rounded bg-red-500"></div>
+                <span className="text-muted-foreground">&lt;65%</span>
               </div>
             </div>
           </div>
