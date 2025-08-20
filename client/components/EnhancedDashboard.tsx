@@ -196,47 +196,42 @@ const competencyData = [
   }
 ];
 
-// Trending templates data
+// Trending templates data with integrity rate
 const trendingTemplates = [
   {
     name: 'Senior Software Engineer V3',
     totalInterviews: 156,
     averageAdeptness: 88.4,
     averageEffectiveness: 91.2,
-    trend: 'up',
-    change: 18.2
+    integrityRate: 94.2
   },
   {
     name: 'Product Manager Advanced',
     totalInterviews: 132,
     averageAdeptness: 85.8,
     averageEffectiveness: 94.8,
-    trend: 'up',
-    change: 12.1
+    integrityRate: 96.8
   },
   {
     name: 'Data Scientist Lead',
     totalInterviews: 94,
     averageAdeptness: 82.3,
     averageEffectiveness: 87.3,
-    trend: 'down',
-    change: -5.3
+    integrityRate: 91.5
   },
   {
     name: 'UX Designer Senior',
     totalInterviews: 78,
     averageAdeptness: 89.6,
     averageEffectiveness: 92.1,
-    trend: 'up',
-    change: 15.7
+    integrityRate: 97.4
   },
   {
     name: 'DevOps Engineer',
     totalInterviews: 65,
     averageAdeptness: 84.7,
     averageEffectiveness: 88.9,
-    trend: 'up',
-    change: 8.9
+    integrityRate: 93.1
   }
 ];
 
