@@ -698,7 +698,12 @@ export default function EnhancedDashboard() {
 
       {/* Section 5: Trending Templates - Compact */}
       <div className="bg-card border border-border rounded-xl p-4">
-        <h3 className="text-md font-semibold text-foreground mb-4">Trending Templates</h3>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-md font-semibold text-foreground">Trending Templates</h3>
+          <div className="text-xs text-muted-foreground">
+            {timePeriodOptions.find(option => option.value === timePeriod)?.label}
+          </div>
+        </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
@@ -711,7 +716,7 @@ export default function EnhancedDashboard() {
               </tr>
             </thead>
             <tbody>
-              {trendingTemplates.slice(0, 4).map((template, index) => (
+              {filteredTemplatesData.slice(0, 4).map((template, index) => (
                 <tr key={index} className="border-b border-border hover:bg-muted/50">
                   <td className="py-2 px-2">
                     <div className="font-medium text-foreground text-sm">{template.name}</div>
