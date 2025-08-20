@@ -796,12 +796,12 @@ export default function EnhancedDashboard() {
         </div>
       </div>
 
-      {/* Section 6: Upcoming Interviews with Enhanced Calendar */}
+      {/* Section 6: Scheduled Interviews with Enhanced Calendar */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Upcoming Interviews with Totals */}
+        {/* Scheduled Interviews with Totals */}
         <div className="bg-card border border-border rounded-xl p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-foreground">Upcoming Interviews</h3>
+            <h3 className="text-lg font-semibold text-foreground">Scheduled Interviews</h3>
             <button
               onClick={() => setShowCalendarHeatmap(!showCalendarHeatmap)}
               className="flex items-center space-x-2 px-3 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-sm"
