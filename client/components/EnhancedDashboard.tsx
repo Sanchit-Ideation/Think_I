@@ -339,20 +339,28 @@ const ChangeIndicator = ({ value }: { value: number }) => {
 };
 
 export default function EnhancedDashboard() {
-  const [timePeriod, setTimePeriod] = useState('30d');
+  const [timePeriod, setTimePeriod] = useState('7d');
   const [departmentFilter, setDepartmentFilter] = useState('all');
   const [roleFilter, setRoleFilter] = useState('all');
   const [competencyFilter, setCompetencyFilter] = useState('engineering');
   const [showCalendarHeatmap, setShowCalendarHeatmap] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Filter chips for quick time periods
-  const filterChips = [
+  // Time period options for dropdown
+  const timePeriodOptions = [
     { label: 'Last 7 days', value: '7d' },
     { label: 'Last 30 days', value: '30d' },
     { label: 'Last 90 days', value: '90d' },
     { label: 'Custom date range', value: 'custom' }
   ];
+
+  // Function to get filtered data based on selected filters
+  const getFilteredData = (baseData: any, filterType: string = 'default') => {
+    // Apply time period filter logic here
+    // Apply role and department filters here
+    // For now, returning base data - will be enhanced with actual filtering logic
+    return baseData;
+  };
 
   return (
     <div className="space-y-8">
