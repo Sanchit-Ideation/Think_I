@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { 
-  TrendingUp, 
-  TrendingDown, 
-  Minus, 
-  Users, 
-  CheckCircle2, 
-  Clock, 
-  Shield, 
-  Brain, 
+import {
+  TrendingUp,
+  TrendingDown,
+  Minus,
+  Users,
+  CheckCircle2,
+  Clock,
+  Shield,
+  Brain,
   Award,
   AlertTriangle,
   Plus,
@@ -26,6 +26,7 @@ import {
   Activity,
   UserX
 } from 'lucide-react';
+import InterviewFunnel from './InterviewFunnel';
 import { 
   AreaChart, 
   Area, 
