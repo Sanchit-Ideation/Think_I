@@ -663,36 +663,40 @@ export default function EnhancedDashboard() {
         </div>
       </div>
 
-      {/* Section 6: Upcoming Interviews with Calendar Heatmap */}
+      {/* Section 6: Upcoming Interviews with Enhanced Calendar */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Upcoming Interviews */}
+        {/* Upcoming Interviews with Totals */}
         <div className="bg-card border border-border rounded-xl p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-foreground">Upcoming Interviews</h3>
             <button
               onClick={() => setShowCalendarHeatmap(!showCalendarHeatmap)}
-              className="flex items-center space-x-2 px-3 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+              className="flex items-center space-x-2 px-3 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-sm"
             >
               {showCalendarHeatmap ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              <span>{showCalendarHeatmap ? 'Hide' : 'Show'} Calendar</span>
+              <span>{showCalendarHeatmap ? 'Hide' : 'Show'} Heatmap</span>
             </button>
           </div>
-          
+
           <div className="space-y-4">
-            <div className="text-lg font-semibold text-foreground">
-              Total Interviews: {upcomingInterviews.totalInterviews}
+            {/* Total Summary */}
+            <div className="bg-primary/10 rounded-lg p-4">
+              <div className="text-2xl font-bold text-primary">{upcomingInterviews.totalInterviews}</div>
+              <div className="text-sm text-muted-foreground">Total Interviews Scheduled</div>
             </div>
-            
+
+            {/* Department Breakdown */}
             {upcomingInterviews.departments.map((dept, index) => (
               <div key={index} className="space-y-2">
-                <div className="font-medium text-foreground text-lg">
-                  {dept.name} ({dept.total} interviews)
+                <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                  <span className="font-medium text-foreground">{dept.name}</span>
+                  <span className="font-bold text-primary text-lg">{dept.total}</span>
                 </div>
                 <div className="grid grid-cols-1 gap-2 ml-4">
                   {dept.roles.map((role, roleIndex) => (
-                    <div key={roleIndex} className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                      <span className="text-foreground">{role.role}</span>
-                      <span className="font-semibold text-primary">{role.count}</span>
+                    <div key={roleIndex} className="flex items-center justify-between p-2 bg-muted/50 rounded text-sm">
+                      <span className="text-muted-foreground">{role.role}</span>
+                      <span className="font-medium text-foreground">{role.count}</span>
                     </div>
                   ))}
                 </div>
@@ -701,52 +705,67 @@ export default function EnhancedDashboard() {
           </div>
         </div>
 
-        {/* Calendar Heatmap View */}
+        {/* Enhanced Calendar Heatmap */}
         <div className="bg-card border border-border rounded-xl p-6">
           <h3 className="text-lg font-semibold text-foreground mb-6">
-            Calendar Heatmap View
+            Interview Calendar Heatmap
           </h3>
           {showCalendarHeatmap ? (
             <div className="space-y-4">
               <div className="text-sm text-muted-foreground mb-4">
-                Click on any date to see detailed interview breakdown
+                Click on any date to see role-wise breakdown
               </div>
-              {/* Simplified calendar heatmap representation */}
+
+              {/* Calendar Grid with Enhanced Functionality */}
               <div className="grid grid-cols-7 gap-1">
                 {Array.from({ length: 35 }, (_, i) => {
-                  const intensity = Math.floor(Math.random() * 4);
+                  const interviews = Math.floor(Math.random() * 8);
+                  const intensity = interviews === 0 ? 0 : interviews <= 2 ? 1 : interviews <= 5 ? 2 : 3;
                   return (
                     <div
                       key={i}
-                      className={`w-8 h-8 rounded cursor-pointer flex items-center justify-center text-xs font-medium ${
-                        intensity === 0 ? 'bg-muted text-muted-foreground' :
-                        intensity === 1 ? 'bg-blue-100 text-blue-800' :
-                        intensity === 2 ? 'bg-blue-300 text-blue-900' :
-                        'bg-blue-500 text-white'
+                      className={`w-8 h-8 rounded cursor-pointer flex items-center justify-center text-xs font-medium transition-all hover:scale-110 ${
+                        intensity === 0 ? 'bg-muted text-muted-foreground hover:bg-muted/80' :
+                        intensity === 1 ? 'bg-blue-100 text-blue-800 hover:bg-blue-200' :
+                        intensity === 2 ? 'bg-blue-300 text-blue-900 hover:bg-blue-400' :
+                        'bg-blue-500 text-white hover:bg-blue-600'
                       }`}
-                      title={`${i + 1} interviews scheduled`}
+                      onClick={() => {
+                        // Set selected date for detail view
+                        const selectedDate = `2024-01-${String(i + 1).padStart(2, '0')}`;
+                        // You could set a state here to show role breakdown
+                        alert(`Date: ${selectedDate}\nInterviews: ${interviews}\nEngineering: ${Math.floor(interviews * 0.6)}\nSales: ${Math.floor(interviews * 0.3)}\nMarketing: ${Math.floor(interviews * 0.1)}`);
+                      }}
+                      title={`${interviews} interviews on Jan ${i + 1}`}
                     >
-                      {i + 1}
+                      {interviews > 0 ? interviews : ''}
                     </div>
                   );
                 })}
               </div>
+
+              {/* Legend */}
               <div className="flex items-center justify-between text-xs text-muted-foreground">
                 <span>Less</span>
                 <div className="flex space-x-1">
-                  <div className="w-3 h-3 bg-muted rounded-sm" />
-                  <div className="w-3 h-3 bg-blue-100 rounded-sm" />
-                  <div className="w-3 h-3 bg-blue-300 rounded-sm" />
-                  <div className="w-3 h-3 bg-blue-500 rounded-sm" />
+                  <div className="w-3 h-3 bg-muted rounded-sm" title="0 interviews" />
+                  <div className="w-3 h-3 bg-blue-100 rounded-sm" title="1-2 interviews" />
+                  <div className="w-3 h-3 bg-blue-300 rounded-sm" title="3-5 interviews" />
+                  <div className="w-3 h-3 bg-blue-500 rounded-sm" title="6+ interviews" />
                 </div>
                 <span>More</span>
+              </div>
+
+              <div className="text-xs text-muted-foreground text-center">
+                Click on any date cell to see detailed role-wise breakdown
               </div>
             </div>
           ) : (
             <div className="flex items-center justify-center h-64 text-muted-foreground">
               <div className="text-center">
                 <Calendar className="w-12 h-12 mx-auto mb-4" />
-                <p>Click "Show Calendar" to view heatmap</p>
+                <p>Click "Show Heatmap" to view interview calendar</p>
+                <p className="text-xs mt-2">Interactive heatmap with role-wise details</p>
               </div>
             </div>
           )}
