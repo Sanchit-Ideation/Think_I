@@ -817,6 +817,25 @@ export default function EnhancedDashboard() {
             {timePeriodOptions.find(option => option.value === timePeriod)?.label}
           </div>
         </div>
+
+        {/* Integrity Rate Legend */}
+        <div className="mb-3 p-2 bg-muted/30 rounded-lg">
+          <h4 className="text-xs font-medium text-foreground mb-1">Integrity Rate:</h4>
+          <div className="flex gap-3 text-xs">
+            <div className="flex items-center space-x-1">
+              <div className="w-2 h-2 rounded bg-green-600"></div>
+              <span className="text-green-600">≥95% (Excellent)</span>
+            </div>
+            <div className="flex items-center space-x-1">
+              <div className="w-2 h-2 rounded bg-yellow-600"></div>
+              <span className="text-yellow-600">≥90% (Good)</span>
+            </div>
+            <div className="flex items-center space-x-1">
+              <div className="w-2 h-2 rounded bg-red-600"></div>
+              <span className="text-red-600">&lt;90% (Needs Attention)</span>
+            </div>
+          </div>
+        </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
