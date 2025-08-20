@@ -574,47 +574,50 @@ export default function EnhancedDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Graph 3: UFM Trends */}
         <div className="bg-card border border-border rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-foreground mb-6">
-            UFM (Unfair Means) Trends
-          </h3>
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-semibold text-foreground">UFM (Unfair Means) Trends</h3>
+            <div className="text-sm text-muted-foreground">
+              {timePeriodOptions.find(option => option.value === timePeriod)?.label}
+            </div>
+          </div>
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={ufmTrendsData}>
+            <LineChart data={filteredUFMData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
               <YAxis />
               <Tooltip />
-              <Line 
-                type="monotone" 
-                dataKey="lipSync" 
-                stroke="#ef4444" 
+              <Line
+                type="monotone"
+                dataKey="lipSync"
+                stroke="#ef4444"
                 strokeWidth={2}
                 name="Lip Sync"
               />
-              <Line 
-                type="monotone" 
-                dataKey="tabSwitching" 
-                stroke="#f59e0b" 
+              <Line
+                type="monotone"
+                dataKey="tabSwitching"
+                stroke="#f59e0b"
                 strokeWidth={2}
                 name="Tab Switching"
               />
-              <Line 
-                type="monotone" 
-                dataKey="multiFace" 
-                stroke="#8b5cf6" 
+              <Line
+                type="monotone"
+                dataKey="multiFace"
+                stroke="#8b5cf6"
                 strokeWidth={2}
                 name="Multi Face"
               />
-              <Line 
-                type="monotone" 
-                dataKey="audioIssues" 
-                stroke="#06b6d4" 
+              <Line
+                type="monotone"
+                dataKey="audioIssues"
+                stroke="#06b6d4"
                 strokeWidth={2}
                 name="Audio Issues"
               />
-              <Line 
-                type="monotone" 
-                dataKey="copyPaste" 
-                stroke="#84cc16" 
+              <Line
+                type="monotone"
+                dataKey="copyPaste"
+                stroke="#84cc16"
                 strokeWidth={2}
                 name="Copy Paste"
               />
@@ -626,16 +629,19 @@ export default function EnhancedDashboard() {
         <div className="bg-card border border-border rounded-xl p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-foreground">Competency Analysis</h3>
-            <select
-              value={competencyFilter}
-              onChange={(e) => setCompetencyFilter(e.target.value)}
-              className="bg-muted border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <option value="engineering">Engineering</option>
-              <option value="sales">Sales</option>
-              <option value="marketing">Marketing</option>
-              <option value="design">Design</option>
-            </select>
+            <div className="flex items-center space-x-2">
+              <span className="text-xs text-muted-foreground">Department:</span>
+              <select
+                value={competencyFilter}
+                onChange={(e) => setCompetencyFilter(e.target.value)}
+                className="bg-muted border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+              >
+                <option value="engineering">Engineering</option>
+                <option value="sales">Sales</option>
+                <option value="marketing">Marketing</option>
+                <option value="design">Design</option>
+              </select>
+            </div>
           </div>
 
           <div className="space-y-6">
@@ -646,7 +652,7 @@ export default function EnhancedDashboard() {
                 Top 3 Competencies
               </h4>
               <div className="space-y-2">
-                {competencyData
+                {filteredCompetencyData
                   .sort((a, b) => b[competencyFilter as keyof typeof a] - a[competencyFilter as keyof typeof a])
                   .slice(0, 3)
                   .map((item, index) => (
@@ -670,7 +676,7 @@ export default function EnhancedDashboard() {
                 Areas for Improvement
               </h4>
               <div className="space-y-2">
-                {competencyData
+                {filteredCompetencyData
                   .sort((a, b) => a[competencyFilter as keyof typeof a] - b[competencyFilter as keyof typeof a])
                   .slice(0, 3)
                   .map((item, index) => (
