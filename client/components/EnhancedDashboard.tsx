@@ -728,10 +728,10 @@ export default function EnhancedDashboard() {
         </div>
       </div>
 
-      {/* Section 5: Trending Templates - Compact */}
+      {/* Section 5: Highly used templates - Compact */}
       <div className="bg-card border border-border rounded-xl p-4">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-md font-semibold text-foreground">Trending Templates</h3>
+          <h3 className="text-md font-semibold text-foreground">Highly used templates</h3>
           <div className="text-xs text-muted-foreground">
             {timePeriodOptions.find(option => option.value === timePeriod)?.label}
           </div>
