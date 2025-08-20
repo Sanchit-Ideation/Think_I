@@ -372,63 +372,79 @@ export default function EnhancedDashboard() {
         </div>
         
         {/* Top Bar Controls */}
-        <div className="flex flex-col lg:flex-row gap-4">
-          {/* Search Bar */}
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-            <input
-              type="text"
-              placeholder="Search candidates, roles, departments..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 pr-4 py-2 bg-card border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary w-80"
-            />
-          </div>
-          
-          {/* Filters */}
-          <div className="flex gap-2">
-            <select
-              value={roleFilter}
-              onChange={(e) => setRoleFilter(e.target.value)}
-              className="bg-card border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <option value="all">All Roles</option>
-              <option value="engineer">Engineer</option>
-              <option value="manager">Manager</option>
-              <option value="analyst">Analyst</option>
-            </select>
-            
-            <select
-              value={departmentFilter}
-              onChange={(e) => setDepartmentFilter(e.target.value)}
-              className="bg-card border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <option value="all">All Departments</option>
-              <option value="engineering">Engineering</option>
-              <option value="sales">Sales</option>
-              <option value="marketing">Marketing</option>
-              <option value="design">Design</option>
-            </select>
-          </div>
+      <div className="flex flex-col lg:flex-row gap-4">
+        {/* Search Bar */}
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+          <input
+            type="text"
+            placeholder="Search candidates, roles, departments..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10 pr-4 py-2 bg-card border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary w-80"
+          />
+        </div>
+
+        {/* Global Filters */}
+        <div className="flex gap-2">
+          {/* Time Period Filter */}
+          <select
+            value={timePeriod}
+            onChange={(e) => setTimePeriod(e.target.value)}
+            className="bg-card border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary min-w-[140px]"
+          >
+            {timePeriodOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+
+          {/* Role Filter */}
+          <select
+            value={roleFilter}
+            onChange={(e) => setRoleFilter(e.target.value)}
+            className="bg-card border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            <option value="all">All Roles</option>
+            <option value="engineer">Engineer</option>
+            <option value="manager">Manager</option>
+            <option value="analyst">Analyst</option>
+          </select>
+
+          {/* Department Filter */}
+          <select
+            value={departmentFilter}
+            onChange={(e) => setDepartmentFilter(e.target.value)}
+            className="bg-card border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            <option value="all">All Departments</option>
+            <option value="engineering">Engineering</option>
+            <option value="sales">Sales</option>
+            <option value="marketing">Marketing</option>
+            <option value="design">Design</option>
+          </select>
         </div>
       </div>
+    </div>
 
-      {/* Quick Filter Chips */}
-      <div className="flex flex-wrap gap-2">
-        {filterChips.map((chip) => (
-          <button
-            key={chip.value}
-            onClick={() => setTimePeriod(chip.value)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-              timePeriod === chip.value
-                ? 'bg-primary text-primary-foreground'
-                : 'bg-muted text-muted-foreground hover:text-foreground hover:bg-muted/80'
-            }`}
-          >
-            {chip.label}
-          </button>
-        ))}
-      </div>
+    {/* Filter Summary */}
+    <div className="flex flex-wrap gap-2 items-center">
+      <span className="text-sm text-muted-foreground">Active Filters:</span>
+      <span className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full">
+        {timePeriodOptions.find(option => option.value === timePeriod)?.label}
+      </span>
+      {roleFilter !== 'all' && (
+        <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full dark:bg-blue-900/30 dark:text-blue-300">
+          Role: {roleFilter}
+        </span>
+      )}
+      {departmentFilter !== 'all' && (
+        <span className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full dark:bg-green-900/30 dark:text-green-300">
+          Department: {departmentFilter}
+        </span>
+      )}
+    </div>
 
       {/* Top KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
