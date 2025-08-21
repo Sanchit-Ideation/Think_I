@@ -16,7 +16,6 @@ import {
   Bell,
   Download,
   Filter,
-  Search,
   ChevronDown,
   X,
   Eye,
