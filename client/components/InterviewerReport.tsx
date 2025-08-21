@@ -224,7 +224,7 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
                   </div>
                 </div>
 
-                <div className="mb-4">
+                <div className="mb-4 grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-xs text-muted-foreground">Avg Score</p>
                     <div className="flex items-center space-x-2">
@@ -232,6 +232,13 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
                         <div className="bg-primary h-2 rounded-full" style={{ width: `${interviewer.avg_score}%` }} />
                       </div>
                       <span className="text-sm font-medium">{interviewer.avg_score}%</span>
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground">On-time Start</p>
+                    <div className="flex items-center space-x-2">
+                      <Clock className="w-4 h-4 text-green-600" />
+                      <span className="text-sm font-medium text-green-600">{interviewer.on_time_start}%</span>
                     </div>
                   </div>
                 </div>
