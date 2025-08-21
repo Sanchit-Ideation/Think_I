@@ -283,6 +283,7 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
                   <th className="text-left py-3 px-4 font-medium text-foreground">Interviewer</th>
                   <th className="text-left py-3 px-4 font-medium text-foreground">Interviews</th>
                   <th className="text-left py-3 px-4 font-medium text-foreground">Avg Score</th>
+                  <th className="text-left py-3 px-4 font-medium text-foreground">On-time Start</th>
                   <th className="text-left py-3 px-4 font-medium text-foreground">Recent Interviews</th>
                 </tr>
               </thead>
