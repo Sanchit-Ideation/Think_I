@@ -310,6 +310,12 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
                       </div>
                     </td>
                     <td className="py-3 px-4">
+                      <div className="flex items-center space-x-2">
+                        <Clock className="w-4 h-4 text-green-600" />
+                        <span className="text-sm font-medium text-green-600">{interviewer.on_time_start}%</span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-4">
                       <div className="space-y-1">
                         {interviewer.recentInterviews.slice(0, 2).map((interview, idx) => (
                           <div key={idx} className="flex items-center justify-between text-xs">
