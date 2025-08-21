@@ -406,7 +406,6 @@ export default function EnhancedDashboard() {
   const [roleFilter, setRoleFilter] = useState('all');
   const [competencyFilter, setCompetencyFilter] = useState('engineering');
   const [showCalendarHeatmap, setShowCalendarHeatmap] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
 
   // Time period options for dropdown
   const timePeriodOptions = [
