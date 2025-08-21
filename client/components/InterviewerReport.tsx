@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, Star, TrendingUp, Award, Users, Eye } from 'lucide-react';
+import { Search, Star, TrendingUp, Award, Users, Eye, Clock, CheckCircle2, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const interviewerMetrics = [
