@@ -101,68 +101,6 @@ export default function InterviewerReport({ onInterviewerSelect }: InterviewerRe
           </div>
         </div>
 
-        {/* Top Metrics Section */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-muted/30 rounded-lg p-4">
-            <div className="flex items-center justify-between mb-2">
-              <Clock className="w-5 h-5 text-green-600" />
-              <div className="flex items-center text-green-600">
-                <TrendingUp className="w-3 h-3 mr-1" />
-                <span className="text-xs font-medium">+3.8%</span>
-              </div>
-            </div>
-            <div className="space-y-1">
-              <p className="text-2xl font-bold text-foreground">92.1%</p>
-              <p className="text-sm font-medium text-foreground">On-time Start</p>
-              <p className="text-xs text-muted-foreground">Interviews starting on time</p>
-            </div>
-          </div>
-
-          <div className="bg-muted/30 rounded-lg p-4">
-            <div className="flex items-center justify-between mb-2">
-              <Users className="w-5 h-5 text-blue-600" />
-              <div className="flex items-center text-blue-600">
-                <TrendingUp className="w-3 h-3 mr-1" />
-                <span className="text-xs font-medium">+12.5%</span>
-              </div>
-            </div>
-            <div className="space-y-1">
-              <p className="text-2xl font-bold text-foreground">780</p>
-              <p className="text-sm font-medium text-foreground">Total Interviewers</p>
-              <p className="text-xs text-muted-foreground">Active this month</p>
-            </div>
-          </div>
-
-          <div className="bg-muted/30 rounded-lg p-4">
-            <div className="flex items-center justify-between mb-2">
-              <CheckCircle2 className="w-5 h-5 text-purple-600" />
-              <div className="flex items-center text-purple-600">
-                <TrendingUp className="w-3 h-3 mr-1" />
-                <span className="text-xs font-medium">+8.3%</span>
-              </div>
-            </div>
-            <div className="space-y-1">
-              <p className="text-2xl font-bold text-foreground">87.3%</p>
-              <p className="text-sm font-medium text-foreground">Completion Rate</p>
-              <p className="text-xs text-muted-foreground">Interviews completed</p>
-            </div>
-          </div>
-
-          <div className="bg-muted/30 rounded-lg p-4">
-            <div className="flex items-center justify-between mb-2">
-              <Award className="w-5 h-5 text-orange-600" />
-              <div className="flex items-center text-orange-600">
-                <TrendingUp className="w-3 h-3 mr-1" />
-                <span className="text-xs font-medium">+5.7%</span>
-              </div>
-            </div>
-            <div className="space-y-1">
-              <p className="text-2xl font-bold text-foreground">8.4</p>
-              <p className="text-sm font-medium text-foreground">Avg Score</p>
-              <p className="text-xs text-muted-foreground">Interview quality rating</p>
-            </div>
-          </div>
-        </div>
 
         {/* Top Recruiters - Hires by Department */}
         <div className="mb-6">
