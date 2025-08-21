@@ -111,13 +111,6 @@ const kpiData = [
     description: 'Scheduled interviews'
   },
   {
-    title: 'On-time Start',
-    value: '92.1%',
-    change: 3.8,
-    icon: Clock,
-    description: 'Interviews starting on time'
-  },
-  {
     title: 'Cancelled Interviews',
     value: '78',
     change: -8.4,
@@ -131,6 +124,14 @@ const kpiData = [
     change: 8.3,
     icon: CheckCircle2,
     description: '87.3% completion rate'
+  },
+  {
+    title: 'Pending Evaluations',
+    value: '158',
+    change: -5.2,
+    icon: Clock,
+    description: '14.5% delayed (12% increase)',
+    delay: 12
   },
   {
     title: 'Recommended',
