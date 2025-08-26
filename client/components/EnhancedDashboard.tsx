@@ -948,57 +948,56 @@ export default function EnhancedDashboard() {
                   Interviews
                 </th>
                 <th className="text-left py-2 px-2 font-medium text-foreground">
-                  Adeptness
+                  Utilization
                 </th>
                 <th className="text-left py-2 px-2 font-medium text-foreground">
                   Effectiveness
                 </th>
                 <th className="text-left py-2 px-2 font-medium text-foreground">
-                  Integrity Rate
+                  Category
                 </th>
               </tr>
             </thead>
             <tbody>
-              {filteredTemplatesData.slice(0, 4).map((template, index) => (
-                <tr
-                  key={index}
-                  className="border-b border-border hover:bg-muted/50"
-                >
-                  <td className="py-2 px-2">
-                    <div className="font-medium text-foreground text-sm">
-                      {template.name}
-                    </div>
-                  </td>
-                  <td className="py-2 px-2">
-                    <div className="font-medium text-foreground">
-                      {template.totalInterviews}
-                    </div>
-                  </td>
-                  <td className="py-2 px-2">
-                    <div className="font-medium text-foreground">
-                      {template.averageAdeptness}%
-                    </div>
-                  </td>
-                  <td className="py-2 px-2">
-                    <div className="font-medium text-foreground">
-                      {template.averageEffectiveness}%
-                    </div>
-                  </td>
-                  <td className="py-2 px-2">
-                    <div
-                      className={`font-medium ${
-                        template.integrityRate >= 95
-                          ? "text-green-600"
-                          : template.integrityRate >= 90
-                            ? "text-yellow-600"
-                            : "text-red-600"
-                      }`}
-                    >
-                      {template.integrityRate}%
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {filteredTemplatesData
+                .sort((a, b) => {
+                  const valueA = templateFilterBy === "utilization" ? a.averageAdeptness : a.averageEffectiveness;
+                  const valueB = templateFilterBy === "utilization" ? b.averageAdeptness : b.averageEffectiveness;
+                  return valueB - valueA;
+                })
+                .slice(0, 4)
+                .map((template, index) => (
+                  <tr
+                    key={index}
+                    className="border-b border-border hover:bg-muted/50"
+                  >
+                    <td className="py-2 px-2">
+                      <div className="font-medium text-foreground text-sm">
+                        {template.name}
+                      </div>
+                    </td>
+                    <td className="py-2 px-2">
+                      <div className="font-medium text-foreground">
+                        {template.totalInterviews}
+                      </div>
+                    </td>
+                    <td className="py-2 px-2">
+                      <div className="font-medium text-foreground">
+                        {template.averageAdeptness}%
+                      </div>
+                    </td>
+                    <td className="py-2 px-2">
+                      <div className="font-medium text-foreground">
+                        {template.averageEffectiveness}%
+                      </div>
+                    </td>
+                    <td className="py-2 px-2">
+                      <div className={`px-2 py-1 rounded-full text-xs font-medium border ${template.categoryColor}`}>
+                        {template.category}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
