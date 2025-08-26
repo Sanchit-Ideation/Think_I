@@ -891,9 +891,20 @@ export default function EnhancedDashboard() {
       {/* Section 5: Highly used templates - Compact */}
       <div className="bg-card border border-border rounded-xl p-4">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-md font-semibold text-foreground">
-            Highly used templates
-          </h3>
+          <div className="flex items-center gap-3">
+            <h3 className="text-md font-semibold text-foreground">
+              Highly used templates
+            </h3>
+            <span className="text-sm text-muted-foreground">Based on</span>
+            <select
+              value={templateFilterBy}
+              onChange={(e) => setTemplateFilterBy(e.target.value)}
+              className="bg-muted border border-border rounded px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="utilization">Utilization</option>
+              <option value="effectiveness">Effectiveness</option>
+            </select>
+          </div>
           <div className="text-xs text-muted-foreground">
             {
               timePeriodOptions.find((option) => option.value === timePeriod)
@@ -902,23 +913,27 @@ export default function EnhancedDashboard() {
           </div>
         </div>
 
-        {/* Integrity Rate Legend */}
-        <div className="mb-3 p-2 bg-muted/30 rounded-lg">
-          <h4 className="text-xs font-medium text-foreground mb-1">
-            Integrity Rate:
+        {/* Performance Categories */}
+        <div className="mb-4 p-3 bg-muted/30 rounded-lg">
+          <h4 className="text-xs font-medium text-foreground mb-2">
+            Performance Categories:
           </h4>
-          <div className="flex gap-3 text-xs">
-            <div className="flex items-center space-x-1">
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            <div className="flex items-center space-x-2">
               <div className="w-2 h-2 rounded bg-green-600"></div>
-              <span className="text-green-600">≥95% (Excellent)</span>
+              <span className="text-green-600">High Adoption + High Effectiveness → Best practice</span>
             </div>
-            <div className="flex items-center space-x-1">
+            <div className="flex items-center space-x-2">
               <div className="w-2 h-2 rounded bg-yellow-600"></div>
-              <span className="text-yellow-600">≥90% (Good)</span>
+              <span className="text-yellow-600">High Adoption + Low Effectiveness → Needs review</span>
             </div>
-            <div className="flex items-center space-x-1">
+            <div className="flex items-center space-x-2">
+              <div className="w-2 h-2 rounded bg-blue-600"></div>
+              <span className="text-blue-600">Low Adoption + High Effectiveness → Hidden gems</span>
+            </div>
+            <div className="flex items-center space-x-2">
               <div className="w-2 h-2 rounded bg-red-600"></div>
-              <span className="text-red-600">&lt;90% (Needs Attention)</span>
+              <span className="text-red-600">Low Adoption + Low Effectiveness → Poor-performing</span>
             </div>
           </div>
         </div>
