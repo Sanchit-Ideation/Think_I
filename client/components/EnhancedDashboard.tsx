@@ -483,6 +483,7 @@ export default function EnhancedDashboard() {
   const [roleFilter, setRoleFilter] = useState("all");
   const [competencyFilter, setCompetencyFilter] = useState("engineering");
   const [showCalendarHeatmap, setShowCalendarHeatmap] = useState(false);
+  const [templateFilterBy, setTemplateFilterBy] = useState("utilization");
 
   // Time period options for dropdown
   const timePeriodOptions = [
@@ -563,6 +564,44 @@ export default function EnhancedDashboard() {
     return filteredData;
   };
 
+  // Function to categorize templates based on utilization and effectiveness
+  const categorizeTemplates = (templates: typeof trendingTemplates) => {
+    const utilThreshold = 85;
+    const effThreshold = 90;
+
+    return templates.map((template) => {
+      const utilization = template.averageAdeptness;
+      const effectiveness = template.averageEffectiveness;
+
+      let category = "";
+      let categoryColor = "";
+
+      if (utilization >= utilThreshold && effectiveness >= effThreshold) {
+        category = "Best practice";
+        categoryColor =
+          "bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300";
+      } else if (utilization >= utilThreshold && effectiveness < effThreshold) {
+        category = "Needs review";
+        categoryColor =
+          "bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-300";
+      } else if (utilization < utilThreshold && effectiveness >= effThreshold) {
+        category = "Hidden gems";
+        categoryColor =
+          "bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300";
+      } else {
+        category = "Poor-performing";
+        categoryColor =
+          "bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300";
+      }
+
+      return {
+        ...template,
+        category,
+        categoryColor,
+      };
+    });
+  };
+
   // Get filtered datasets
   const filteredFunnelData = getFilteredData(interviewFunnelData, "interviews");
   const filteredTimelineData = getFilteredData(
@@ -571,7 +610,9 @@ export default function EnhancedDashboard() {
   );
   const filteredCompetencyData = getFilteredData(competencyData, "competency");
   const filteredUFMData = getFilteredData(ufmTrendsData, "timeline");
-  const filteredTemplatesData = getFilteredData(trendingTemplates, "templates");
+  const filteredTemplatesData = categorizeTemplates(
+    getFilteredData(trendingTemplates, "templates"),
+  );
 
   return (
     <div className="space-y-8">
@@ -856,9 +897,20 @@ export default function EnhancedDashboard() {
       {/* Section 5: Highly used templates - Compact */}
       <div className="bg-card border border-border rounded-xl p-4">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-md font-semibold text-foreground">
-            Highly used templates
-          </h3>
+          <div className="flex items-center gap-3">
+            <h3 className="text-md font-semibold text-foreground">
+              Highly used templates
+            </h3>
+            <span className="text-sm text-muted-foreground">Based on</span>
+            <select
+              value={templateFilterBy}
+              onChange={(e) => setTemplateFilterBy(e.target.value)}
+              className="bg-muted border border-border rounded px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="utilization">Utilization</option>
+              <option value="effectiveness">Effectiveness</option>
+            </select>
+          </div>
           <div className="text-xs text-muted-foreground">
             {
               timePeriodOptions.find((option) => option.value === timePeriod)
@@ -867,23 +919,35 @@ export default function EnhancedDashboard() {
           </div>
         </div>
 
-        {/* Integrity Rate Legend */}
-        <div className="mb-3 p-2 bg-muted/30 rounded-lg">
-          <h4 className="text-xs font-medium text-foreground mb-1">
-            Integrity Rate:
+        {/* Performance Categories */}
+        <div className="mb-4 p-3 bg-muted/30 rounded-lg">
+          <h4 className="text-xs font-medium text-foreground mb-2">
+            Performance Categories:
           </h4>
-          <div className="flex gap-3 text-xs">
-            <div className="flex items-center space-x-1">
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            <div className="flex items-center space-x-2">
               <div className="w-2 h-2 rounded bg-green-600"></div>
-              <span className="text-green-600">≥95% (Excellent)</span>
+              <span className="text-green-600">
+                High Adoption + High Effectiveness → Best practice
+              </span>
             </div>
-            <div className="flex items-center space-x-1">
+            <div className="flex items-center space-x-2">
               <div className="w-2 h-2 rounded bg-yellow-600"></div>
-              <span className="text-yellow-600">≥90% (Good)</span>
+              <span className="text-yellow-600">
+                High Adoption + Low Effectiveness → Needs review
+              </span>
             </div>
-            <div className="flex items-center space-x-1">
+            <div className="flex items-center space-x-2">
+              <div className="w-2 h-2 rounded bg-blue-600"></div>
+              <span className="text-blue-600">
+                Low Adoption + High Effectiveness → Hidden gems
+              </span>
+            </div>
+            <div className="flex items-center space-x-2">
               <div className="w-2 h-2 rounded bg-red-600"></div>
-              <span className="text-red-600">&lt;90% (Needs Attention)</span>
+              <span className="text-red-600">
+                Low Adoption + Low Effectiveness → Poor-performing
+              </span>
             </div>
           </div>
         </div>
@@ -898,57 +962,64 @@ export default function EnhancedDashboard() {
                   Interviews
                 </th>
                 <th className="text-left py-2 px-2 font-medium text-foreground">
-                  Adeptness
+                  Utilization
                 </th>
                 <th className="text-left py-2 px-2 font-medium text-foreground">
                   Effectiveness
                 </th>
                 <th className="text-left py-2 px-2 font-medium text-foreground">
-                  Integrity Rate
+                  Category
                 </th>
               </tr>
             </thead>
             <tbody>
-              {filteredTemplatesData.slice(0, 4).map((template, index) => (
-                <tr
-                  key={index}
-                  className="border-b border-border hover:bg-muted/50"
-                >
-                  <td className="py-2 px-2">
-                    <div className="font-medium text-foreground text-sm">
-                      {template.name}
-                    </div>
-                  </td>
-                  <td className="py-2 px-2">
-                    <div className="font-medium text-foreground">
-                      {template.totalInterviews}
-                    </div>
-                  </td>
-                  <td className="py-2 px-2">
-                    <div className="font-medium text-foreground">
-                      {template.averageAdeptness}%
-                    </div>
-                  </td>
-                  <td className="py-2 px-2">
-                    <div className="font-medium text-foreground">
-                      {template.averageEffectiveness}%
-                    </div>
-                  </td>
-                  <td className="py-2 px-2">
-                    <div
-                      className={`font-medium ${
-                        template.integrityRate >= 95
-                          ? "text-green-600"
-                          : template.integrityRate >= 90
-                            ? "text-yellow-600"
-                            : "text-red-600"
-                      }`}
-                    >
-                      {template.integrityRate}%
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {filteredTemplatesData
+                .sort((a, b) => {
+                  const valueA =
+                    templateFilterBy === "utilization"
+                      ? a.averageAdeptness
+                      : a.averageEffectiveness;
+                  const valueB =
+                    templateFilterBy === "utilization"
+                      ? b.averageAdeptness
+                      : b.averageEffectiveness;
+                  return valueB - valueA;
+                })
+                .slice(0, 4)
+                .map((template, index) => (
+                  <tr
+                    key={index}
+                    className="border-b border-border hover:bg-muted/50"
+                  >
+                    <td className="py-2 px-2">
+                      <div className="font-medium text-foreground text-sm">
+                        {template.name}
+                      </div>
+                    </td>
+                    <td className="py-2 px-2">
+                      <div className="font-medium text-foreground">
+                        {template.totalInterviews}
+                      </div>
+                    </td>
+                    <td className="py-2 px-2">
+                      <div className="font-medium text-foreground">
+                        {template.averageAdeptness}%
+                      </div>
+                    </td>
+                    <td className="py-2 px-2">
+                      <div className="font-medium text-foreground">
+                        {template.averageEffectiveness}%
+                      </div>
+                    </td>
+                    <td className="py-2 px-2">
+                      <div
+                        className={`px-2 py-1 rounded-full text-xs font-medium border ${template.categoryColor}`}
+                      >
+                        {template.category}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
@@ -1020,11 +1091,11 @@ export default function EnhancedDashboard() {
           </div>
         </div>
 
-        {/* Full Month Calendar View */}
+        {/* Minimal Interview Calendar Heat Map */}
         <div className="bg-card border border-border rounded-xl p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-foreground">
-              January 2024 - Interview Calendar
+              January 2024 - Interview Heat Map
             </h3>
             <div className="flex items-center space-x-2">
               <Calendar className="w-5 h-5 text-muted-foreground" />
@@ -1034,188 +1105,201 @@ export default function EnhancedDashboard() {
             </div>
           </div>
 
-          {/* Legend */}
-          <div className="mb-4 space-y-2">
-            <h4 className="text-sm font-medium text-foreground">
-              Interview Intensity:
-            </h4>
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>Less</span>
-              <div className="flex space-x-1">
-                <div className="flex flex-col items-center">
-                  <div className="w-3 h-3 bg-muted rounded-sm" />
-                  <span className="text-xs mt-1">0</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <div className="w-3 h-3 bg-blue-100 rounded-sm" />
-                  <span className="text-xs mt-1">1-3</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <div className="w-3 h-3 bg-blue-300 rounded-sm" />
-                  <span className="text-xs mt-1">4-6</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <div className="w-3 h-3 bg-blue-500 rounded-sm" />
-                  <span className="text-xs mt-1">7+</span>
-                </div>
+          {/* Minimal Legend */}
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <span className="text-xs text-muted-foreground">Less</span>
+              <div className="flex gap-1">
+                <div className="w-3 h-3 bg-gray-100 rounded" />
+                <div className="w-3 h-3 bg-primary/20 rounded" />
+                <div className="w-3 h-3 bg-primary/50 rounded" />
+                <div className="w-3 h-3 bg-primary/80 rounded" />
+                <div className="w-3 h-3 bg-primary rounded" />
               </div>
-              <span>More</span>
+              <span className="text-xs text-muted-foreground">More</span>
             </div>
+            <span className="text-xs text-muted-foreground">
+              Hover for details
+            </span>
           </div>
 
-          {/* Full Calendar Grid */}
-          <div className="grid grid-cols-7 gap-2">
+          {/* Minimal Calendar Grid */}
+          <div className="space-y-1">
             {/* Day Headers */}
-            {[
-              "Sunday",
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-              "Friday",
-              "Saturday",
-            ].map((day) => (
-              <div
-                key={day}
-                className="text-center text-sm font-semibold text-foreground p-2 bg-muted/50 rounded"
-              >
-                {day.slice(0, 3)}
-              </div>
-            ))}
+            <div className="grid grid-cols-7 gap-1 mb-2">
+              {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
+                <div
+                  key={index}
+                  className="text-center text-xs text-muted-foreground font-medium py-1"
+                >
+                  {day}
+                </div>
+              ))}
+            </div>
 
             {/* Calendar Days */}
-            {Array.from({ length: 31 }, (_, i) => {
-              const dayNumber = i + 1;
-              const interviews = Math.floor(Math.random() * 12);
-              const intensity =
-                interviews === 0
-                  ? 0
-                  : interviews <= 3
-                    ? 1
-                    : interviews <= 6
-                      ? 2
-                      : 3;
+            <div className="grid grid-cols-7 gap-1">
+              {Array.from({ length: 31 }, (_, i) => {
+                const dayNumber = i + 1;
+                const interviews = Math.floor(Math.random() * 12);
+                const intensity =
+                  interviews === 0
+                    ? 0
+                    : interviews <= 2
+                      ? 1
+                      : interviews <= 5
+                        ? 2
+                        : interviews <= 8
+                          ? 3
+                          : 4;
 
-              // Generate department and role data
-              const engineering = Math.floor(
-                interviews * (0.4 + Math.random() * 0.3),
-              );
-              const sales = Math.floor(
-                interviews * (0.2 + Math.random() * 0.2),
-              );
-              const marketing = Math.floor(
-                interviews * (0.1 + Math.random() * 0.2),
-              );
-              const design = interviews - engineering - sales - marketing;
+                // Generate department and role data
+                const engineering = Math.floor(
+                  interviews * (0.4 + Math.random() * 0.3),
+                );
+                const sales = Math.floor(
+                  interviews * (0.2 + Math.random() * 0.2),
+                );
+                const marketing = Math.floor(
+                  interviews * (0.1 + Math.random() * 0.2),
+                );
+                const design = Math.max(
+                  0,
+                  interviews - engineering - sales - marketing,
+                );
 
-              const roles = [
-                {
-                  name: "Software Engineer",
-                  count: Math.floor(engineering * 0.6),
-                },
-                { name: "Data Analyst", count: Math.floor(engineering * 0.4) },
-                { name: "Sales Manager", count: Math.floor(sales * 0.7) },
-                { name: "Account Executive", count: Math.floor(sales * 0.3) },
-                {
-                  name: "Marketing Manager",
-                  count: Math.floor(marketing * 0.8),
-                },
-                { name: "UX Designer", count: design },
-              ].filter((role) => role.count > 0);
+                const roles = [
+                  {
+                    name: "Software Engineer",
+                    count: Math.floor(engineering * 0.6),
+                  },
+                  {
+                    name: "Data Analyst",
+                    count: Math.floor(engineering * 0.4),
+                  },
+                  { name: "Sales Manager", count: Math.floor(sales * 0.7) },
+                  { name: "Account Executive", count: Math.floor(sales * 0.3) },
+                  {
+                    name: "Marketing Manager",
+                    count: Math.floor(marketing * 0.8),
+                  },
+                  { name: "UX Designer", count: design },
+                ].filter((role) => role.count > 0);
 
-              return (
-                <div
-                  key={dayNumber}
-                  className={`relative group min-h-[60px] p-2 rounded cursor-pointer transition-all hover:scale-105 border-2 border-transparent hover:border-primary/50 ${
-                    intensity === 0
-                      ? "bg-muted/30 text-muted-foreground"
-                      : intensity === 1
-                        ? "bg-blue-50 border-blue-200 text-blue-900"
-                        : intensity === 2
-                          ? "bg-blue-100 border-blue-300 text-blue-900"
-                          : "bg-blue-200 border-blue-400 text-blue-900"
-                  }`}
-                >
-                  <div className="text-sm font-medium">{dayNumber}</div>
-                  {interviews > 0 && (
-                    <div className="text-xs mt-1">
-                      <div className="font-bold">{interviews} interviews</div>
-                    </div>
-                  )}
+                const intensityClasses = [
+                  "bg-gray-100",
+                  "bg-primary/20",
+                  "bg-primary/50",
+                  "bg-primary/80",
+                  "bg-primary",
+                ];
 
-                  {/* Detailed Hover Tooltip */}
-                  {interviews > 0 && (
-                    <div className="absolute top-full left-0 mt-2 opacity-0 group-hover:opacity-100 transition-opacity z-20 pointer-events-none">
-                      <div className="bg-card border border-border rounded-lg p-4 shadow-xl min-w-[280px]">
-                        <div className="text-sm font-bold text-foreground mb-3">
-                          January {dayNumber}, 2024
+                return (
+                  <div
+                    key={dayNumber}
+                    className={`relative group w-8 h-8 ${intensityClasses[intensity]} rounded cursor-pointer transition-all hover:ring-2 hover:ring-primary/50 hover:scale-110 flex items-center justify-center`}
+                  >
+                    <span className="text-xs font-medium text-foreground opacity-70">
+                      {dayNumber}
+                    </span>
+
+                    {/* Enhanced Hover Tooltip */}
+                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity z-30 pointer-events-none">
+                      <div className="bg-card border border-border rounded-lg p-3 shadow-xl min-w-[240px]">
+                        {/* Header */}
+                        <div className="flex items-center justify-between mb-3 pb-2 border-b border-border">
+                          <span className="text-sm font-bold text-foreground">
+                            Jan {dayNumber}, 2024
+                          </span>
+                          <span className="text-lg font-bold text-primary">
+                            {interviews}
+                          </span>
                         </div>
 
-                        {/* Department Breakdown */}
-                        <div className="space-y-2 mb-3">
-                          <h4 className="text-xs font-semibold text-muted-foreground">
-                            By Department:
-                          </h4>
-                          {engineering > 0 && (
-                            <div className="flex justify-between text-xs">
-                              <span className="text-blue-600">
-                                Engineering:
-                              </span>
-                              <span className="font-medium">{engineering}</span>
+                        {interviews > 0 ? (
+                          <>
+                            {/* Department Breakdown */}
+                            <div className="space-y-1 mb-3">
+                              <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                                Departments
+                              </h4>
+                              <div className="grid grid-cols-2 gap-1 text-xs">
+                                {engineering > 0 && (
+                                  <div className="flex justify-between">
+                                    <span className="text-blue-600">
+                                      Engineering
+                                    </span>
+                                    <span className="font-medium">
+                                      {engineering}
+                                    </span>
+                                  </div>
+                                )}
+                                {sales > 0 && (
+                                  <div className="flex justify-between">
+                                    <span className="text-green-600">
+                                      Sales
+                                    </span>
+                                    <span className="font-medium">{sales}</span>
+                                  </div>
+                                )}
+                                {marketing > 0 && (
+                                  <div className="flex justify-between">
+                                    <span className="text-purple-600">
+                                      Marketing
+                                    </span>
+                                    <span className="font-medium">
+                                      {marketing}
+                                    </span>
+                                  </div>
+                                )}
+                                {design > 0 && (
+                                  <div className="flex justify-between">
+                                    <span className="text-orange-600">
+                                      Design
+                                    </span>
+                                    <span className="font-medium">
+                                      {design}
+                                    </span>
+                                  </div>
+                                )}
+                              </div>
                             </div>
-                          )}
-                          {sales > 0 && (
-                            <div className="flex justify-between text-xs">
-                              <span className="text-green-600">Sales:</span>
-                              <span className="font-medium">{sales}</span>
-                            </div>
-                          )}
-                          {marketing > 0 && (
-                            <div className="flex justify-between text-xs">
-                              <span className="text-purple-600">
-                                Marketing:
-                              </span>
-                              <span className="font-medium">{marketing}</span>
-                            </div>
-                          )}
-                          {design > 0 && (
-                            <div className="flex justify-between text-xs">
-                              <span className="text-orange-600">Design:</span>
-                              <span className="font-medium">{design}</span>
-                            </div>
-                          )}
-                        </div>
 
-                        {/* Role Breakdown */}
-                        <div className="space-y-1">
-                          <h4 className="text-xs font-semibold text-muted-foreground">
-                            By Role:
-                          </h4>
-                          {roles.map((role, idx) => (
-                            <div
-                              key={idx}
-                              className="flex justify-between text-xs"
-                            >
-                              <span className="text-muted-foreground">
-                                {role.name}:
-                              </span>
-                              <span className="font-medium">{role.count}</span>
-                            </div>
-                          ))}
-                        </div>
-
-                        <div className="border-t border-border pt-2 mt-2">
-                          <div className="flex justify-between text-sm font-bold">
-                            <span>Total Interviews:</span>
-                            <span className="text-primary">{interviews}</span>
+                            {/* Top Roles */}
+                            {roles.length > 0 && (
+                              <div className="space-y-1">
+                                <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                                  Top Roles
+                                </h4>
+                                <div className="space-y-1">
+                                  {roles.slice(0, 3).map((role, idx) => (
+                                    <div
+                                      key={idx}
+                                      className="flex justify-between text-xs"
+                                    >
+                                      <span className="text-muted-foreground truncate">
+                                        {role.name}
+                                      </span>
+                                      <span className="font-medium text-foreground">
+                                        {role.count}
+                                      </span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          <div className="text-center text-muted-foreground text-xs py-2">
+                            No interviews scheduled
                           </div>
-                        </div>
+                        )}
                       </div>
                     </div>
-                  )}
-                </div>
-              );
-            })}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
