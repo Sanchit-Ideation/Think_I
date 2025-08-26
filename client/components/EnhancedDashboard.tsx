@@ -569,7 +569,7 @@ export default function EnhancedDashboard() {
     const utilThreshold = 85;
     const effThreshold = 90;
 
-    return templates.map(template => {
+    return templates.map((template) => {
       const utilization = template.averageAdeptness;
       const effectiveness = template.averageEffectiveness;
 
@@ -578,22 +578,26 @@ export default function EnhancedDashboard() {
 
       if (utilization >= utilThreshold && effectiveness >= effThreshold) {
         category = "Best practice";
-        categoryColor = "bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300";
+        categoryColor =
+          "bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300";
       } else if (utilization >= utilThreshold && effectiveness < effThreshold) {
         category = "Needs review";
-        categoryColor = "bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-300";
+        categoryColor =
+          "bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-300";
       } else if (utilization < utilThreshold && effectiveness >= effThreshold) {
         category = "Hidden gems";
-        categoryColor = "bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300";
+        categoryColor =
+          "bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300";
       } else {
         category = "Poor-performing";
-        categoryColor = "bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300";
+        categoryColor =
+          "bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300";
       }
 
       return {
         ...template,
         category,
-        categoryColor
+        categoryColor,
       };
     });
   };
@@ -606,7 +610,9 @@ export default function EnhancedDashboard() {
   );
   const filteredCompetencyData = getFilteredData(competencyData, "competency");
   const filteredUFMData = getFilteredData(ufmTrendsData, "timeline");
-  const filteredTemplatesData = categorizeTemplates(getFilteredData(trendingTemplates, "templates"));
+  const filteredTemplatesData = categorizeTemplates(
+    getFilteredData(trendingTemplates, "templates"),
+  );
 
   return (
     <div className="space-y-8">
@@ -921,19 +927,27 @@ export default function EnhancedDashboard() {
           <div className="grid grid-cols-2 gap-2 text-xs">
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 rounded bg-green-600"></div>
-              <span className="text-green-600">High Adoption + High Effectiveness → Best practice</span>
+              <span className="text-green-600">
+                High Adoption + High Effectiveness → Best practice
+              </span>
             </div>
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 rounded bg-yellow-600"></div>
-              <span className="text-yellow-600">High Adoption + Low Effectiveness → Needs review</span>
+              <span className="text-yellow-600">
+                High Adoption + Low Effectiveness → Needs review
+              </span>
             </div>
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 rounded bg-blue-600"></div>
-              <span className="text-blue-600">Low Adoption + High Effectiveness → Hidden gems</span>
+              <span className="text-blue-600">
+                Low Adoption + High Effectiveness → Hidden gems
+              </span>
             </div>
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 rounded bg-red-600"></div>
-              <span className="text-red-600">Low Adoption + Low Effectiveness → Poor-performing</span>
+              <span className="text-red-600">
+                Low Adoption + Low Effectiveness → Poor-performing
+              </span>
             </div>
           </div>
         </div>
@@ -961,8 +975,14 @@ export default function EnhancedDashboard() {
             <tbody>
               {filteredTemplatesData
                 .sort((a, b) => {
-                  const valueA = templateFilterBy === "utilization" ? a.averageAdeptness : a.averageEffectiveness;
-                  const valueB = templateFilterBy === "utilization" ? b.averageAdeptness : b.averageEffectiveness;
+                  const valueA =
+                    templateFilterBy === "utilization"
+                      ? a.averageAdeptness
+                      : a.averageEffectiveness;
+                  const valueB =
+                    templateFilterBy === "utilization"
+                      ? b.averageAdeptness
+                      : b.averageEffectiveness;
                   return valueB - valueA;
                 })
                 .slice(0, 4)
@@ -992,7 +1012,9 @@ export default function EnhancedDashboard() {
                       </div>
                     </td>
                     <td className="py-2 px-2">
-                      <div className={`px-2 py-1 rounded-full text-xs font-medium border ${template.categoryColor}`}>
+                      <div
+                        className={`px-2 py-1 rounded-full text-xs font-medium border ${template.categoryColor}`}
+                      >
                         {template.category}
                       </div>
                     </td>
@@ -1096,7 +1118,9 @@ export default function EnhancedDashboard() {
               </div>
               <span className="text-xs text-muted-foreground">More</span>
             </div>
-            <span className="text-xs text-muted-foreground">Hover for details</span>
+            <span className="text-xs text-muted-foreground">
+              Hover for details
+            </span>
           </div>
 
           {/* Minimal Calendar Grid */}
@@ -1139,14 +1163,20 @@ export default function EnhancedDashboard() {
                 const marketing = Math.floor(
                   interviews * (0.1 + Math.random() * 0.2),
                 );
-                const design = Math.max(0, interviews - engineering - sales - marketing);
+                const design = Math.max(
+                  0,
+                  interviews - engineering - sales - marketing,
+                );
 
                 const roles = [
                   {
                     name: "Software Engineer",
                     count: Math.floor(engineering * 0.6),
                   },
-                  { name: "Data Analyst", count: Math.floor(engineering * 0.4) },
+                  {
+                    name: "Data Analyst",
+                    count: Math.floor(engineering * 0.4),
+                  },
                   { name: "Sales Manager", count: Math.floor(sales * 0.7) },
                   { name: "Account Executive", count: Math.floor(sales * 0.3) },
                   {
@@ -1161,7 +1191,7 @@ export default function EnhancedDashboard() {
                   "bg-primary/20",
                   "bg-primary/50",
                   "bg-primary/80",
-                  "bg-primary"
+                  "bg-primary",
                 ];
 
                 return (
@@ -1196,26 +1226,40 @@ export default function EnhancedDashboard() {
                               <div className="grid grid-cols-2 gap-1 text-xs">
                                 {engineering > 0 && (
                                   <div className="flex justify-between">
-                                    <span className="text-blue-600">Engineering</span>
-                                    <span className="font-medium">{engineering}</span>
+                                    <span className="text-blue-600">
+                                      Engineering
+                                    </span>
+                                    <span className="font-medium">
+                                      {engineering}
+                                    </span>
                                   </div>
                                 )}
                                 {sales > 0 && (
                                   <div className="flex justify-between">
-                                    <span className="text-green-600">Sales</span>
+                                    <span className="text-green-600">
+                                      Sales
+                                    </span>
                                     <span className="font-medium">{sales}</span>
                                   </div>
                                 )}
                                 {marketing > 0 && (
                                   <div className="flex justify-between">
-                                    <span className="text-purple-600">Marketing</span>
-                                    <span className="font-medium">{marketing}</span>
+                                    <span className="text-purple-600">
+                                      Marketing
+                                    </span>
+                                    <span className="font-medium">
+                                      {marketing}
+                                    </span>
                                   </div>
                                 )}
                                 {design > 0 && (
                                   <div className="flex justify-between">
-                                    <span className="text-orange-600">Design</span>
-                                    <span className="font-medium">{design}</span>
+                                    <span className="text-orange-600">
+                                      Design
+                                    </span>
+                                    <span className="font-medium">
+                                      {design}
+                                    </span>
                                   </div>
                                 )}
                               </div>
