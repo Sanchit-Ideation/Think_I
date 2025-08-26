@@ -13,7 +13,7 @@ const templateData = [
     candidates: 234,
     interviews: 198,
     hired: 67,
-    adoptionRate: 85,
+    utilizationRate: 85,
     avgCandidateScore: 84,
     avgIntegrityScore: 91,
     percentRecommended: 68,
@@ -33,7 +33,7 @@ const templateData = [
     candidates: 156,
     interviews: 134,
     hired: 45,
-    adoptionRate: 92,
+    utilizationRate: 92,
     avgCandidateScore: 86,
     avgIntegrityScore: 89,
     percentRecommended: 72,
@@ -53,7 +53,7 @@ const templateData = [
     candidates: 89,
     interviews: 76,
     hired: 28,
-    adoptionRate: 76,
+    utilizationRate: 76,
     avgCandidateScore: 88,
     avgIntegrityScore: 94,
     percentRecommended: 78,
@@ -73,7 +73,7 @@ const templateData = [
     candidates: 123,
     interviews: 105,
     hired: 38,
-    adoptionRate: 68,
+    utilizationRate: 68,
     avgCandidateScore: 82,
     avgIntegrityScore: 87,
     percentRecommended: 65,
@@ -246,11 +246,11 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
 
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Adoption Rate</span>
-                    <span className="font-medium">{template.adoptionRate}%</span>
+                    <span className="text-muted-foreground">Utilization Rate</span>
+                    <span className="font-medium">{template.utilizationRate}%</span>
                   </div>
                   <div className="w-full bg-background rounded-full h-2">
-                    <div className="bg-primary h-2 rounded-full" style={{ width: `${template.adoptionRate}%` }} />
+                    <div className="bg-primary h-2 rounded-full" style={{ width: `${template.utilizationRate}%` }} />
                   </div>
                 </div>
 

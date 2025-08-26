@@ -111,8 +111,8 @@ export default function TemplateDetailView({ template, onBack }: TemplateDetailV
           <div className="flex items-center space-x-3">
             <TrendingUp className="w-8 h-8 text-green-500" />
             <div>
-              <p className="text-2xl font-bold text-foreground">{template.adoptionRate}%</p>
-              <p className="text-sm text-muted-foreground">Adoption Rate</p>
+              <p className="text-2xl font-bold text-foreground">{template.utilizationRate}%</p>
+              <p className="text-sm text-muted-foreground">Utilization Rate</p>
             </div>
           </div>
         </div>

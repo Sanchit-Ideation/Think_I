@@ -148,7 +148,7 @@ const topTemplates = [
     interviews: 156,
     interviewChange: 18.2,
     effectiveness: 91.4,
-    adoptionRate: 68.2,
+    utilizationRate: 68.2,
     integrity: 91.2,
     performance: 'up'
   },
@@ -157,7 +157,7 @@ const topTemplates = [
     interviews: 132,
     interviewChange: 12.1,
     effectiveness: 94.8,
-    adoptionRate: 72.1,
+    utilizationRate: 72.1,
     integrity: 93.8,
     performance: 'up'
   },
@@ -166,7 +166,7 @@ const topTemplates = [
     interviews: 94,
     interviewChange: -5.3,
     effectiveness: 87.3,
-    adoptionRate: 64.9,
+    utilizationRate: 64.9,
     integrity: 88.6,
     performance: 'down'
   }
@@ -476,7 +476,7 @@ export default function AnalyticsDashboard() {
                   <th className="text-left py-3 px-2 font-medium text-foreground">Template</th>
                   <th className="text-left py-3 px-2 font-medium text-foreground">Interviews</th>
                   <th className="text-left py-3 px-2 font-medium text-foreground">Effectiveness</th>
-                <th className="text-left py-3 px-2 font-medium text-foreground">Adoption Rate</th>
+                <th className="text-left py-3 px-2 font-medium text-foreground">Utilization Rate</th>
                   <th className="text-left py-3 px-2 font-medium text-foreground">Performance</th>
                 </tr>
               </thead>
@@ -495,7 +495,7 @@ export default function AnalyticsDashboard() {
                       <div className="font-medium text-foreground">{template.effectiveness}%</div>
                     </td>
                     <td className="py-3 px-2">
-                      <div className="font-medium text-foreground">{template.adoptionRate}%</div>
+                      <div className="font-medium text-foreground">{template.utilizationRate}%</div>
                     </td>
                     <td className="py-3 px-2">
                       {template.performance === 'up' ? (
