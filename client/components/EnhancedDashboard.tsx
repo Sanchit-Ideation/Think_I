@@ -1069,11 +1069,11 @@ export default function EnhancedDashboard() {
           </div>
         </div>
 
-        {/* Full Month Calendar View */}
+        {/* Minimal Interview Calendar Heat Map */}
         <div className="bg-card border border-border rounded-xl p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-foreground">
-              January 2024 - Interview Calendar
+              January 2024 - Interview Heat Map
             </h3>
             <div className="flex items-center space-x-2">
               <Calendar className="w-5 h-5 text-muted-foreground" />
@@ -1083,188 +1083,179 @@ export default function EnhancedDashboard() {
             </div>
           </div>
 
-          {/* Legend */}
-          <div className="mb-4 space-y-2">
-            <h4 className="text-sm font-medium text-foreground">
-              Interview Intensity:
-            </h4>
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>Less</span>
-              <div className="flex space-x-1">
-                <div className="flex flex-col items-center">
-                  <div className="w-3 h-3 bg-muted rounded-sm" />
-                  <span className="text-xs mt-1">0</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <div className="w-3 h-3 bg-blue-100 rounded-sm" />
-                  <span className="text-xs mt-1">1-3</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <div className="w-3 h-3 bg-blue-300 rounded-sm" />
-                  <span className="text-xs mt-1">4-6</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <div className="w-3 h-3 bg-blue-500 rounded-sm" />
-                  <span className="text-xs mt-1">7+</span>
-                </div>
+          {/* Minimal Legend */}
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <span className="text-xs text-muted-foreground">Less</span>
+              <div className="flex gap-1">
+                <div className="w-3 h-3 bg-gray-100 rounded" />
+                <div className="w-3 h-3 bg-primary/20 rounded" />
+                <div className="w-3 h-3 bg-primary/50 rounded" />
+                <div className="w-3 h-3 bg-primary/80 rounded" />
+                <div className="w-3 h-3 bg-primary rounded" />
               </div>
-              <span>More</span>
+              <span className="text-xs text-muted-foreground">More</span>
             </div>
+            <span className="text-xs text-muted-foreground">Hover for details</span>
           </div>
 
-          {/* Full Calendar Grid */}
-          <div className="grid grid-cols-7 gap-2">
+          {/* Minimal Calendar Grid */}
+          <div className="space-y-1">
             {/* Day Headers */}
-            {[
-              "Sunday",
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-              "Friday",
-              "Saturday",
-            ].map((day) => (
-              <div
-                key={day}
-                className="text-center text-sm font-semibold text-foreground p-2 bg-muted/50 rounded"
-              >
-                {day.slice(0, 3)}
-              </div>
-            ))}
+            <div className="grid grid-cols-7 gap-1 mb-2">
+              {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
+                <div
+                  key={index}
+                  className="text-center text-xs text-muted-foreground font-medium py-1"
+                >
+                  {day}
+                </div>
+              ))}
+            </div>
 
             {/* Calendar Days */}
-            {Array.from({ length: 31 }, (_, i) => {
-              const dayNumber = i + 1;
-              const interviews = Math.floor(Math.random() * 12);
-              const intensity =
-                interviews === 0
-                  ? 0
-                  : interviews <= 3
-                    ? 1
-                    : interviews <= 6
-                      ? 2
-                      : 3;
+            <div className="grid grid-cols-7 gap-1">
+              {Array.from({ length: 31 }, (_, i) => {
+                const dayNumber = i + 1;
+                const interviews = Math.floor(Math.random() * 12);
+                const intensity =
+                  interviews === 0
+                    ? 0
+                    : interviews <= 2
+                      ? 1
+                      : interviews <= 5
+                        ? 2
+                        : interviews <= 8
+                          ? 3
+                          : 4;
 
-              // Generate department and role data
-              const engineering = Math.floor(
-                interviews * (0.4 + Math.random() * 0.3),
-              );
-              const sales = Math.floor(
-                interviews * (0.2 + Math.random() * 0.2),
-              );
-              const marketing = Math.floor(
-                interviews * (0.1 + Math.random() * 0.2),
-              );
-              const design = interviews - engineering - sales - marketing;
+                // Generate department and role data
+                const engineering = Math.floor(
+                  interviews * (0.4 + Math.random() * 0.3),
+                );
+                const sales = Math.floor(
+                  interviews * (0.2 + Math.random() * 0.2),
+                );
+                const marketing = Math.floor(
+                  interviews * (0.1 + Math.random() * 0.2),
+                );
+                const design = Math.max(0, interviews - engineering - sales - marketing);
 
-              const roles = [
-                {
-                  name: "Software Engineer",
-                  count: Math.floor(engineering * 0.6),
-                },
-                { name: "Data Analyst", count: Math.floor(engineering * 0.4) },
-                { name: "Sales Manager", count: Math.floor(sales * 0.7) },
-                { name: "Account Executive", count: Math.floor(sales * 0.3) },
-                {
-                  name: "Marketing Manager",
-                  count: Math.floor(marketing * 0.8),
-                },
-                { name: "UX Designer", count: design },
-              ].filter((role) => role.count > 0);
+                const roles = [
+                  {
+                    name: "Software Engineer",
+                    count: Math.floor(engineering * 0.6),
+                  },
+                  { name: "Data Analyst", count: Math.floor(engineering * 0.4) },
+                  { name: "Sales Manager", count: Math.floor(sales * 0.7) },
+                  { name: "Account Executive", count: Math.floor(sales * 0.3) },
+                  {
+                    name: "Marketing Manager",
+                    count: Math.floor(marketing * 0.8),
+                  },
+                  { name: "UX Designer", count: design },
+                ].filter((role) => role.count > 0);
 
-              return (
-                <div
-                  key={dayNumber}
-                  className={`relative group min-h-[60px] p-2 rounded cursor-pointer transition-all hover:scale-105 border-2 border-transparent hover:border-primary/50 ${
-                    intensity === 0
-                      ? "bg-muted/30 text-muted-foreground"
-                      : intensity === 1
-                        ? "bg-blue-50 border-blue-200 text-blue-900"
-                        : intensity === 2
-                          ? "bg-blue-100 border-blue-300 text-blue-900"
-                          : "bg-blue-200 border-blue-400 text-blue-900"
-                  }`}
-                >
-                  <div className="text-sm font-medium">{dayNumber}</div>
-                  {interviews > 0 && (
-                    <div className="text-xs mt-1">
-                      <div className="font-bold">{interviews} interviews</div>
-                    </div>
-                  )}
+                const intensityClasses = [
+                  "bg-gray-100",
+                  "bg-primary/20",
+                  "bg-primary/50",
+                  "bg-primary/80",
+                  "bg-primary"
+                ];
 
-                  {/* Detailed Hover Tooltip */}
-                  {interviews > 0 && (
-                    <div className="absolute top-full left-0 mt-2 opacity-0 group-hover:opacity-100 transition-opacity z-20 pointer-events-none">
-                      <div className="bg-card border border-border rounded-lg p-4 shadow-xl min-w-[280px]">
-                        <div className="text-sm font-bold text-foreground mb-3">
-                          January {dayNumber}, 2024
+                return (
+                  <div
+                    key={dayNumber}
+                    className={`relative group w-8 h-8 ${intensityClasses[intensity]} rounded cursor-pointer transition-all hover:ring-2 hover:ring-primary/50 hover:scale-110 flex items-center justify-center`}
+                  >
+                    <span className="text-xs font-medium text-foreground opacity-70">
+                      {dayNumber}
+                    </span>
+
+                    {/* Enhanced Hover Tooltip */}
+                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity z-30 pointer-events-none">
+                      <div className="bg-card border border-border rounded-lg p-3 shadow-xl min-w-[240px]">
+                        {/* Header */}
+                        <div className="flex items-center justify-between mb-3 pb-2 border-b border-border">
+                          <span className="text-sm font-bold text-foreground">
+                            Jan {dayNumber}, 2024
+                          </span>
+                          <span className="text-lg font-bold text-primary">
+                            {interviews}
+                          </span>
                         </div>
 
-                        {/* Department Breakdown */}
-                        <div className="space-y-2 mb-3">
-                          <h4 className="text-xs font-semibold text-muted-foreground">
-                            By Department:
-                          </h4>
-                          {engineering > 0 && (
-                            <div className="flex justify-between text-xs">
-                              <span className="text-blue-600">
-                                Engineering:
-                              </span>
-                              <span className="font-medium">{engineering}</span>
+                        {interviews > 0 ? (
+                          <>
+                            {/* Department Breakdown */}
+                            <div className="space-y-1 mb-3">
+                              <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                                Departments
+                              </h4>
+                              <div className="grid grid-cols-2 gap-1 text-xs">
+                                {engineering > 0 && (
+                                  <div className="flex justify-between">
+                                    <span className="text-blue-600">Engineering</span>
+                                    <span className="font-medium">{engineering}</span>
+                                  </div>
+                                )}
+                                {sales > 0 && (
+                                  <div className="flex justify-between">
+                                    <span className="text-green-600">Sales</span>
+                                    <span className="font-medium">{sales}</span>
+                                  </div>
+                                )}
+                                {marketing > 0 && (
+                                  <div className="flex justify-between">
+                                    <span className="text-purple-600">Marketing</span>
+                                    <span className="font-medium">{marketing}</span>
+                                  </div>
+                                )}
+                                {design > 0 && (
+                                  <div className="flex justify-between">
+                                    <span className="text-orange-600">Design</span>
+                                    <span className="font-medium">{design}</span>
+                                  </div>
+                                )}
+                              </div>
                             </div>
-                          )}
-                          {sales > 0 && (
-                            <div className="flex justify-between text-xs">
-                              <span className="text-green-600">Sales:</span>
-                              <span className="font-medium">{sales}</span>
-                            </div>
-                          )}
-                          {marketing > 0 && (
-                            <div className="flex justify-between text-xs">
-                              <span className="text-purple-600">
-                                Marketing:
-                              </span>
-                              <span className="font-medium">{marketing}</span>
-                            </div>
-                          )}
-                          {design > 0 && (
-                            <div className="flex justify-between text-xs">
-                              <span className="text-orange-600">Design:</span>
-                              <span className="font-medium">{design}</span>
-                            </div>
-                          )}
-                        </div>
 
-                        {/* Role Breakdown */}
-                        <div className="space-y-1">
-                          <h4 className="text-xs font-semibold text-muted-foreground">
-                            By Role:
-                          </h4>
-                          {roles.map((role, idx) => (
-                            <div
-                              key={idx}
-                              className="flex justify-between text-xs"
-                            >
-                              <span className="text-muted-foreground">
-                                {role.name}:
-                              </span>
-                              <span className="font-medium">{role.count}</span>
-                            </div>
-                          ))}
-                        </div>
-
-                        <div className="border-t border-border pt-2 mt-2">
-                          <div className="flex justify-between text-sm font-bold">
-                            <span>Total Interviews:</span>
-                            <span className="text-primary">{interviews}</span>
+                            {/* Top Roles */}
+                            {roles.length > 0 && (
+                              <div className="space-y-1">
+                                <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                                  Top Roles
+                                </h4>
+                                <div className="space-y-1">
+                                  {roles.slice(0, 3).map((role, idx) => (
+                                    <div
+                                      key={idx}
+                                      className="flex justify-between text-xs"
+                                    >
+                                      <span className="text-muted-foreground truncate">
+                                        {role.name}
+                                      </span>
+                                      <span className="font-medium text-foreground">
+                                        {role.count}
+                                      </span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          <div className="text-center text-muted-foreground text-xs py-2">
+                            No interviews scheduled
                           </div>
-                        </div>
+                        )}
                       </div>
                     </div>
-                  )}
-                </div>
-              );
-            })}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
