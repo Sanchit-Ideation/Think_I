@@ -564,6 +564,40 @@ export default function EnhancedDashboard() {
     return filteredData;
   };
 
+  // Function to categorize templates based on utilization and effectiveness
+  const categorizeTemplates = (templates: typeof trendingTemplates) => {
+    const utilThreshold = 85;
+    const effThreshold = 90;
+
+    return templates.map(template => {
+      const utilization = template.averageAdeptness;
+      const effectiveness = template.averageEffectiveness;
+
+      let category = "";
+      let categoryColor = "";
+
+      if (utilization >= utilThreshold && effectiveness >= effThreshold) {
+        category = "Best practice";
+        categoryColor = "bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300";
+      } else if (utilization >= utilThreshold && effectiveness < effThreshold) {
+        category = "Needs review";
+        categoryColor = "bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-300";
+      } else if (utilization < utilThreshold && effectiveness >= effThreshold) {
+        category = "Hidden gems";
+        categoryColor = "bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300";
+      } else {
+        category = "Poor-performing";
+        categoryColor = "bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300";
+      }
+
+      return {
+        ...template,
+        category,
+        categoryColor
+      };
+    });
+  };
+
   // Get filtered datasets
   const filteredFunnelData = getFilteredData(interviewFunnelData, "interviews");
   const filteredTimelineData = getFilteredData(
@@ -572,7 +606,7 @@ export default function EnhancedDashboard() {
   );
   const filteredCompetencyData = getFilteredData(competencyData, "competency");
   const filteredUFMData = getFilteredData(ufmTrendsData, "timeline");
-  const filteredTemplatesData = getFilteredData(trendingTemplates, "templates");
+  const filteredTemplatesData = categorizeTemplates(getFilteredData(trendingTemplates, "templates"));
 
   return (
     <div className="space-y-8">
