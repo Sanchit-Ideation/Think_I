@@ -1,5 +1,15 @@
-import { useState } from 'react';
-import { Search, Filter, Calendar, Users, TrendingUp, Award, Target, Brain, BarChart3 } from 'lucide-react';
+import { useState } from "react";
+import {
+  Search,
+  Filter,
+  Calendar,
+  Users,
+  TrendingUp,
+  Award,
+  Target,
+  Brain,
+  BarChart3,
+} from "lucide-react";
 
 const templateData = [
   {
@@ -13,14 +23,14 @@ const templateData = [
     candidates: 234,
     interviews: 198,
     hired: 67,
-    adoptionRate: 85,
+    utilizationRate: 85,
     avgCandidateScore: 84,
     avgIntegrityScore: 91,
     percentRecommended: 68,
     effectivenessScore: 87,
     success_rate: 75,
     avg_score: 84,
-    time_to_hire: 12
+    time_to_hire: 12,
   },
   {
     id: 2,
@@ -33,14 +43,14 @@ const templateData = [
     candidates: 156,
     interviews: 134,
     hired: 45,
-    adoptionRate: 92,
+    utilizationRate: 92,
     avgCandidateScore: 86,
     avgIntegrityScore: 89,
     percentRecommended: 72,
     effectivenessScore: 89,
     success_rate: 78,
     avg_score: 86,
-    time_to_hire: 15
+    time_to_hire: 15,
   },
   {
     id: 3,
@@ -53,14 +63,14 @@ const templateData = [
     candidates: 89,
     interviews: 76,
     hired: 28,
-    adoptionRate: 76,
+    utilizationRate: 76,
     avgCandidateScore: 88,
     avgIntegrityScore: 94,
     percentRecommended: 78,
     effectivenessScore: 91,
     success_rate: 82,
     avg_score: 88,
-    time_to_hire: 10
+    time_to_hire: 10,
   },
   {
     id: 4,
@@ -73,22 +83,24 @@ const templateData = [
     candidates: 123,
     interviews: 105,
     hired: 38,
-    adoptionRate: 68,
+    utilizationRate: 68,
     avgCandidateScore: 82,
     avgIntegrityScore: 87,
     percentRecommended: 65,
     effectivenessScore: 84,
     success_rate: 72,
     avg_score: 82,
-    time_to_hire: 18
-  }
+    time_to_hire: 18,
+  },
 ];
 
 interface TemplateReportProps {
   onTemplateSelect: (template: any) => void;
 }
 
-export default function TemplateReport({ onTemplateSelect }: TemplateReportProps) {
+export default function TemplateReport({
+  onTemplateSelect,
+}: TemplateReportProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterBy, setFilterBy] = useState("all");
   const [sortBy, setSortBy] = useState("name");
@@ -100,15 +112,21 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
   // Filter and sort templates
   const getFilteredTemplates = () => {
     let filtered = templateData.filter((template) => {
-      const matchesSearch = template.template.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           template.department.toLowerCase().includes(searchTerm.toLowerCase());
-      
-      const matchesFilter = filterBy === "all" || template.department.toLowerCase() === filterBy.toLowerCase();
-      
-      const matchesDate = dateFilter === "all" || 
-                         (dateFilter === "recent" && new Date(template.creationDate) > new Date('2024-02-01')) ||
-                         (dateFilter === "older" && new Date(template.creationDate) <= new Date('2024-02-01'));
-      
+      const matchesSearch =
+        template.template.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        template.department.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesFilter =
+        filterBy === "all" ||
+        template.department.toLowerCase() === filterBy.toLowerCase();
+
+      const matchesDate =
+        dateFilter === "all" ||
+        (dateFilter === "recent" &&
+          new Date(template.creationDate) > new Date("2024-02-01")) ||
+        (dateFilter === "older" &&
+          new Date(template.creationDate) <= new Date("2024-02-01"));
+
       return matchesSearch && matchesFilter && matchesDate;
     });
 
@@ -119,7 +137,10 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
         case "interviews":
           return b.interviews - a.interviews;
         case "date":
-          return new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime();
+          return (
+            new Date(b.creationDate).getTime() -
+            new Date(a.creationDate).getTime()
+          );
         case "alphabet":
           return a.template.localeCompare(b.template);
         default:
@@ -134,7 +155,7 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
   const totalPages = Math.ceil(filteredTemplates.length / itemsPerPage);
   const paginatedTemplates = filteredTemplates.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    currentPage * itemsPerPage,
   );
 
   return (
@@ -143,18 +164,23 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
       <div className="bg-card border border-border rounded-xl p-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
           <div>
-            <h3 className="text-lg font-semibold text-foreground">Template Report</h3>
-            <p className="text-sm text-muted-foreground">Interview Template Performance & Analytics</p>
+            <h3 className="text-lg font-semibold text-foreground">
+              Template Report
+            </h3>
+            <p className="text-sm text-muted-foreground">
+              Interview Template Performance & Analytics
+            </p>
           </div>
         </div>
       </div>
-
 
       {/* Template List/Cards */}
       <div className="bg-card border border-border rounded-xl p-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
           <div>
-            <h3 className="text-lg font-semibold text-foreground">All Templates</h3>
+            <h3 className="text-lg font-semibold text-foreground">
+              All Templates
+            </h3>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="relative">
@@ -199,64 +225,94 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
             </select>
             <div className="flex border border-border rounded-lg">
               <button
-                onClick={() => setViewMode('card')}
-                className={`px-3 py-2 text-sm ${viewMode === 'card' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                onClick={() => setViewMode("card")}
+                className={`px-3 py-2 text-sm ${viewMode === "card" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
               >
                 Cards
               </button>
               <button
-                onClick={() => setViewMode('list')}
-                className={`px-3 py-2 text-sm border-l border-border ${viewMode === 'list' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'}`}
+                onClick={() => setViewMode("list")}
+                className={`px-3 py-2 text-sm border-l border-border ${viewMode === "list" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
               >
                 List
               </button>
             </div>
           </div>
         </div>
-        
-        {viewMode === 'card' ? (
+
+        {viewMode === "card" ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {paginatedTemplates.map((template) => (
-              <div key={template.id} className="bg-card border border-border rounded-xl p-6 hover:shadow-lg hover:border-primary/30 transition-all cursor-pointer" onClick={() => onTemplateSelect(template)}>
+              <div
+                key={template.id}
+                className="bg-card border border-border rounded-xl p-6 hover:shadow-lg hover:border-primary/30 transition-all cursor-pointer"
+                onClick={() => onTemplateSelect(template)}
+              >
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h4 className="font-semibold text-foreground">{template.template}</h4>
-                    <p className="text-sm text-muted-foreground">{template.department} • {template.role}</p>
-                    <p className="text-xs text-muted-foreground">by {template.createdBy}</p>
+                    <h4 className="font-semibold text-foreground">
+                      {template.template}
+                    </h4>
+                    <p className="text-sm text-muted-foreground">
+                      {template.department} • {template.role}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      by {template.createdBy}
+                    </p>
                   </div>
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                    template.effectivenessScore >= 85 ? 'bg-green-500/10 text-green-600' :
-                    template.effectivenessScore >= 75 ? 'bg-blue-500/10 text-blue-600' :
-                    'bg-yellow-500/10 text-yellow-600'
-                  }`}>
+                  <span
+                    className={`px-3 py-1 rounded-full text-xs font-medium ${
+                      template.effectivenessScore >= 85
+                        ? "bg-green-500/10 text-green-600"
+                        : template.effectivenessScore >= 75
+                          ? "bg-blue-500/10 text-blue-600"
+                          : "bg-yellow-500/10 text-yellow-600"
+                    }`}
+                  >
                     {template.effectivenessScore}% effective
                   </span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <div className="text-center">
-                    <div className="text-lg font-bold text-foreground">{template.interviews}</div>
-                    <div className="text-xs text-muted-foreground">Interviews</div>
+                    <div className="text-lg font-bold text-foreground">
+                      {template.interviews}
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      Interviews
+                    </div>
                   </div>
                   <div className="text-center">
-                    <div className="text-lg font-bold text-foreground">{template.hired}</div>
+                    <div className="text-lg font-bold text-foreground">
+                      {template.hired}
+                    </div>
                     <div className="text-xs text-muted-foreground">Hired</div>
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Adoption Rate</span>
-                    <span className="font-medium">{template.adoptionRate}%</span>
+                    <span className="text-muted-foreground">
+                      Utilization Rate
+                    </span>
+                    <span className="font-medium">
+                      {template.utilizationRate}%
+                    </span>
                   </div>
                   <div className="w-full bg-background rounded-full h-2">
-                    <div className="bg-primary h-2 rounded-full" style={{ width: `${template.adoptionRate}%` }} />
+                    <div
+                      className="bg-primary h-2 rounded-full"
+                      style={{ width: `${template.utilizationRate}%` }}
+                    />
                   </div>
                 </div>
 
                 <div className="mt-4 pt-4 border-t border-border">
                   <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>Created: {new Date(template.creationDate).toLocaleDateString()}</span>
+                    <span>
+                      Created:{" "}
+                      {new Date(template.creationDate).toLocaleDateString()}
+                    </span>
                     <span>Avg Score: {template.avgCandidateScore}%</span>
                   </div>
                 </div>
@@ -268,32 +324,58 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border">
-                  <th className="text-left py-3 px-4 font-medium text-foreground">Template</th>
-                  <th className="text-left py-3 px-4 font-medium text-foreground">Department</th>
-                  <th className="text-left py-3 px-4 font-medium text-foreground">Interviews</th>
-                  <th className="text-left py-3 px-4 font-medium text-foreground">Effectiveness</th>
-                  <th className="text-left py-3 px-4 font-medium text-foreground">Created</th>
+                  <th className="text-left py-3 px-4 font-medium text-foreground">
+                    Template
+                  </th>
+                  <th className="text-left py-3 px-4 font-medium text-foreground">
+                    Department
+                  </th>
+                  <th className="text-left py-3 px-4 font-medium text-foreground">
+                    Interviews
+                  </th>
+                  <th className="text-left py-3 px-4 font-medium text-foreground">
+                    Effectiveness
+                  </th>
+                  <th className="text-left py-3 px-4 font-medium text-foreground">
+                    Created
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {paginatedTemplates.map((template) => (
-                  <tr key={template.id} className="border-b border-border hover:bg-muted/50 cursor-pointer" onClick={() => onTemplateSelect(template)}>
+                  <tr
+                    key={template.id}
+                    className="border-b border-border hover:bg-muted/50 cursor-pointer"
+                    onClick={() => onTemplateSelect(template)}
+                  >
                     <td className="py-3 px-4">
                       <div>
-                        <div className="font-medium text-foreground">{template.template}</div>
-                        <div className="text-sm text-muted-foreground">by {template.createdBy}</div>
+                        <div className="font-medium text-foreground">
+                          {template.template}
+                        </div>
+                        <div className="text-sm text-muted-foreground">
+                          by {template.createdBy}
+                        </div>
                       </div>
                     </td>
                     <td className="py-3 px-4">
-                      <span className="px-2 py-1 bg-secondary rounded-full text-xs">{template.department}</span>
+                      <span className="px-2 py-1 bg-secondary rounded-full text-xs">
+                        {template.department}
+                      </span>
                     </td>
-                    <td className="py-3 px-4 text-muted-foreground">{template.interviews}</td>
+                    <td className="py-3 px-4 text-muted-foreground">
+                      {template.interviews}
+                    </td>
                     <td className="py-3 px-4">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        template.effectivenessScore >= 85 ? 'bg-green-500/10 text-green-500' :
-                        template.effectivenessScore >= 75 ? 'bg-blue-500/10 text-blue-500' :
-                        'bg-yellow-500/10 text-yellow-500'
-                      }`}>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          template.effectivenessScore >= 85
+                            ? "bg-green-500/10 text-green-500"
+                            : template.effectivenessScore >= 75
+                              ? "bg-blue-500/10 text-blue-500"
+                              : "bg-yellow-500/10 text-yellow-500"
+                        }`}
+                      >
                         {template.effectivenessScore}%
                       </span>
                     </td>
@@ -311,11 +393,13 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
         {totalPages > 1 && (
           <div className="flex items-center justify-between mt-6">
             <div className="text-sm text-muted-foreground">
-              Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, filteredTemplates.length)} of {filteredTemplates.length} templates
+              Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
+              {Math.min(currentPage * itemsPerPage, filteredTemplates.length)}{" "}
+              of {filteredTemplates.length} templates
             </div>
             <div className="flex items-center space-x-2">
               <button
-                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
                 className="px-3 py-2 text-sm bg-secondary hover:bg-secondary/80 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
@@ -323,7 +407,8 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
               </button>
               <div className="flex space-x-1">
                 {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
-                  const page = Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i;
+                  const page =
+                    Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i;
                   if (page > totalPages) return null;
                   return (
                     <button
@@ -331,8 +416,8 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
                       onClick={() => setCurrentPage(page)}
                       className={`px-3 py-2 text-sm rounded-lg transition-colors ${
                         currentPage === page
-                          ? 'bg-primary text-primary-foreground'
-                          : 'bg-secondary hover:bg-secondary/80'
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-secondary hover:bg-secondary/80"
                       }`}
                     >
                       {page}
@@ -341,7 +426,9 @@ export default function TemplateReport({ onTemplateSelect }: TemplateReportProps
                 })}
               </div>
               <button
-                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }
                 disabled={currentPage === totalPages}
                 className="px-3 py-2 text-sm bg-secondary hover:bg-secondary/80 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
